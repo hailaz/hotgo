@@ -108,7 +108,11 @@ export class VAxios {
   /**
    * @description:  文件上传
    */
-  uploadFile<T = any>(config: AxiosRequestConfig, params: UploadFileParams, options?: RequestOptions) {
+  uploadFile<T = any>(
+    config: AxiosRequestConfig,
+    params: UploadFileParams,
+    options?: RequestOptions
+  ) {
     const transform = this.getTransform();
     const { requestCatch, transformRequestData } = transform || {};
     const { requestOptions } = this.options;

@@ -3,10 +3,10 @@
  * @date 2023-01-09
  * @returns {array}
  */
-export const tree2FlatArray = (tree: any[], childrenKey: string = "children") => {
+export const tree2FlatArray = (tree: any[], childrenKey: string = 'children') => {
   return tree.reduce((arr, item) => {
-    var children = item?.[childrenKey] ?? [];
-    var obj = item;
+    const children = item?.[childrenKey] ?? [];
+    const obj = item;
     delete obj[childrenKey];
     //解构赋值+默认值
     return arr.concat([obj], tree2FlatArray(children)); //children部分进行递归
@@ -17,13 +17,9 @@ export const tree2FlatArray = (tree: any[], childrenKey: string = "children") =>
  * @date 2023-01-09
  * @returns {object}
  */
-export const tree2Objects = (
-  tree: any[],
-  key: string = "id",
-  childrenKey: string = "children"
-) => {
-  let rows = tree2FlatArray(tree, childrenKey);
-  let objects = {};
+export const tree2Objects = (tree: any[], key: string = 'id', childrenKey: string = 'children') => {
+  const rows = tree2FlatArray(tree, childrenKey);
+  const objects = {};
   rows.forEach((item) => {
     objects[item[key]] = item;
   });
@@ -38,12 +34,8 @@ export const tree2Objects = (
  * @param {string} children="children" - 子类名称
  * @returns {object}
  */
-export const treesBy = (
-  data: any[],
-  pid: string = "parent_id",
-  children: string = "children"
-) => {
-  let map = {},
+export const treesBy = (data: any[], pid: string = 'parent_id', children: string = 'children') => {
+  const map = {},
     val = <any>[];
   data.forEach((item) => {
     item[children] = [];
@@ -64,9 +56,8 @@ export const treesBy = (
  * @param {object} org
  * @returns {object}
  */
-export const mapTree = (org: any, keyId = "v", keyChild = "s", keyName = "n") => {
-  const haveChildren =
-    org[keyChild] && Array.isArray(org[keyChild]) && org[keyChild].length > 0;
+export const mapTree = (org: any, keyId = 'v', keyChild = 's', keyName = 'n') => {
+  const haveChildren = org[keyChild] && Array.isArray(org[keyChild]) && org[keyChild].length > 0;
   return {
     key: org[keyId],
     value: String(org[keyId]),
@@ -84,10 +75,10 @@ export const mapTree = (org: any, keyId = "v", keyChild = "s", keyName = "n") =>
 export const toFlatArray = (
   tree: any[],
   parentId: string | number,
-  keyId: string | number = "key"
+  keyId: string | number = 'key'
 ) => {
   return tree.reduce((t, _) => {
-    const child = _["children"];
+    const child = _['children'];
     return [
       ...t,
       { [keyId]: _[keyId], parentId },

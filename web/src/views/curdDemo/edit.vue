@@ -21,16 +21,10 @@
             :label-width="100"
             class="py-4"
           >
-            <n-grid
-              cols="1 s:1 m:2 l:2 xl:2 2xl:2"
-              responsive="screen"
-            >
+            <n-grid cols="1 s:1 m:2 l:2 xl:2 2xl:2" responsive="screen">
               <n-gi span="1">
                 <n-form-item label="标题" path="title">
-                  <n-input
-                    placeholder="请输入标题"
-                    v-model:value="formValue.title"
-                    />
+                  <n-input placeholder="请输入标题" v-model:value="formValue.title" />
                 </n-form-item>
               </n-gi>
               <n-gi span="2">
@@ -39,7 +33,7 @@
                     type="textarea"
                     placeholder="描述"
                     v-model:value="formValue.description"
-                    />
+                  />
                 </n-form-item>
               </n-gi>
               <n-gi span="2">
@@ -68,15 +62,12 @@
                     :unchecked-value="2"
                     :checked-value="1"
                     v-model:value="formValue.switch"
-                    />
+                  />
                 </n-form-item>
               </n-gi>
               <n-gi span="1">
                 <n-form-item label="排序" path="sort">
-                  <n-input-number
-                    placeholder="请输入排序"
-                    v-model:value="formValue.sort"
-                    />
+                  <n-input-number placeholder="请输入排序" v-model:value="formValue.sort" />
                 </n-form-item>
               </n-gi>
             </n-grid>
@@ -85,10 +76,13 @@
       </n-scrollbar>
       <template #action>
         <n-space>
-          <n-button @click="closeForm">
-            取消
-          </n-button>
-          <n-button type="info" :loading="formBtnLoading" :disabled="!isFormValid" @click="confirmForm">
+          <n-button @click="closeForm"> 取消 </n-button>
+          <n-button
+            type="info"
+            :loading="formBtnLoading"
+            :disabled="!isFormValid"
+            @click="confirmForm"
+          >
             确定
           </n-button>
         </n-space>
@@ -152,11 +146,11 @@
   // 打开模态框
   function openModal(state: State) {
     showModal.value = true;
-    
+
     // 新增
     if (!state || state.id < 1) {
       formValue.value = newState(state);
-      
+
       loading.value = true;
       MaxSort()
         .then((res) => {

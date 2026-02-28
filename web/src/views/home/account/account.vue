@@ -33,7 +33,7 @@
   import CashSetting from './CashSetting.vue';
   import ThirdBind from './ThirdBind.vue';
   import { useRouter } from 'vue-router';
-  import {pushHashRouterParameter} from "@/utils/urlUtils";
+  import { pushHashRouterParameter } from '@/utils/urlUtils';
 
   const router = useRouter();
   const type = ref(1);

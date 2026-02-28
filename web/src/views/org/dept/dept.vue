@@ -73,7 +73,7 @@
         </template>
       </BasicTable>
     </n-card>
-    <Edit ref="editRef" @reloadTable="reloadTable" />
+    <Edit ref="editRef" @reload-table="reloadTable" />
   </div>
 </template>
 

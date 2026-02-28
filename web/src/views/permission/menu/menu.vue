@@ -5,11 +5,7 @@
         在这里可以管理编辑系统下的所有菜单导航和分配相应的菜单权限
       </n-card>
     </div>
-    <n-grid
-      cols="1 s:1 m:1 l:3 xl:3 2xl:3"
-      responsive="screen"
-      :x-gap="12"
-    >
+    <n-grid cols="1 s:1 m:1 l:3 xl:3 2xl:3" responsive="screen" :x-gap="12">
       <n-gi span="1">
         <n-card :segmented="{ content: true }" :bordered="false" size="small" class="proCard">
           <template #header>
@@ -105,12 +101,12 @@
             v-if="formParams.id > 0"
             v-model:formParams="formParams"
             v-model:treeOption="treeOption"
-            @reloadTable="loadTreeOption"
+            @reload-table="loadTreeOption"
           />
         </n-card>
       </n-gi>
     </n-grid>
-    <AddModal ref="addModalRef" v-model:treeOption="treeOption" @reloadTable="loadTreeOption" />
+    <AddModal ref="addModalRef" v-model:treeOption="treeOption" @reload-table="loadTreeOption" />
   </div>
 </template>
 <script lang="ts" setup>

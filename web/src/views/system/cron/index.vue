@@ -149,7 +149,7 @@
       </n-modal>
     </n-card>
 
-    <GroupModal ref="GroupModalRef" @reloadGroupOption="reloadGroupOption" />
+    <GroupModal ref="GroupModalRef" @reload-group-option="reloadGroupOption" />
 
     <n-modal
       v-model:show="showStdout"

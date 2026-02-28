@@ -9,7 +9,7 @@ interface IKeywordOption {
   // 忽略大小写
   caseSensitive?: boolean;
   // 自定义渲染高亮html
-  // eslint-disable-next-line no-unused-vars
+
   renderHighlightKeyword?: (content: string) => any;
 }
 

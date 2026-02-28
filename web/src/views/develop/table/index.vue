@@ -190,7 +190,11 @@
       key: 'isNullable',
       width: 80,
       render(row) {
-        return h(NTag, { size: 'small', type: row.isNullable ? 'success' : 'warning', bordered: false }, { default: () => (row.isNullable ? '是' : '否') });
+        return h(
+          NTag,
+          { size: 'small', type: row.isNullable ? 'success' : 'warning', bordered: false },
+          { default: () => (row.isNullable ? '是' : '否') }
+        );
       },
     },
     { title: '默认值', key: 'defaultValue', width: 120 },
@@ -200,7 +204,9 @@
       key: 'isPrimaryKey',
       width: 70,
       render(row) {
-        return row.isPrimaryKey ? h(NTag, { size: 'small', type: 'error', bordered: false }, { default: () => 'PK' }) : '';
+        return row.isPrimaryKey
+          ? h(NTag, { size: 'small', type: 'error', bordered: false }, { default: () => 'PK' })
+          : '';
       },
     },
     {
@@ -208,7 +214,9 @@
       key: 'isAutoInc',
       width: 70,
       render(row) {
-        return row.isAutoInc ? h(NTag, { size: 'small', type: 'info', bordered: false }, { default: () => 'AI' }) : '';
+        return row.isAutoInc
+          ? h(NTag, { size: 'small', type: 'info', bordered: false }, { default: () => 'AI' })
+          : '';
       },
     },
   ];
@@ -222,17 +230,21 @@
       width: 120,
       render(row) {
         const typeMap = { UNIQUE: 'warning', FULLTEXT: 'info', INDEX: 'default' };
-        return h(NTag, { size: 'small', type: typeMap[row.type] || 'default', bordered: false }, { default: () => row.type });
+        return h(
+          NTag,
+          { size: 'small', type: typeMap[row.type] || 'default', bordered: false },
+          { default: () => row.type }
+        );
       },
     },
     {
       title: '关联字段',
       key: 'columns',
       render(row) {
-        return h(
-          NSpace,
-          { size: 4 },
-          () => (row.columns || []).map((col) => h(NTag, { size: 'small', bordered: false }, { default: () => col }))
+        return h(NSpace, { size: 4 }, () =>
+          (row.columns || []).map((col) =>
+            h(NTag, { size: 'small', bordered: false }, { default: () => col })
+          )
         );
       },
     },
@@ -302,7 +314,10 @@
 
   // 一键生成代码
   function handleGenCode(row) {
-    router.push({ name: 'develop_code', query: { dbName: dbName.value, tableName: row.tableName } });
+    router.push({
+      name: 'develop_code',
+      query: { dbName: dbName.value, tableName: row.tableName },
+    });
   }
 
   // 删除表

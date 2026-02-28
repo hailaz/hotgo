@@ -1,0 +1,10 @@
+# 前端 lint-staged
+cd web && npx lint-staged
+
+# 后端 golangci-lint（仅当 server/ 下有 staged 的 .go 文件时执行）
+cd ../server
+STAGED_GO_FILES=$(git diff --cached --name-only --diff-filter=ACM -- '*.go' | grep '^server/' || true)
+if [ -n "$STAGED_GO_FILES" ]; then
+  echo "Running golangci-lint on staged Go files..."
+  golangci-lint run --fix
+fi

@@ -10,7 +10,12 @@
         <n-card :segmented="{ content: true }" :bordered="false" size="small" class="proCard">
           <template #header>
             <n-space>
-              <n-button type="info" icon-placement="left" @click="addTable" v-if="hasPermission(['/optionTreeDemo/edit'])">
+              <n-button
+                type="info"
+                icon-placement="left"
+                @click="addTable"
+                v-if="hasPermission(['/optionTreeDemo/edit'])"
+              >
                 <template #icon>
                   <div class="flex items-center">
                     <n-icon size="14">
@@ -20,7 +25,13 @@
                 </template>
                 添加
               </n-button>
-              <n-button v-if="hasPermission(['/optionTreeDemo/edit'])" type="info" icon-placement="left" @click="handleEdit(selectedState)" :disabled="selectedState.id < 1">
+              <n-button
+                v-if="hasPermission(['/optionTreeDemo/edit'])"
+                type="info"
+                icon-placement="left"
+                @click="handleEdit(selectedState)"
+                :disabled="selectedState.id < 1"
+              >
                 <template #icon>
                   <div class="flex items-center">
                     <n-icon size="14">
@@ -30,7 +41,13 @@
                 </template>
                 编辑
               </n-button>
-              <n-button v-if="hasPermission(['/optionTreeDemo/delete'])" type="error" icon-placement="left" @click="handleDelete(selectedState)" :disabled="selectedState.id < 1">
+              <n-button
+                v-if="hasPermission(['/optionTreeDemo/delete'])"
+                type="error"
+                icon-placement="left"
+                @click="handleDelete(selectedState)"
+                :disabled="selectedState.id < 1"
+              >
                 <template #icon>
                   <div class="flex items-center">
                     <n-icon size="14">
@@ -66,7 +83,21 @@
                   <n-spin size="medium" />
                 </div>
               </template>
-              <n-tree v-else show-line block-line cascade virtual-scroll :pattern="pattern" :data="treeOption" :expandedKeys="expandedKeys" style="height: 75vh" key-field="id" label-field="title" @update:selected-keys="handleSelected" @update:expanded-keys="handleOnExpandedKeys" />
+              <n-tree
+                v-else
+                show-line
+                block-line
+                cascade
+                virtual-scroll
+                :pattern="pattern"
+                :data="treeOption"
+                :expandedKeys="expandedKeys"
+                style="height: 75vh"
+                key-field="id"
+                label-field="title"
+                @update:selected-keys="handleSelected"
+                @update:expanded-keys="handleOnExpandedKeys"
+              />
             </div>
           </div>
         </n-card>
@@ -78,14 +109,22 @@
               <n-icon size="18">
                 <FormOutlined />
               </n-icon>
-              <span>
-                正在编辑 {{ selectedState.title }}
-              </span>
+              <span> 正在编辑 {{ selectedState.title }} </span>
             </n-space>
           </template>
-          <n-result v-show="selectedState.id < 1" status="info" title="提示" description="请先从列表选择一项后，进行编辑">
+          <n-result
+            v-show="selectedState.id < 1"
+            status="info"
+            title="提示"
+            description="请先从列表选择一项后，进行编辑"
+          >
             <template #footer>
-              <n-button type="info" icon-placement="left" @click="handleAdd(selectedState)"  v-if="hasPermission(['/optionTreeDemo/edit'])">
+              <n-button
+                type="info"
+                icon-placement="left"
+                @click="handleAdd(selectedState)"
+                v-if="hasPermission(['/optionTreeDemo/edit'])"
+              >
                 <template #icon>
                   <div class="flex items-center">
                     <n-icon size="14">
@@ -97,14 +136,38 @@
               </n-button>
             </template>
           </n-result>
-          <BasicForm v-if="selectedState.id > 0" ref="searchFormRef" @register="register" @submit="reloadTable" @reset="reloadTable" @keyup.enter="reloadTable">
+          <BasicForm
+            v-if="selectedState.id > 0"
+            ref="searchFormRef"
+            @register="register"
+            @submit="reloadTable"
+            @reset="reloadTable"
+            @keyup.enter="reloadTable"
+          >
             <template #statusSlot="{ model, field }">
               <n-input v-model:value="model[field]" />
             </template>
           </BasicForm>
-          <BasicTable v-if="selectedState.id > 0" ref="actionRef" openChecked :columns="columns" :request="loadDataTable" :row-key="(row) => row.id" :actionColumn="actionColumn" :scroll-x="scrollX" :resizeHeightOffset="-10000"  :checked-row-keys="checkedIds" @update:checked-row-keys="handleOnCheckedRow">
+          <BasicTable
+            v-if="selectedState.id > 0"
+            ref="actionRef"
+            openChecked
+            :columns="columns"
+            :request="loadDataTable"
+            :row-key="(row) => row.id"
+            :actionColumn="actionColumn"
+            :scroll-x="scrollX"
+            :resizeHeightOffset="-10000"
+            :checked-row-keys="checkedIds"
+            @update:checked-row-keys="handleOnCheckedRow"
+          >
             <template #tableTitle>
-              <n-button type="primary" @click="handleAdd(selectedState)"  class="min-left-space" v-if="hasPermission(['/optionTreeDemo/edit'])">
+              <n-button
+                type="primary"
+                @click="handleAdd(selectedState)"
+                class="min-left-space"
+                v-if="hasPermission(['/optionTreeDemo/edit'])"
+              >
                 <template #icon>
                   <n-icon>
                     <PlusOutlined />
@@ -112,7 +175,12 @@
                 </template>
                 添加
               </n-button>
-              <n-button type="error" @click="handleBatchDelete" class="min-left-space" v-if="hasPermission(['/optionTreeDemo/delete'])">
+              <n-button
+                type="error"
+                @click="handleBatchDelete"
+                class="min-left-space"
+                v-if="hasPermission(['/optionTreeDemo/delete'])"
+              >
                 <template #icon>
                   <n-icon>
                     <DeleteOutlined />
@@ -125,7 +193,7 @@
         </n-card>
       </n-gi>
     </n-grid>
-    <Edit ref="editRef" @reloadTable="reloadTable" />
+    <Edit ref="editRef" @reload-table="reloadTable" />
   </div>
 </template>
 
@@ -137,8 +205,23 @@
   import { usePermission } from '@/hooks/web/usePermission';
   import { useDictStore } from '@/store/modules/dict';
   import { List, Delete, TreeOption } from '@/api/optionTreeDemo';
-  import { PlusOutlined, EditOutlined, DeleteOutlined, AlignLeftOutlined, FormOutlined, SearchOutlined } from '@vicons/antd';
-  import { columns, schemas, loadOptions, loadTreeOption, treeOption, State, newState } from './model';
+  import {
+    PlusOutlined,
+    EditOutlined,
+    DeleteOutlined,
+    AlignLeftOutlined,
+    FormOutlined,
+    SearchOutlined,
+  } from '@vicons/antd';
+  import {
+    columns,
+    schemas,
+    loadOptions,
+    loadTreeOption,
+    treeOption,
+    State,
+    newState,
+  } from './model';
   import { adaTableScrollX, getTreeKeys } from '@/utils/hotgo';
   import Edit from './edit.vue';
 
@@ -178,7 +261,6 @@
             auth: ['/optionTreeDemo/delete'],
           },
         ],
-
       });
     },
   });
@@ -256,7 +338,7 @@
 
   // 批量删除
   function handleBatchDelete() {
-    if (checkedIds.value.length < 1){
+    if (checkedIds.value.length < 1) {
       message.error('请至少选择一项要删除的数据');
       return;
     }

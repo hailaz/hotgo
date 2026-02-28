@@ -28,7 +28,7 @@
           </n-icon>
         </div>
         <n-text style="font-size: 16px"> 点击或者拖动{{ typeTag }}到该区域来上传</n-text>
-        <n-p depth="3" style="margin: 8px 0 0 0"> 单次最多允许{{ maxUpload }}个{{ typeTag }}</n-p>
+        <n-p depth="3" style="margin: 8px 0 0"> 单次最多允许{{ maxUpload }}个{{ typeTag }}</n-p>
       </n-upload-dragger>
     </n-upload>
   </n-modal>

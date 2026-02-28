@@ -67,7 +67,7 @@
     &-extra {
       padding: 24px 40px;
       text-align: left;
-      background: v-bind(getTableHeaderColor);
+      background: v-bind(gettableheadercolor);
       border-radius: 4px;
     }
   }

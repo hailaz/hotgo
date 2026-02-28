@@ -56,11 +56,15 @@ export default [
       '@typescript-eslint/ban-types': 'off',
       '@typescript-eslint/no-non-null-assertion': 'off',
       '@typescript-eslint/explicit-module-boundary-types': 'off',
+      '@typescript-eslint/no-unused-expressions': 'off',
+      '@typescript-eslint/no-unsafe-function-type': 'off',
+      '@typescript-eslint/no-require-imports': 'off',
       '@typescript-eslint/no-unused-vars': [
         'error',
         {
           varsIgnorePattern: '.*',
           args: 'none',
+          caughtErrors: 'none',
         },
       ],
       'no-unused-vars': [
@@ -68,6 +72,7 @@ export default [
         {
           varsIgnorePattern: '.*',
           args: 'none',
+          caughtErrors: 'none',
         },
       ],
       'space-before-function-paren': 'off',
@@ -80,6 +85,15 @@ export default [
       'vue/singleline-html-element-content-newline': 'off',
       'vue/attribute-hyphenation': 'off',
       'vue/require-default-prop': 'off',
+      'vue/no-v-html': 'off',
+      'vue/valid-template-root': 'off',
+      'vue/require-explicit-emits': 'off',
+      'vue/no-reserved-component-names': 'off',
+      'vue/no-lone-template': 'off',
+      'vue/valid-v-for': 'off',
+      'vue/require-v-for-key': 'off',
+      '@typescript-eslint/no-duplicate-enum-values': 'off',
+      '@typescript-eslint/no-unnecessary-type-constraint': 'off',
       'vue/html-self-closing': [
         'error',
         {

@@ -19,7 +19,7 @@
               :modes="['hex']"
               style="width: 100%"
               v-model:value="compData.color"
-              :swatches="['#FFFFFF', '#18A058', '#2080F0', '#F0A020', '#D03050','#000000']"
+              :swatches="['#FFFFFF', '#18A058', '#2080F0', '#F0A020', '#D03050', '#000000']"
             >
               <template #label>
                 <div style="color: white">图标颜色 {{ compData.color }}</div>
@@ -85,10 +85,7 @@
 </script>
 <style lang="less" scoped>
   :deep(.n-color-picker-trigger .n-color-picker-trigger__fill) {
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    inset: 0;
     overflow: hidden;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
@@ -102,24 +99,29 @@
       position: relative;
       overflow: hidden;
       cursor: pointer;
+
       &_content {
         padding: 20px 10px;
         border: 1px solid rgb(240 240 245);
         box-sizing: border-box;
       }
+
       .icon {
         transition: top 0.3s;
         position: relative;
         top: 0;
       }
+
       &:hover {
         .icon {
           top: -10px;
         }
+
         .copy {
           bottom: 0;
         }
       }
+
       .copy {
         position: absolute;
         bottom: -30px;

@@ -7,7 +7,7 @@
       preset="dialog"
       :title="title"
     >
-      <Index @reloadGroupOption="reloadGroupOption" />
+      <Index @reload-group-option="reloadGroupOption" />
     </n-modal>
   </div>
 </template>

@@ -106,6 +106,7 @@ hotgo/
 |------|------|
 | [配置参数参考](dev-config-reference.md) | config.yaml 文件配置 + 数据库动态配置（上传/短信/支付/邮件/微信等）详解 |
 | [部署指南](dev-deployment.md) | 环境要求、安装步骤、编译构建、Docker/K8s 部署、Nginx 配置、集群部署 |
+| [代码质量与格式化规范](dev-lint.md) | ESLint/Prettier/Stylelint/golangci-lint 配置说明，Git Hooks 自动检查，Commit 规范 |
 
 ### 已有文档索引
 

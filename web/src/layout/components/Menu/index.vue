@@ -123,7 +123,7 @@
         if (/http(s)?:/.test(key)) {
           window.open(key);
         } else {
-          if (getSelectedKeys.value !== key){
+          if (getSelectedKeys.value !== key) {
             router.push({ name: key });
           }
         }

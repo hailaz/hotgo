@@ -127,22 +127,27 @@
   :deep(.ql-container) {
     height: auto;
   }
+
   :deep(.ql-container.ql-snow) {
     border: none;
   }
+
   :deep(.ql-toolbar.ql-snow) {
     border: none;
     border-bottom: 1px solid #ccc;
   }
+
   :deep(.ql-editor.ql-blank::before) {
     color: #afb4bd;
     font-size: 14px;
     font-style: normal;
   }
+
   .dark .priview-content {
     background: #5a5a5a;
     color: #fff;
   }
+
   .light .priview-content {
     background: #fff;
     color: #333;

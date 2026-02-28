@@ -312,7 +312,7 @@
   .table-toolbar {
     display: flex;
     justify-content: space-between;
-    padding: 0 0 16px 0;
+    padding: 0 0 16px;
 
     &-left {
       display: flex;

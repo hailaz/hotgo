@@ -60,9 +60,11 @@
     align-items: center;
     margin-right: 10px;
   }
+
   :deep(.description-html) {
     height: 100%;
   }
+
   :deep(.px-15px) {
     padding-left: 15px;
     padding-right: 15px;

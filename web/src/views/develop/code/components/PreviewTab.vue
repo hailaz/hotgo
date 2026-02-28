@@ -126,31 +126,31 @@
   }
 
   ::v-deep(.code-vue .hljs-tag) {
-    color: rgb(242, 197, 92);
+    color: rgb(242 197 92);
   }
 
   ::v-deep(.code-vue .hljs-name) {
-    color: rgb(242, 197, 92);
+    color: rgb(242 197 92);
   }
 
   ::v-deep(.code-vue .hljs-attr) {
-    color: rgb(49, 104, 213);
+    color: rgb(49 104 213);
   }
 
   ::v-deep(.code-go .hljs-params) {
-    color: rgb(49, 104, 213);
+    color: rgb(49 104 213);
   }
 
   ::v-deep(.code-ts .hljs-params) {
-    color: rgb(49, 104, 213);
+    color: rgb(49 104 213);
   }
 
   ::v-deep(.code-ts .hljs-property) {
-    color: rgb(49, 104, 213);
+    color: rgb(49 104 213);
   }
 
   ::v-deep(.code-ts .hljs-function) {
-    color: rgb(49, 104, 213);
+    color: rgb(49 104 213);
   }
 
   #copy-code {

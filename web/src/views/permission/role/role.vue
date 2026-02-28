@@ -25,9 +25,9 @@
       </n-space>
     </n-card>
 
-    <EditRole ref="editRoleRef" @reloadTable="reloadTable" />
-    <EditMenuAuth ref="editMenuAuthRef" @reloadTable="reloadTable" />
-    <EditDataAuth ref="editDataAuthRef" @reloadTable="reloadTable" />
+    <EditRole ref="editRoleRef" @reload-table="reloadTable" />
+    <EditMenuAuth ref="editMenuAuthRef" @reload-table="reloadTable" />
+    <EditDataAuth ref="editDataAuthRef" @reload-table="reloadTable" />
   </div>
 </template>
 

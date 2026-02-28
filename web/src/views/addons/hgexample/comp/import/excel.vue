@@ -20,7 +20,7 @@
             </n-icon>
           </div>
           <n-text style="font-size: 16px"> 点击或者拖动.xlsx文件到该区域来上传</n-text>
-          <n-p depth="3" style="margin: 8px 0 0 0"> 单次上传数据最大不建议超过5000条</n-p>
+          <n-p depth="3" style="margin: 8px 0 0"> 单次上传数据最大不建议超过5000条</n-p>
         </n-upload-dragger>
       </n-upload>
     </n-card>

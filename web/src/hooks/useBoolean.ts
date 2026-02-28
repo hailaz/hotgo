@@ -1,4 +1,4 @@
-import { ref, Ref } from "vue";
+import { ref, Ref } from 'vue';
 
 type Resettable =
   /**
@@ -39,11 +39,11 @@ export default function useBoolean(initValue = false): Resettable {
   }
 
   // 返回带加载状态引用、开始加载和结束加载方法的扩展数组
-  return (Object.assign([bool, toggle, setBool, setTrue, setFalse], {
+  return Object.assign([bool, toggle, setBool, setTrue, setFalse], {
     bool,
     toggle,
     setBool,
     setTrue,
     setFalse,
-  }) as unknown) as Resettable;
+  }) as unknown as Resettable;
 }

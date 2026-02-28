@@ -1,4 +1,3 @@
-
 export function delNullProperty(obj) {
   for (const i in obj) {
     if (obj[i] === undefined || obj[i] === null || obj[i] === '') {

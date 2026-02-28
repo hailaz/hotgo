@@ -246,7 +246,7 @@
 </script>
 
 <style lang="less" scoped>
-  @media screen and (max-width: 992px) {
+  @media screen and (width <= 992px) {
     .item-wrapper {
       margin-bottom: 5px;
     }

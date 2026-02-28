@@ -6,14 +6,39 @@
       </n-card>
     </div>
     <n-card :bordered="false" class="proCard">
-      <BasicForm  ref="searchFormRef" @register="register" @submit="reloadTable" @reset="reloadTable" @keyup.enter="reloadTable">
+      <BasicForm
+        ref="searchFormRef"
+        @register="register"
+        @submit="reloadTable"
+        @reset="reloadTable"
+        @keyup.enter="reloadTable"
+      >
         <template #statusSlot="{ model, field }">
           <n-input v-model:value="model[field]" />
         </template>
       </BasicForm>
-      <BasicTable  ref="actionRef" openChecked :columns="columns" :request="loadDataTable" :row-key="(row) => row.id" :actionColumn="actionColumn" :scroll-x="scrollX" :resizeHeightOffset="-10000" :cascade="false" :expanded-row-keys="expandedKeys" @update:expanded-row-keys="updateExpandedKeys" :checked-row-keys="checkedIds" @update:checked-row-keys="handleOnCheckedRow">
+      <BasicTable
+        ref="actionRef"
+        openChecked
+        :columns="columns"
+        :request="loadDataTable"
+        :row-key="(row) => row.id"
+        :actionColumn="actionColumn"
+        :scroll-x="scrollX"
+        :resizeHeightOffset="-10000"
+        :cascade="false"
+        :expanded-row-keys="expandedKeys"
+        @update:expanded-row-keys="updateExpandedKeys"
+        :checked-row-keys="checkedIds"
+        @update:checked-row-keys="handleOnCheckedRow"
+      >
         <template #tableTitle>
-          <n-button type="primary"  @click="addTable" class="min-left-space" v-if="hasPermission(['/normalTreeDemo/edit'])">
+          <n-button
+            type="primary"
+            @click="addTable"
+            class="min-left-space"
+            v-if="hasPermission(['/normalTreeDemo/edit'])"
+          >
             <template #icon>
               <n-icon>
                 <PlusOutlined />
@@ -21,7 +46,12 @@
             </template>
             添加
           </n-button>
-          <n-button type="error" @click="handleBatchDelete" class="min-left-space" v-if="hasPermission(['/normalTreeDemo/delete'])">
+          <n-button
+            type="error"
+            @click="handleBatchDelete"
+            class="min-left-space"
+            v-if="hasPermission(['/normalTreeDemo/delete'])"
+          >
             <template #icon>
               <n-icon>
                 <DeleteOutlined />
@@ -29,7 +59,12 @@
             </template>
             批量删除
           </n-button>
-          <n-button type="primary" icon-placement="left" @click="handleAllExpanded" class="min-left-space">
+          <n-button
+            type="primary"
+            icon-placement="left"
+            @click="handleAllExpanded"
+            class="min-left-space"
+          >
             全部{{ expandedKeys.length ? '收起' : '展开' }}
             <template #icon>
               <div class="flex items-center">
@@ -42,7 +77,7 @@
         </template>
       </BasicTable>
     </n-card>
-    <Edit ref="editRef" @reloadTable="reloadTable" />
+    <Edit ref="editRef" @reload-table="reloadTable" />
   </div>
 </template>
 
@@ -97,7 +132,6 @@
             auth: ['/normalTreeDemo/delete'],
           },
         ],
-
       });
     },
   });
@@ -166,7 +200,7 @@
 
   // 批量删除
   function handleBatchDelete() {
-    if (checkedIds.value.length < 1){
+    if (checkedIds.value.length < 1) {
       message.error('请至少选择一项要删除的数据');
       return;
     }
@@ -202,7 +236,6 @@
 
   onMounted(() => {
     loadOptions();
-
   });
 </script>
 

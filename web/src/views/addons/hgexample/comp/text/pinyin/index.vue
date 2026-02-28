@@ -80,6 +80,7 @@
       width: 42px;
       text-align: center;
       display: inline-block;
+
       .py {
         clear: both;
         font-size: 12px;
@@ -87,6 +88,7 @@
         float: left;
         width: 42px;
       }
+
       .hz {
         clear: both;
         margin-bottom: 10px;

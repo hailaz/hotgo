@@ -95,13 +95,16 @@
   .image-wrapper {
     width: 30%;
     margin: 0 auto;
+
     & > img {
       width: 100%;
     }
   }
+
   .html-wrapper {
     width: 80%;
     margin: 0 auto;
+
     & > h1 {
       color: red;
     }

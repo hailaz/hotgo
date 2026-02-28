@@ -16,7 +16,7 @@
             <transition name="fade-slide" appear>
               <component
                 :is="activeModule.component"
-                @updateActiveModule="handleUpdateActiveModule"
+                @update-active-module="handleUpdateActiveModule"
               />
             </transition>
           </div>
@@ -121,7 +121,7 @@
     }
   }
 
-  @media (min-width: 768px) {
+  @media (width >= 768px) {
     .view-account {
       background-image: url('../../assets/images/login.svg');
       background-repeat: no-repeat;
@@ -130,7 +130,7 @@
     }
 
     .page-account-container {
-      padding: 32px 0 24px 0;
+      padding: 32px 0 24px;
     }
   }
 

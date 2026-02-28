@@ -5,34 +5,31 @@
         <n-spin :show="loading" description="请稍候...">
           <n-descriptions label-placement="left" class="py-2" :column="1">
             <n-descriptions-item>
-              <template #label>
-                标题
-              </template>
+              <template #label> 标题 </template>
               {{ formValue.title }}
             </n-descriptions-item>
             <n-descriptions-item>
-              <template #label>
-                描述
-              </template>
+              <template #label> 描述 </template>
               <span v-html="formValue.description"></span>
             </n-descriptions-item>
             <n-descriptions-item>
-              <template #label>
-                内容
-              </template>
+              <template #label> 内容 </template>
               <span v-html="formValue.content"></span>
             </n-descriptions-item>
             <n-descriptions-item>
-              <template #label>
-                单图
-              </template>
-              <n-image style="margin-left: 10px; height: 100px; width: 100px" :src="formValue.image" />
+              <template #label> 单图 </template>
+              <n-image
+                style="margin-left: 10px; height: 100px; width: 100px"
+                :src="formValue.image"
+              />
             </n-descriptions-item>
             <n-descriptions-item>
-              <template #label>
-                附件
-              </template>
-<div class="upload-card" v-show="formValue.attachfile !== ''" @click="download(formValue.attachfile)">
+              <template #label> 附件 </template>
+              <div
+                class="upload-card"
+                v-show="formValue.attachfile !== ''"
+                @click="download(formValue.attachfile)"
+              >
                 <div class="upload-card-item" style="height: 100px; width: 100px">
                   <div class="upload-card-item-info">
                     <div class="img-box">
@@ -45,23 +42,19 @@
               </div>
             </n-descriptions-item>
             <n-descriptions-item>
-              <template #label>
-                所在城市
-              </template>
+              <template #label> 所在城市 </template>
               {{ formValue.cityId }}
             </n-descriptions-item>
             <n-descriptions-item label="显示开关">
               <n-switch
-            v-model:value="formValue.switch"
-            :unchecked-value="2"
-            :checked-value="1"
-            :disabled="true"
-            />
+                v-model:value="formValue.switch"
+                :unchecked-value="2"
+                :checked-value="1"
+                :disabled="true"
+              />
             </n-descriptions-item>
             <n-descriptions-item>
-              <template #label>
-                排序
-              </template>
+              <template #label> 排序 </template>
               {{ formValue.sort }}
             </n-descriptions-item>
           </n-descriptions>

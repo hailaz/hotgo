@@ -184,7 +184,10 @@
                           <QuestionCircleOutlined />
                         </n-icon>
                       </template>
-                      <span>已存在 bridge 手动维护文件的包会自动跳过；插件模块勾选后会在对应插件下运行</span>
+                      <span
+                        >已存在 bridge
+                        手动维护文件的包会自动跳过；插件模块勾选后会在对应插件下运行</span
+                      >
                     </n-popover>
                     <n-checkbox
                       value="genFuncDict"
@@ -300,7 +303,9 @@
         </template>
 
         <n-form ref="formRef" :model="formValue">
-          <n-alert type="warning" :show-icon="false" v-if="formValue.options?.join?.length > 3">关联表数量建议在三个以下</n-alert>
+          <n-alert type="warning" :show-icon="false" v-if="formValue.options?.join?.length > 3"
+            >关联表数量建议在三个以下</n-alert
+          >
           <div class="mt-4"></div>
           <n-row :gutter="6" v-for="(join, index) in formValue.options.join" :key="index">
             <n-col :span="6" style="min-width: 200px">
@@ -383,7 +388,7 @@
       </n-card>
     </n-spin>
 
-    <MenuModal ref="menuModalRef" @reloadTable="loadMenuTreeOption" />
+    <MenuModal ref="menuModalRef" @reload-table="loadMenuTreeOption" />
     <SetFuncDict
       ref="setFuncDictRef"
       @update="handleUpdateFuncDict"
@@ -615,6 +620,7 @@
   ::v-deep(.default_text_value) {
     color: var(--n-tab-text-color-active);
   }
+
   ::v-deep(.tips-help-icon) {
     margin-left: -16px;
     margin-top: 5px;

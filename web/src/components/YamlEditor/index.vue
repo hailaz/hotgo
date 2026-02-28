@@ -1,10 +1,6 @@
 <template>
   <div class="yaml-editor-container">
-    <div
-      ref="editorRef"
-      class="yaml-editor"
-      :class="{ 'error-state': hasError }"
-    />
+    <div ref="editorRef" class="yaml-editor" :class="{ 'error-state': hasError }"></div>
     <div v-if="errorMessage" class="error-message">
       <n-alert type="error" closable @close="clearError">
         {{ errorMessage }}
@@ -12,15 +8,9 @@
     </div>
     <div v-if="showStats" class="editor-stats">
       <n-space size="small">
-        <n-tag size="small" type="info">
-          行数: {{ lineCount }}
-        </n-tag>
-        <n-tag size="small" type="success" v-if="!hasError">
-          ✓ 语法正确
-        </n-tag>
-        <n-tag size="small" type="error" v-if="hasError">
-          ✗ 语法错误
-        </n-tag>
+        <n-tag size="small" type="info"> 行数: {{ lineCount }} </n-tag>
+        <n-tag size="small" type="success" v-if="!hasError"> ✓ 语法正确 </n-tag>
+        <n-tag size="small" type="error" v-if="hasError"> ✗ 语法错误 </n-tag>
       </n-space>
     </div>
   </div>
@@ -48,12 +38,21 @@
     preventInvalidSubmit?: boolean;
   }
 
-  const emit = defineEmits(['update:value', 'blur', 'focus', 'error', 'valid', 'change', 'validation-change']);
+  const emit = defineEmits([
+    'update:value',
+    'blur',
+    'focus',
+    'error',
+    'valid',
+    'change',
+    'validation-change',
+  ]);
   const message = useMessage();
 
   const props = withDefaults(defineProps<Props>(), {
     value: '',
-    placeholder: '# YAML 配置示例\n# 支持注释\nkey: value\nlist:\n  - item1\n  - item2\nconfig:\n  enabled: true\n  timeout: 30',
+    placeholder:
+      '# YAML 配置示例\n# 支持注释\nkey: value\nlist:\n  - item1\n  - item2\nconfig:\n  enabled: true\n  timeout: 30',
     height: 300,
     disabled: false,
     readonly: false,
@@ -89,8 +88,8 @@
           changes: {
             from: 0,
             to: editorView.value.state.doc.length,
-            insert: newValue || ''
-          }
+            insert: newValue || '',
+          },
         });
         clearError();
       }
@@ -126,17 +125,17 @@
   // 内容变化处理
   function onContentChange(content: string) {
     currentValue.value = content;
-    
+
     // 验证 YAML 格式
     const valid = validateYaml(content);
-    
+
     // 总是更新外部值
     emit('update:value', content);
     emit('change', content);
-    
+
     // 发出验证状态变化事件
     emit('validation-change', valid);
-    
+
     if (props.validateOnChange && valid) {
       emit('valid', content);
     }
@@ -149,7 +148,7 @@
     if (existingStyle) {
       existingStyle.remove();
     }
-    
+
     const style = document.createElement('style');
     style.id = styleId;
     style.textContent = `
@@ -175,7 +174,7 @@
   // 创建编辑器
   function createEditor() {
     if (!editorRef.value) return;
-    
+
     // 强制添加选中样式
     addSelectionStyles();
 
@@ -187,7 +186,7 @@
           const content = update.state.doc.toString();
           onContentChange(content);
         }
-        
+
         if (update.focusChanged) {
           if (update.view.hasFocus) {
             emit('focus');
@@ -217,7 +216,8 @@
         '.cm-content': {
           padding: '12px',
           minHeight: typeof props.height === 'number' ? `${props.height}px` : props.height,
-          fontFamily: '"SF Mono", Monaco, Inconsolata, "Roboto Mono", Consolas, "Courier New", monospace',
+          fontFamily:
+            '"SF Mono", Monaco, Inconsolata, "Roboto Mono", Consolas, "Courier New", monospace',
           lineHeight: '1.6',
         },
         '.cm-focused .cm-cursor': {
@@ -229,7 +229,7 @@
         '&.error-state.cm-focused': {
           borderColor: '#ff4757',
           boxShadow: '0 0 0 2px rgba(255, 71, 87, 0.2)',
-        }
+        },
       }),
       EditorState.readOnly.of(props.readonly),
     ];
@@ -254,7 +254,7 @@
       nextTick(() => {
         if (editorView.value) {
           editorView.value.dispatch({
-            selection: { anchor: 0, head: editorView.value.state.doc.length }
+            selection: { anchor: 0, head: editorView.value.state.doc.length },
           });
         }
       });
@@ -286,14 +286,14 @@
         quotingType: '"',
         forceQuotes: false,
       });
-      
+
       if (editorView.value) {
         editorView.value.dispatch({
           changes: {
             from: 0,
             to: editorView.value.state.doc.length,
-            insert: yamlString
-          }
+            insert: yamlString,
+          },
         });
       }
       currentValue.value = yamlString;
@@ -325,8 +325,8 @@
         changes: {
           from: selection.from,
           to: selection.to,
-          insert: text
-        }
+          insert: text,
+        },
       });
     }
   }
@@ -341,7 +341,7 @@
     if (editorView.value) {
       editorView.value.destroy();
     }
-    
+
     // 清理动态样式
     const existingStyle = document.getElementById('yaml-editor-selection-styles');
     if (existingStyle) {
@@ -366,56 +366,56 @@
 <style lang="less" scoped>
   .yaml-editor-container {
     width: 100%;
-    
+
     .yaml-editor {
       border-radius: 6px;
       transition: all 0.2s;
-      
+
       &.error-state {
         border-color: #ff4757;
       }
-      
+
       :deep(.cm-editor) {
         outline: none;
       }
-      
+
       :deep(.cm-content) {
         background: #fafafa;
       }
-      
+
       :deep(.cm-line) {
         line-height: 1.6;
       }
-      
+
       // YAML 语法高亮样式增强
       :deep(.cm-comment) {
         color: #8e8e93;
         font-style: italic;
       }
-      
+
       :deep(.cm-string) {
         color: #0c7d9d;
       }
-      
+
       :deep(.cm-number) {
         color: #1c00cf;
       }
-      
+
       :deep(.cm-keyword) {
         color: #ad3da4;
         font-weight: 600;
       }
-      
+
       :deep(.cm-property) {
         color: #3f6ec7;
         font-weight: 500;
       }
     }
-    
+
     .error-message {
       margin-top: 8px;
     }
-    
+
     .editor-stats {
       margin-top: 8px;
       display: flex;
@@ -431,13 +431,13 @@
           background: #1f1f1f;
           color: #d4d4d4;
         }
-        
+
         :deep(.cm-selectionBackground) {
-          background-color: rgba(64, 152, 252, 0.6) !important;
+          background-color: rgb(64 152 252 / 60%) !important;
         }
-        
+
         :deep(.cm-focused .cm-selectionBackground) {
-          background-color: rgba(64, 152, 252, 0.7) !important;
+          background-color: rgb(64 152 252 / 70%) !important;
         }
       }
     }

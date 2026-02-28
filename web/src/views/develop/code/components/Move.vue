@@ -76,7 +76,7 @@
     }
 
     .draggable-li:hover {
-      background-color: rgba(229, 231, 235, var(--tw-border-opacity));
+      background-color: rgb(229 231 235 / var(--tw-border-opacity));
     }
   }
 </style>

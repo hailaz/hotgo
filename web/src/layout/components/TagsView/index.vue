@@ -187,8 +187,8 @@
           navMode === 'horizontal' || !isMixMenuNoneSub.value
             ? '0px'
             : collapsed
-            ? `${minMenuWidth}px`
-            : `${menuWidth}px`;
+              ? `${minMenuWidth}px`
+              : `${menuWidth}px`;
 
         if (getIsMobile.value) {
           return {
@@ -592,8 +592,8 @@
           overflow: hidden;
 
           &-item {
-            background: v-bind(getCardColor);
-            color: v-bind(getBaseColor);
+            background: v-bind(getcardcolor);
+            color: v-bind(getbasecolor);
             height: 32px;
             padding: 6px 16px 4px;
             border-radius: 3px;
@@ -633,7 +633,7 @@
           }
 
           .active-item {
-            color: v-bind(getAppTheme);
+            color: v-bind(getapptheme);
           }
         }
       }

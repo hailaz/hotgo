@@ -252,11 +252,11 @@
 
   .light-green {
     height: 108px;
-    background-color: rgba(0, 128, 0, 0.12);
+    background-color: rgb(0 128 0 / 12%);
   }
 
   .green {
     height: 108px;
-    background-color: rgba(0, 128, 0, 0.24);
+    background-color: rgb(0 128 0 / 24%);
   }
 </style>

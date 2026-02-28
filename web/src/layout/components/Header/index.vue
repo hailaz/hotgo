@@ -669,7 +669,7 @@
       }
 
       &:hover {
-        background: hsla(0, 0%, 100%, 0.08);
+        background: hsl(0deg 0% 100% / 8%);
       }
 
       .anticon {
@@ -747,14 +747,14 @@
 
   :deep(.n-input .n-input__border, .n-input .n-input__state-border) {
     border: none;
-    border-bottom: 1px solid currentColor;
+    border-bottom: 1px solid currentcolor;
   }
 
   :deep(.el-input__inner) {
     border: none !important;
     height: 35px;
     line-height: 35px;
-    color: currentColor !important;
+    color: currentcolor !important;
     background-color: transparent !important;
   }
 

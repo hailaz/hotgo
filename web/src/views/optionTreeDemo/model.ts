@@ -9,22 +9,21 @@ import { useDictStore } from '@/store/modules/dict';
 const dict = useDictStore();
 
 export class State {
-
-  public title = '';//标题
-  public id = 0;//ID
-  public pid = 0;//上级
-  public level = 1;//关系树级别
-  public tree = null;//关系树
-  public categoryId = null;//测试分类
-  public description = '';//描述
-  public sort = 0;//排序
-  public status = 1;//状态
-  public createdBy = 0;//创建者
-  public createdBySumma?: null | MemberSumma = null;//创建者摘要信息
-  public updatedBy = 0;//更新者
-  public createdAt = '';//创建时间
-  public updatedAt = '';//修改时间
-  public deletedAt = '';//删除时间
+  public title = ''; //标题
+  public id = 0; //ID
+  public pid = 0; //上级
+  public level = 1; //关系树级别
+  public tree = null; //关系树
+  public categoryId = null; //测试分类
+  public description = ''; //描述
+  public sort = 0; //排序
+  public status = 1; //状态
+  public createdBy = 0; //创建者
+  public createdBySumma?: null | MemberSumma = null; //创建者摘要信息
+  public updatedBy = 0; //更新者
+  public createdAt = ''; //创建时间
+  public updatedAt = ''; //修改时间
+  public deletedAt = ''; //删除时间
   constructor(state?: Partial<State>) {
     if (state) {
       Object.assign(this, state);

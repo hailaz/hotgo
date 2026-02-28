@@ -44,15 +44,16 @@
     width: 1em;
     height: 1em;
     vertical-align: -0.15em;
-    fill: currentColor;
+    fill: currentcolor;
     overflow: hidden;
   }
+
   .svg-icon:hover {
     fill: var(--primary-color-hover);
   }
 
   .svg-external-icon {
-    background-color: currentColor;
+    background-color: currentcolor;
     mask-size: cover !important;
     display: inline-block;
   }

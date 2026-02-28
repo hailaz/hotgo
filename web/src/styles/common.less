@@ -5,7 +5,7 @@ html {
 }
 
 body {
-  font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei,
+  font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei',
     '\5FAE\8F6F\96C5\9ED1', Arial, sans-serif;
   line-height: 1.5;
   color: #515a6e;
@@ -53,8 +53,6 @@ a:hover {
 /* 滚动条凹槽的颜色，还可以设置边框属性 */
 *::-webkit-scrollbar-track-piece {
   background-color: #f8f8f8;
-  -webkit-border-radius: 2em;
-  -moz-border-radius: 2em;
   border-radius: 2em;
 }
 
@@ -68,8 +66,6 @@ a:hover {
 *::-webkit-scrollbar-thumb {
   background-color: #ddd;
   background-clip: padding-box;
-  -webkit-border-radius: 2em;
-  -moz-border-radius: 2em;
   border-radius: 2em;
 }
 
@@ -81,7 +77,9 @@ a:hover {
 /* router view transition */
 .zoom-fade-enter-active,
 .zoom-fade-leave-active {
-  transition: transform 0.35s, opacity 0.28s ease-in-out;
+  transition:
+    transform 0.35s,
+    opacity 0.28s ease-in-out;
 }
 
 .zoom-fade-enter-from {

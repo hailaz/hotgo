@@ -82,7 +82,7 @@
       <n-descriptions label-placement="top" title="多附件" class="py-2" :column="1">
         <n-descriptions-item>
           <div class="upload-card">
-            <n-space style="gap: 0px 0px">
+            <n-space style="gap: 0">
               <div
                 class="upload-card-item"
                 style="height: 100px; width: 100px"

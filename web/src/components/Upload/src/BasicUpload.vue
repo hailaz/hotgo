@@ -354,7 +354,7 @@
             z-index: 1;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: rgb(0 0 0 / 50%);
             opacity: 0;
             transition: all 0.3s;
             content: ' ';
@@ -385,7 +385,7 @@
             }
 
             .action-icon {
-              color: rgba(255, 255, 255, 0.85);
+              color: rgb(255 255 255 / 85%);
 
               &:hover {
                 cursor: pointer;

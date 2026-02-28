@@ -56,7 +56,9 @@
         <n-card title="字段设计" size="small" class="mb-4">
           <template #header-extra>
             <n-space :size="8">
-              <n-button size="small" type="info" quaternary @click="openPresetModal">预设字段</n-button>
+              <n-button size="small" type="info" quaternary @click="openPresetModal"
+                >预设字段</n-button
+              >
               <n-button size="small" type="primary" @click="addColumn">添加字段</n-button>
             </n-space>
           </template>
@@ -83,7 +85,12 @@
             :row-key="(_, index) => index"
             size="small"
           />
-          <n-empty v-if="!formData.indexes.length" description="暂无索引" size="small" class="py-4" />
+          <n-empty
+            v-if="!formData.indexes.length"
+            description="暂无索引"
+            size="small"
+            class="py-4"
+          />
         </n-card>
       </n-spin>
 
@@ -94,11 +101,7 @@
           <n-button type="info" @click="handlePreviewDDL" :loading="previewLoading">
             预览 SQL
           </n-button>
-          <n-button
-            type="success"
-            @click="handleSubmit"
-            :loading="submitLoading"
-          >
+          <n-button type="success" @click="handleSubmit" :loading="submitLoading">
             {{ isEditMode ? '保存修改' : '执行建表' }}
           </n-button>
           <n-button
@@ -114,11 +117,7 @@
     </n-card>
 
     <!-- DDL 预览弹窗 -->
-    <PreviewDDL
-      v-model:show="showPreview"
-      :ddl="previewDDL"
-      @execute="handleExecuteFromPreview"
-    />
+    <PreviewDDL v-model:show="showPreview" :ddl="previewDDL" @execute="handleExecuteFromPreview" />
 
     <!-- 预设字段弹窗 -->
     <n-modal
@@ -137,7 +136,10 @@
               v-for="item in getGroupPresets(group)"
               :key="item.key"
               class="preset-card"
-              :class="{ 'preset-card-selected': presetSelected.includes(item.key), 'preset-card-disabled': isPresetExist(item.key) }"
+              :class="{
+                'preset-card-selected': presetSelected.includes(item.key),
+                'preset-card-disabled': isPresetExist(item.key),
+              }"
               @click="togglePreset(item.key)"
             >
               <div class="preset-card-header">
@@ -148,14 +150,27 @@
                   @click.stop
                 />
                 <span class="preset-card-title">{{ item.label }}</span>
-                <n-tag :type="getTagType(item.tag)" size="tiny" :bordered="false">{{ item.tag }}</n-tag>
+                <n-tag :type="getTagType(item.tag)" size="tiny" :bordered="false">{{
+                  item.tag
+                }}</n-tag>
               </div>
               <div class="preset-card-desc">{{ item.description }}</div>
               <div class="preset-card-fields">
-                <n-tag v-for="f in item.fields.split(', ')" :key="f" size="tiny" :bordered="false" class="preset-field-tag">{{ f }}</n-tag>
+                <n-tag
+                  v-for="f in item.fields.split(', ')"
+                  :key="f"
+                  size="tiny"
+                  :bordered="false"
+                  class="preset-field-tag"
+                  >{{ f }}</n-tag
+                >
               </div>
               <div v-if="isPresetExist(item.key)" class="preset-card-badge">
-                <svg viewBox="0 0 16 16" width="12" height="12" fill="currentColor"><path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.75.75 0 0 1 1.06-1.06L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"/></svg>
+                <svg viewBox="0 0 16 16" width="12" height="12" fill="currentColor">
+                  <path
+                    d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.75.75 0 0 1 1.06-1.06L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"
+                  />
+                </svg>
                 <span>已添加</span>
               </div>
             </div>
@@ -169,7 +184,11 @@
           </span>
           <n-space :size="8">
             <n-button @click="showPresetModal = false">取消</n-button>
-            <n-button type="primary" :disabled="presetSelected.length === 0" @click="handlePresetBatchAdd">
+            <n-button
+              type="primary"
+              :disabled="presetSelected.length === 0"
+              @click="handlePresetBatchAdd"
+            >
               添加选中字段
             </n-button>
           </n-space>
@@ -250,9 +269,7 @@
 
   // 可选字段名列表（用于索引关联字段选择）
   const columnNameOptions = computed(() =>
-    formData.value.columns
-      .filter((c) => c.name)
-      .map((c) => ({ label: c.name, value: c.name }))
+    formData.value.columns.filter((c) => c.name).map((c) => ({ label: c.name, value: c.name }))
   );
 
   // 预设字段弹窗
@@ -265,25 +282,25 @@
   }
 
   // 获取分组下的预设列表
-  function getGroupPresets(group: typeof presetGroups[number]) {
+  function getGroupPresets(group: (typeof presetGroups)[number]) {
     return presetMeta.filter((m) => group.tags.includes(m.tag));
   }
 
   // tag 颜色映射
   function getTagType(tag: string): 'success' | 'info' | 'warning' | 'error' | 'default' {
     const map: Record<string, 'success' | 'info' | 'warning' | 'error' | 'default'> = {
-      '必备': 'success',
-      '常用': 'info',
-      '用户': 'warning',
-      '关联': 'default',
-      '结构': 'default',
-      '审计': 'default',
-      '内容': 'info',
-      '媒体': 'warning',
-      '业务': 'success',
-      '日志': 'error',
-      '统计': 'info',
-      '扩展': 'default',
+      必备: 'success',
+      常用: 'info',
+      用户: 'warning',
+      关联: 'default',
+      结构: 'default',
+      审计: 'default',
+      内容: 'info',
+      媒体: 'warning',
+      业务: 'success',
+      日志: 'error',
+      统计: 'info',
+      扩展: 'default',
     };
     return map[tag] || 'default';
   }
@@ -698,7 +715,10 @@
     try {
       await TableCreate(formData.value);
       message.success('建表成功，正在跳转代码生成...');
-      router.push({ name: 'develop_code', query: { dbName: formData.value.dbName, tableName: formData.value.tableName } });
+      router.push({
+        name: 'develop_code',
+        query: { dbName: formData.value.dbName, tableName: formData.value.tableName },
+      });
     } catch (e) {
       console.error(e);
     } finally {
@@ -834,7 +854,7 @@
 
     &:hover {
       border-color: #36ad6a;
-      box-shadow: 0 2px 8px rgba(54, 173, 106, 0.1);
+      box-shadow: 0 2px 8px rgb(54 173 106 / 10%);
     }
 
     &-selected {
@@ -910,7 +930,7 @@
   }
 
   .preset-field-tag {
-    font-family: 'SFMono-Regular', Consolas, monospace;
+    font-family: SFMono-Regular, Consolas, monospace;
     font-size: 11px !important;
   }
 </style>

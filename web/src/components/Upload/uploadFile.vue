@@ -11,7 +11,7 @@
       fileType="file"
       :maxNumber="maxNumber"
       :helpText="helpText"
-      @uploadChange="uploadChange"
+      @upload-change="uploadChange"
       v-model:value="image"
       v-model:values="images"
     />

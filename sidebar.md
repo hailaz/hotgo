@@ -13,6 +13,7 @@
 
     - [目录结构](/docs/guide-zh-CN/sys-catalog.md)
     - [开发规范](/docs/guide-zh-CN/sys-exploit.md)
+    - [代码质量与格式化](/docs/guide-zh-CN/dev-lint.md)
     - [控制台](/docs/guide-zh-CN/sys-console.md)
     - [中间件/拦截器](/docs/guide-zh-CN/sys-middleware.md)
     - [WebHook](/docs/guide-zh-CN/sys-webhook.md)

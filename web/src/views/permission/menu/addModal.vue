@@ -17,8 +17,8 @@
             ref="editFormRef"
             v-model:formParams="formParams"
             v-model:treeOption="treeOption"
-            @reloadTable="reloadTable"
-            @closeForm="closeForm"
+            @reload-table="reloadTable"
+            @close-form="closeForm"
           />
         </n-spin>
       </n-scrollbar>

@@ -81,7 +81,7 @@
     <FileUpload ref="imageUploadRef" :finish-call="handleFinishCall" upload-type="image" />
     <FileUpload ref="docUploadRef" :finish-call="handleFinishCall" upload-type="doc" />
     <MultipartUpload ref="multipartUploadRef" @on-finish="handleFinishCall" />
-    <UrlModal ref="urlModalRef" @reloadTable="reloadTable" />
+    <UrlModal ref="urlModalRef" @reload-table="reloadTable" />
   </div>
 </template>
 
@@ -115,7 +115,7 @@
   const imageUploadRef = ref();
   const docUploadRef = ref();
   const multipartUploadRef = ref();
-  const urlModalRef =ref();
+  const urlModalRef = ref();
 
   const actionColumn = reactive({
     width: 132,

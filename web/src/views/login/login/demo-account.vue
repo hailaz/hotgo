@@ -20,18 +20,18 @@
 </template>
 
 <script lang="ts" setup>
-import { getDemoAccounts } from "@/debug/account";
-interface Emits {
-  (e: "login", param: { username: string; password: string }): void;
-}
+  import { getDemoAccounts } from '@/debug/account';
+  interface Emits {
+    (e: 'login', param: { username: string; password: string }): void;
+  }
 
-const emit = defineEmits<Emits>();
+  const emit = defineEmits<Emits>();
 
-const accounts = getDemoAccounts();
+  const accounts = getDemoAccounts();
 
-function login(username: string, password: string) {
-  emit("login", { username, password });
-}
+  function login(username: string, password: string) {
+    emit('login', { username, password });
+  }
 </script>
 
 <style scoped></style>

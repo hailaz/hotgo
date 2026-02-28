@@ -56,9 +56,9 @@
             </n-radio-group>
           </n-form-item>
 
-<!--          <n-form-item label="排序" path="sort">-->
-<!--            <n-input-number v-model:value="formParams.sort" clearable />-->
-<!--          </n-form-item>-->
+          <!--          <n-form-item label="排序" path="sort">-->
+          <!--            <n-input-number v-model:value="formParams.sort" clearable />-->
+          <!--          </n-form-item>-->
 
           <n-form-item label="备注" path="remark">
             <n-input type="textarea" placeholder="请输入备注" v-model:value="formParams.remark" />

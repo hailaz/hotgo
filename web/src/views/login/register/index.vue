@@ -99,8 +99,8 @@
     <n-form-item class="default-color">
       <Agreement
         v-model:value="agreement"
-        @clickProtocol="handleClickProtocol"
-        @clickPolicy="handleClickPolicy"
+        @click-protocol="handleClickProtocol"
+        @click-policy="handleClickPolicy"
       />
     </n-form-item>
     <n-form-item>
@@ -109,7 +109,7 @@
       </n-button>
     </n-form-item>
 
-    <FormOther moduleKey="login" tag="登录账号" @updateActiveModule="updateActiveModule" />
+    <FormOther moduleKey="login" tag="登录账号" @update-active-module="updateActiveModule" />
   </n-form>
 
   <n-modal

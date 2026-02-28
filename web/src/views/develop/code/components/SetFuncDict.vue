@@ -102,7 +102,9 @@
     }
 
     if (!state.labelColumn) {
-      const item = props.columnsOption.find((item) => item.value === 'title' || item.value === 'name');
+      const item = props.columnsOption.find(
+        (item) => item.value === 'title' || item.value === 'name'
+      );
       if (item) {
         state.labelColumn = item.value;
       }

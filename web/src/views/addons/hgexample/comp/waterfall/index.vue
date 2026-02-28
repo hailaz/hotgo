@@ -95,7 +95,7 @@
 
 <style lang="less" scoped>
   .waterfall-item {
-    border: 2px solid rgb(244, 244, 248);
+    border: 2px solid rgb(244 244 248);
     height: 100px;
     display: flex;
     align-items: center;

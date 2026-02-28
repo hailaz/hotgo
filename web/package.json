@@ -10,6 +10,7 @@
   "private": true,
   "scripts": {
     "bootstrap": "pnpm install",
+    "prepare": "husky",
     "serve": "pnpm run dev",
     "dev": "vite",
     "build": "vite build && esno ./build/script/postBuild.ts",
@@ -20,10 +21,11 @@
     "clean:cache": "rimraf node_modules/.cache/ && rimraf node_modules/.vite",
     "clean:lib": "rimraf node_modules",
     "deploy": "gh-pages -d dist",
+    "lint": "pnpm run lint:eslint && pnpm run lint:prettier && pnpm run lint:stylelint",
     "lint:eslint": "eslint \"{src,mock}/**/*.{vue,ts,tsx}\" --fix",
-    "lint:prettier": "prettier --write --loglevel warn \"src/**/*.{js,json,tsx,css,less,scss,vue,html,md}\"",
+    "lint:prettier": "prettier --write --loglevel warn \"src/**/*.{js,json,css,less,scss,html,md}\"",
     "lint:stylelint": "stylelint --fix \"**/*.{vue,less,postcss,css,scss}\" --cache --cache-location node_modules/.cache/stylelint/",
-    "lint:lint-staged": "lint-staged -c ./.husky/lintstagedrc.js",
+    "lint:lint-staged": "lint-staged",
     "lint:pretty": "pretty-quick --staged",
     "build typecheck": "vuedx-typecheck . && vite build",
     "test prod gzip": "http-server dist --cors --gzip -c-1"
@@ -109,11 +111,14 @@
     "mockjs": "^1.1.0",
     "npm-check-updates": "^17.1.1",
     "postcss": "^8.4.44",
+    "postcss-html": "^1.8.1",
+    "postcss-less": "^6.0.0",
     "prettier": "^3.3.3",
     "pretty-quick": "^4.0.0",
     "rimraf": "^6.0.1",
     "stylelint": "^16.9.0",
     "stylelint-config-prettier": "^9.0.5",
+    "stylelint-config-recommended-vue": "^1.6.1",
     "stylelint-config-standard": "^36.0.1",
     "stylelint-order": "^6.0.4",
     "stylelint-scss": "^6.5.1",
@@ -135,7 +140,17 @@
     "vuedraggable": "^4.1.0"
   },
   "lint-staged": {
-    "*.{vue,js,ts,tsx}": "eslint --fix"
+    "*.{vue,js,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{css,less,scss,postcss,vue}": [
+      "stylelint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,html}": [
+      "prettier --write"
+    ]
   },
   "config": {
     "commitizen": {

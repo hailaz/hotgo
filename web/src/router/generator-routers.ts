@@ -37,13 +37,13 @@ export const routerGenerator = (routerMap, parent?): any[] => {
     // 为了防止出现后端返回结果不规范，处理有可能出现拼接出两个 反斜杠
     currentRouter.path = currentRouter.path.replace('//', '/');
     // 重定向 ,菜单类型为目录默认默认跳转
-    if(item.meta.type === 1){
+    if (item.meta.type === 1) {
       item.redirect && (currentRouter.redirect = item.redirect);
     }
     // 是否有子菜单，并递归处理
     if (item.children && item.children.length > 0) {
       //如果未定义 redirect 默认第一个子路由为 redirect
-      if(item.meta.type === 1) {
+      if (item.meta.type === 1) {
         !item.redirect && (currentRouter.redirect = `${item.path}/${item.children[0].path}`);
       }
       // Recursion

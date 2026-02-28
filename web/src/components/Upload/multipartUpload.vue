@@ -26,14 +26,14 @@
           </div>
           <template v-if="uploadStatus == 0 || uploadStatus == 3">
             <n-text style="font-size: 16px">点击或者拖动{{ typeTag }}到该区域来上传</n-text>
-            <n-p depth="3" style="margin: 8px 0 0 0">支持大文件分片上传，支持断点续传</n-p>
+            <n-p depth="3" style="margin: 8px 0 0">支持大文件分片上传，支持断点续传</n-p>
           </template>
           <template v-else-if="uploadStatus == 1">
             <span style="font-weight: 600">解析中，请稍候...</span>
           </template>
           <template v-else-if="uploadStatus == 2">
             <span style="font-weight: 600">正在上传({{ progress }}%)...</span>
-            <n-p depth="3" style="margin: 8px 0 0 0">文件大小：{{ sizeFormat }}</n-p>
+            <n-p depth="3" style="margin: 8px 0 0">文件大小：{{ sizeFormat }}</n-p>
           </template>
         </n-upload-dragger>
       </n-upload>

@@ -1,4 +1,4 @@
-import { VNode } from '@vue/runtime-core';
+import { VNode } from 'vue';
 
 export type Attachment = {
   id: number;

@@ -119,7 +119,7 @@
     },
     props: {
       openChecked: {
-        type: Boolean as PropType<Boolean>,
+        type: Boolean as PropType<boolean>,
         default: false,
       },
     },
@@ -262,54 +262,65 @@
     &-inner-popover-title {
       padding: 3px 0;
     }
+
     &-right {
       &-icon {
         margin-left: 12px;
         font-size: 16px;
         color: var(--text-color);
         cursor: pointer;
+
         :hover {
           color: #1890ff;
         }
       }
     }
   }
+
   .table-toolbar-inner {
     &-checkbox {
       display: flex;
       align-items: center;
       padding: 10px 14px;
+
       &:hover {
         background: #e6f7ff;
       }
+
       .drag-icon {
         display: inline-flex;
         margin-right: 8px;
         cursor: move;
+
         &-hidden {
           visibility: hidden;
           cursor: default;
         }
       }
+
       .fixed-item {
         display: flex;
         align-items: center;
         justify-content: flex-end;
         margin-left: auto;
       }
+
       .ant-checkbox-wrapper {
         flex: 1;
+
         &:hover {
           color: #1890ff !important;
         }
       }
     }
+
     &-checkbox-dark {
       &:hover {
-        background: hsla(0, 0%, 100%, 0.08);
+        background: hsl(0deg 0% 100% / 8%);
       }
     }
   }
+
   .toolbar-popover {
     .n-popover__content {
       padding: 0;

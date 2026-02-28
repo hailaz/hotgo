@@ -30,20 +30,23 @@
               <n-gi span="2">
                 <n-form-item label="上级" path="pid">
                   <n-tree-select
-                :options="treeOption"
-                v-model:value="formValue.pid"
-                key-field="id"
-                label-field="title"
-                clearable
-                filterable
-                default-expand-all
-                show-path
-              />
+                    :options="treeOption"
+                    v-model:value="formValue.pid"
+                    key-field="id"
+                    label-field="title"
+                    clearable
+                    filterable
+                    default-expand-all
+                    show-path
+                  />
                 </n-form-item>
               </n-gi>
               <n-gi span="2">
                 <n-form-item label="测试分类" path="categoryId">
-                  <n-select v-model:value="formValue.categoryId" :options="dict.getOptionUnRef('testCategoryOption')" />
+                  <n-select
+                    v-model:value="formValue.categoryId"
+                    :options="dict.getOptionUnRef('testCategoryOption')"
+                  />
                 </n-form-item>
               </n-gi>
               <n-gi span="2">
@@ -58,7 +61,10 @@
               </n-gi>
               <n-gi span="1">
                 <n-form-item label="状态" path="status">
-                  <n-select v-model:value="formValue.status" :options="dict.getOptionUnRef('sys_normal_disable')" />
+                  <n-select
+                    v-model:value="formValue.status"
+                    :options="dict.getOptionUnRef('sys_normal_disable')"
+                  />
                 </n-form-item>
               </n-gi>
             </n-grid>
@@ -67,10 +73,13 @@
       </n-scrollbar>
       <template #action>
         <n-space>
-          <n-button @click="closeForm">
-            取消
-          </n-button>
-          <n-button type="info" :loading="formBtnLoading" :disabled="!isFormValid" @click="confirmForm">
+          <n-button @click="closeForm"> 取消 </n-button>
+          <n-button
+            type="info"
+            :loading="formBtnLoading"
+            :disabled="!isFormValid"
+            @click="confirmForm"
+          >
             确定
           </n-button>
         </n-space>

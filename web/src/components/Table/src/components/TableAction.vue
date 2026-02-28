@@ -51,7 +51,7 @@
         default: null,
       },
       style: {
-        type: String as PropType<String>,
+        type: String as PropType<string>,
         default: 'button',
       },
       select: {
