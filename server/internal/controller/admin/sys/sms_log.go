@@ -8,7 +8,7 @@ package sys
 import (
 	"context"
 	"hotgo/api/admin/smslog"
-	"hotgo/internal/service"
+	sysLogic "hotgo/internal/logic/sys"
 )
 
 var (
@@ -19,13 +19,13 @@ type cSmsLog struct{}
 
 // Delete 删除
 func (c *cSmsLog) Delete(ctx context.Context, req *smslog.DeleteReq) (res *smslog.DeleteRes, err error) {
-	err = service.SysSmsLog().Delete(ctx, &req.SmsLogDeleteInp)
+	err = sysLogic.SysSmsLog().Delete(ctx, &req.SmsLogDeleteInp)
 	return
 }
 
 // View 获取指定信息
 func (c *cSmsLog) View(ctx context.Context, req *smslog.ViewReq) (res *smslog.ViewRes, err error) {
-	data, err := service.SysSmsLog().View(ctx, &req.SmsLogViewInp)
+	data, err := sysLogic.SysSmsLog().View(ctx, &req.SmsLogViewInp)
 	if err != nil {
 		return
 	}
@@ -37,7 +37,7 @@ func (c *cSmsLog) View(ctx context.Context, req *smslog.ViewReq) (res *smslog.Vi
 
 // List 查看列表
 func (c *cSmsLog) List(ctx context.Context, req *smslog.ListReq) (res *smslog.ListRes, err error) {
-	list, totalCount, err := service.SysSmsLog().List(ctx, &req.SmsLogListInp)
+	list, totalCount, err := sysLogic.SysSmsLog().List(ctx, &req.SmsLogListInp)
 	if err != nil {
 		return
 	}

@@ -24,8 +24,14 @@ func NewSysDictType() *sSysDictType {
 	return &sSysDictType{}
 }
 
+var insSysDictType = NewSysDictType()
+
 func init() {
-	service.RegisterSysDictType(NewSysDictType())
+	service.RegisterSysDictType(insSysDictType)
+}
+
+func SysDictType() *sSysDictType {
+	return insSysDictType
 }
 
 // Tree 树

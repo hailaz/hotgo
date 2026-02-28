@@ -11,7 +11,7 @@ import (
 	"hotgo/internal/consts"
 	"hotgo/internal/model/input/form"
 	"hotgo/internal/model/input/sysin"
-	"hotgo/internal/service"
+	sysLogic "hotgo/internal/logic/sys"
 )
 
 var (
@@ -23,13 +23,13 @@ type cConfig struct{}
 // GetConfig 获取指定分组的配置
 func (c *cConfig) GetConfig(ctx context.Context, req *config.GetReq) (res *config.GetRes, err error) {
 	res = new(config.GetRes)
-	res.GetConfigModel, err = service.SysConfig().GetConfigByGroup(ctx, &req.GetConfigInp)
+	res.GetConfigModel, err = sysLogic.SysConfig().GetConfigByGroup(ctx, &req.GetConfigInp)
 	return
 }
 
 // UpdateConfig 更新指定分组的配置
 func (c *cConfig) UpdateConfig(ctx context.Context, req *config.UpdateReq) (res *config.UpdateRes, err error) {
-	err = service.SysConfig().UpdateConfigByGroup(ctx, &req.UpdateConfigInp)
+	err = sysLogic.SysConfig().UpdateConfigByGroup(ctx, &req.UpdateConfigInp)
 	return
 }
 
@@ -48,6 +48,6 @@ func (c *cConfig) TypeSelect(_ context.Context, _ *config.TypeSelectReq) (res co
 // GetCash 获取提现的配置
 func (c *cConfig) GetCash(ctx context.Context, _ *config.GetCashReq) (res *config.GetCashRes, err error) {
 	res = new(config.GetCashRes)
-	res.GetConfigModel, err = service.SysConfig().GetConfigByGroup(ctx, &sysin.GetConfigInp{Group: "cash"})
+	res.GetConfigModel, err = sysLogic.SysConfig().GetConfigByGroup(ctx, &sysin.GetConfigInp{Group: "cash"})
 	return
 }

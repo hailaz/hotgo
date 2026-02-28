@@ -8,7 +8,7 @@ package sys
 import (
 	"context"
 	"hotgo/api/admin/addons"
-	"hotgo/internal/service"
+	sysLogic "hotgo/internal/logic/sys"
 )
 
 var (
@@ -19,7 +19,7 @@ type cAddons struct{}
 
 // List 查看列表
 func (c *cAddons) List(ctx context.Context, req *addons.ListReq) (res *addons.ListRes, err error) {
-	list, totalCount, err := service.SysAddons().List(ctx, &req.AddonsListInp)
+	list, totalCount, err := sysLogic.SysAddons().List(ctx, &req.AddonsListInp)
 	if err != nil {
 		return
 	}
@@ -32,13 +32,13 @@ func (c *cAddons) List(ctx context.Context, req *addons.ListReq) (res *addons.Li
 
 // Build 生成预览
 func (c *cAddons) Build(ctx context.Context, req *addons.BuildReq) (res *addons.BuildRes, err error) {
-	err = service.SysAddons().Build(ctx, &req.AddonsBuildInp)
+	err = sysLogic.SysAddons().Build(ctx, &req.AddonsBuildInp)
 	return
 }
 
 // Install 安装模块
 func (c *cAddons) Install(ctx context.Context, req *addons.InstallReq) (res *addons.InstallRes, err error) {
-	if err = service.SysAddons().Install(ctx, &req.AddonsInstallInp); err != nil {
+	if err = sysLogic.SysAddons().Install(ctx, &req.AddonsInstallInp); err != nil {
 		return
 	}
 	return
@@ -46,7 +46,7 @@ func (c *cAddons) Install(ctx context.Context, req *addons.InstallReq) (res *add
 
 // Upgrade 更新模块
 func (c *cAddons) Upgrade(ctx context.Context, req *addons.UpgradeReq) (res *addons.UpgradeRes, err error) {
-	if err = service.SysAddons().Upgrade(ctx, &req.AddonsUpgradeInp); err != nil {
+	if err = sysLogic.SysAddons().Upgrade(ctx, &req.AddonsUpgradeInp); err != nil {
 		return
 	}
 	return
@@ -54,7 +54,7 @@ func (c *cAddons) Upgrade(ctx context.Context, req *addons.UpgradeReq) (res *add
 
 // UnInstall 卸载模块
 func (c *cAddons) UnInstall(ctx context.Context, req *addons.UnInstallReq) (res *addons.UnInstallRes, err error) {
-	if err = service.SysAddons().UnInstall(ctx, &req.AddonsUnInstallInp); err != nil {
+	if err = sysLogic.SysAddons().UnInstall(ctx, &req.AddonsUnInstallInp); err != nil {
 		return
 	}
 	return

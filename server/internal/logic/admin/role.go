@@ -15,7 +15,6 @@ import (
 	"hotgo/internal/model/entity"
 	"hotgo/internal/model/input/adminin"
 	"hotgo/internal/model/input/form"
-	"hotgo/internal/service"
 	"hotgo/utility/convert"
 	"hotgo/utility/tree"
 	"hotgo/utility/validate"
@@ -33,8 +32,10 @@ func NewAdminRole() *sAdminRole {
 	return &sAdminRole{}
 }
 
-func init() {
-	service.RegisterAdminRole(NewAdminRole())
+var insAdminRole = NewAdminRole()
+
+func AdminRole() *sAdminRole {
+	return insAdminRole
 }
 
 // Verify 验证权限
@@ -49,7 +50,7 @@ func (s *sAdminRole) Verify(ctx context.Context, path, method string) bool {
 		return false
 	}
 
-	if service.AdminMember().VerifySuperId(ctx, user.Id) {
+	if AdminMember().VerifySuperId(ctx, user.Id) {
 		return true
 	}
 
@@ -70,7 +71,7 @@ func (s *sAdminRole) List(ctx context.Context, in *adminin.RoleListInp) (res *ad
 	)
 
 	// 非超管只获取下级角色
-	if !service.AdminMember().VerifySuperId(ctx, contexts.GetUserId(ctx)) {
+	if !AdminMember().VerifySuperId(ctx, contexts.GetUserId(ctx)) {
 		pid = contexts.GetRoleId(ctx)
 		mod = mod.WhereLike(dao.AdminRole.Columns().Tree, "%"+tree.GetIdLabel(pid)+"%")
 	}
@@ -326,7 +327,7 @@ func (s *sAdminRole) VerifyRoleId(ctx context.Context, id int64) (err error) {
 		return
 	}
 
-	ids, err := s.GetSubRoleIds(ctx, mb.RoleId, service.AdminMember().VerifySuperId(ctx, mb.Id))
+	ids, err := s.GetSubRoleIds(ctx, mb.RoleId, AdminMember().VerifySuperId(ctx, mb.Id))
 	if err != nil {
 		err = gerror.New("验证角色信息失败！")
 		return

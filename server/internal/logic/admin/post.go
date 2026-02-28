@@ -17,7 +17,6 @@ import (
 	"hotgo/internal/model/entity"
 	"hotgo/internal/model/input/adminin"
 	"hotgo/internal/model/input/form"
-	"hotgo/internal/service"
 )
 
 type sAdminPost struct{}
@@ -26,9 +25,14 @@ func NewAdminPost() *sAdminPost {
 	return &sAdminPost{}
 }
 
+var insAdminPost = NewAdminPost()
+
+func AdminPost() *sAdminPost {
+	return insAdminPost
+}
+
 func init() {
-	service.RegisterAdminPost(NewAdminPost())
-	dict.RegisterFunc("adminPostOption", "岗位选项", service.AdminPost().Option)
+	dict.RegisterFunc("adminPostOption", "岗位选项", AdminPost().Option)
 }
 
 // Delete 删除

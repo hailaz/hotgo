@@ -38,8 +38,14 @@ func NewSysLoginLog() *sSysLoginLog {
 	return &sSysLoginLog{}
 }
 
+var insSysLoginLog = NewSysLoginLog()
+
 func init() {
-	service.RegisterSysLoginLog(NewSysLoginLog())
+	service.RegisterSysLoginLog(insSysLoginLog)
+}
+
+func SysLoginLog() *sSysLoginLog {
+	return insSysLoginLog
 }
 
 // Model 登录日志Orm模型

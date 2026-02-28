@@ -16,7 +16,6 @@ import (
 	"hotgo/internal/library/hgorm/hook"
 	"hotgo/internal/model/input/form"
 	"hotgo/internal/model/input/sysin"
-	"hotgo/internal/service"
 
 	"github.com/gogf/gf/v2/database/gdb"
 	"github.com/gogf/gf/v2/errors/gerror"
@@ -31,8 +30,10 @@ func NewSysOptionTreeDemo() *sSysOptionTreeDemo {
 	return &sSysOptionTreeDemo{}
 }
 
-func init() {
-	service.RegisterSysOptionTreeDemo(NewSysOptionTreeDemo())
+var insSysOptionTreeDemo = NewSysOptionTreeDemo()
+
+func SysOptionTreeDemo() *sSysOptionTreeDemo {
+	return insSysOptionTreeDemo
 }
 
 // Model 选项树表ORM模型

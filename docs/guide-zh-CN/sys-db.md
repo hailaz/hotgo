@@ -120,7 +120,7 @@
 
 ```go
 
-// 查询创建者
+// 查询创建者（通过桥接接口或同包直接调用）
 if in.CreatedBy != "" {
   ids, err := service.AdminMember().GetIdsByKeyword(ctx, in.CreatedBy)
   if err != nil {

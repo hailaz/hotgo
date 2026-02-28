@@ -17,7 +17,7 @@ import (
 	"github.com/shirou/gopsutil/v3/process"
 	"hotgo/internal/consts"
 	"hotgo/internal/model"
-	"hotgo/internal/service"
+	adminLogic "hotgo/internal/logic/admin"
 	"hotgo/internal/websocket"
 	"hotgo/utility/file"
 	"hotgo/utility/format"
@@ -49,7 +49,7 @@ type MonitorHead struct {
 // RunInfo 运行信息
 func (c *cMonitor) RunInfo(client *websocket.Client, req *websocket.WRequest) {
 	var (
-		meta     = service.AdminMonitor().GetMeta(client.Context())
+		meta     = adminLogic.AdminMonitor().GetMeta(client.Context())
 		mHost, _ = host.Info()
 		pwd, _   = os.Getwd()
 		gm       runtime.MemStats
@@ -107,7 +107,7 @@ func (c *cMonitor) Trends(client *websocket.Client, req *websocket.WRequest) {
 		mLoadAvg             = new(model.LoadAvgStats)
 		monitorHeads         []MonitorHead
 		nets                 []NetC
-		meta                 = service.AdminMonitor().GetMeta(client.Context())
+		meta                 = adminLogic.AdminMonitor().GetMeta(client.Context())
 	)
 
 	if cpuErr != nil {

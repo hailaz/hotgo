@@ -82,11 +82,6 @@ cli.install:
 dao: cli.install
 	@gf gen dao
 
-# Generate Go files for Service.
-.PHONY: service
-service: cli.install
-	@gf gen service
-
 # Build image, deploy image and yaml to current kubectl environment and make port forward to local machine.
 .PHONY: start
 start:

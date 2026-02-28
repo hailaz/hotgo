@@ -34,8 +34,14 @@ func NewSysBlacklist() *sSysBlacklist {
 	}
 }
 
+var insSysBlacklist = NewSysBlacklist()
+
 func init() {
-	service.RegisterSysBlacklist(NewSysBlacklist())
+	service.RegisterSysBlacklist(insSysBlacklist)
+}
+
+func SysBlacklist() *sSysBlacklist {
+	return insSysBlacklist
 }
 
 // Delete 删除

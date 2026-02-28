@@ -8,7 +8,7 @@ package sys
 import (
 	"context"
 	"hotgo/api/admin/servelog"
-	"hotgo/internal/service"
+	sysLogic "hotgo/internal/logic/sys"
 )
 
 var (
@@ -19,7 +19,7 @@ type cServeLog struct{}
 
 // List 查看服务日志列表
 func (c *cServeLog) List(ctx context.Context, req *servelog.ListReq) (res *servelog.ListRes, err error) {
-	list, totalCount, err := service.SysServeLog().List(ctx, &req.ServeLogListInp)
+	list, totalCount, err := sysLogic.SysServeLog().List(ctx, &req.ServeLogListInp)
 	if err != nil {
 		return
 	}
@@ -32,13 +32,13 @@ func (c *cServeLog) List(ctx context.Context, req *servelog.ListReq) (res *serve
 
 // Export 导出服务日志列表
 func (c *cServeLog) Export(ctx context.Context, req *servelog.ExportReq) (res *servelog.ExportRes, err error) {
-	err = service.SysServeLog().Export(ctx, &req.ServeLogListInp)
+	err = sysLogic.SysServeLog().Export(ctx, &req.ServeLogListInp)
 	return
 }
 
 // View 获取指定服务日志信息
 func (c *cServeLog) View(ctx context.Context, req *servelog.ViewReq) (res *servelog.ViewRes, err error) {
-	data, err := service.SysServeLog().View(ctx, &req.ServeLogViewInp)
+	data, err := sysLogic.SysServeLog().View(ctx, &req.ServeLogViewInp)
 	if err != nil {
 		return
 	}
@@ -50,6 +50,6 @@ func (c *cServeLog) View(ctx context.Context, req *servelog.ViewReq) (res *serve
 
 // Delete 删除服务日志
 func (c *cServeLog) Delete(ctx context.Context, req *servelog.DeleteReq) (res *servelog.DeleteRes, err error) {
-	err = service.SysServeLog().Delete(ctx, &req.ServeLogDeleteInp)
+	err = sysLogic.SysServeLog().Delete(ctx, &req.ServeLogDeleteInp)
 	return
 }

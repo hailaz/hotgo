@@ -10,7 +10,7 @@ package pay
 import (
 	"context"
 	"hotgo/api/admin/pay"
-	"hotgo/internal/service"
+	payLogic "hotgo/internal/logic/pay"
 )
 
 var (
@@ -21,7 +21,7 @@ type cRefund struct{}
 
 // List 查看交易退款列表
 func (c *cRefund) List(ctx context.Context, req *pay.RefundListReq) (res *pay.RefundListRes, err error) {
-	list, totalCount, err := service.PayRefund().List(ctx, &req.PayRefundListInp)
+	list, totalCount, err := payLogic.PayRefund().List(ctx, &req.PayRefundListInp)
 	if err != nil {
 		return
 	}
@@ -34,6 +34,6 @@ func (c *cRefund) List(ctx context.Context, req *pay.RefundListReq) (res *pay.Re
 
 // Export 导出交易退款列表
 func (c *cRefund) Export(ctx context.Context, req *pay.RefundExportReq) (res *pay.RefundExportRes, err error) {
-	err = service.PayRefund().Export(ctx, &req.PayRefundListInp)
+	err = payLogic.PayRefund().Export(ctx, &req.PayRefundListInp)
 	return
 }

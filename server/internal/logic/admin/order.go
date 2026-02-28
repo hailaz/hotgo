@@ -19,6 +19,7 @@ import (
 	"hotgo/internal/model/input/adminin"
 	"hotgo/internal/model/input/form"
 	"hotgo/internal/model/input/payin"
+	payLogic "hotgo/internal/logic/pay"
 	"hotgo/internal/service"
 	"hotgo/internal/websocket"
 	"hotgo/utility/convert"
@@ -39,8 +40,14 @@ func NewAdminOrder() *sAdminOrder {
 	return &sAdminOrder{}
 }
 
+var insAdminOrder = NewAdminOrder()
+
 func init() {
-	service.RegisterAdminOrder(NewAdminOrder())
+	service.RegisterAdminOrder(insAdminOrder)
+}
+
+func AdminOrder() *sAdminOrder {
+	return insAdminOrder
 }
 
 // Model 充值订单ORM模型
@@ -69,7 +76,7 @@ func (s *sAdminOrder) AcceptRefund(ctx context.Context, in *adminin.OrderAcceptR
 		// 同意退款
 		if in.Status == consts.OrderStatusReturned {
 			// 更新余额
-			_, err = service.AdminCreditsLog().SaveBalance(ctx, &adminin.CreditsLogSaveBalanceInp{
+			_, err = AdminCreditsLog().SaveBalance(ctx, &adminin.CreditsLogSaveBalanceInp{
 				MemberId:    view.MemberId,
 				AppId:       contexts.GetModule(ctx),
 				AddonsName:  contexts.GetAddonName(ctx),
@@ -82,7 +89,7 @@ func (s *sAdminOrder) AcceptRefund(ctx context.Context, in *adminin.OrderAcceptR
 				return err
 			}
 
-			_, err = service.PayRefund().Refund(ctx, &payin.PayRefundInp{
+			_, err = payLogic.PayRefund().Refund(ctx, &payin.PayRefundInp{
 				OrderSn:     view.OrderSn,
 				RefundMoney: view.Money,
 				Reason:      view.RefundReason,
@@ -162,7 +169,7 @@ func (s *sAdminOrder) PayNotify(ctx context.Context, in *payin.NotifyCallFuncInp
 		}
 
 		// 更新余额
-		_, err = service.AdminCreditsLog().SaveBalance(ctx, &adminin.CreditsLogSaveBalanceInp{
+		_, err = AdminCreditsLog().SaveBalance(ctx, &adminin.CreditsLogSaveBalanceInp{
 			MemberId:    models.MemberId,
 			AppId:       in.Pay.AppId,
 			AddonsName:  in.Pay.AddonsName,
@@ -230,7 +237,7 @@ func (s *sAdminOrder) Create(ctx context.Context, in *adminin.OrderCreateInp) (r
 			return
 		}
 
-		create, err := service.Pay().Create(ctx, payin.PayCreateInp{
+		create, err := payLogic.Pay().Create(ctx, payin.PayCreateInp{
 			Subject:    subject,
 			OrderSn:    orderSn,
 			OrderGroup: consts.OrderGroupAdminOrder,
@@ -279,7 +286,7 @@ func (s *sAdminOrder) List(ctx context.Context, in *adminin.OrderListInp) (list 
 
 	// 下单用户筛选
 	if len(in.ComplexMemberId) == 2 && len(in.ComplexMemberId[0]) > 0 {
-		memberIds, err := service.AdminMember().GetComplexMemberIds(ctx, in.ComplexMemberId[0], in.ComplexMemberId[1])
+		memberIds, err := AdminMember().GetComplexMemberIds(ctx, in.ComplexMemberId[0], in.ComplexMemberId[1])
 		if err != nil {
 			return nil, 0, err
 		}

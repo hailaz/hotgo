@@ -12,7 +12,8 @@ import (
 	"hotgo/internal/consts"
 	"hotgo/internal/library/captcha"
 	"hotgo/internal/library/token"
-	"hotgo/internal/service"
+	adminLogic "hotgo/internal/logic/admin"
+	sysLogic "hotgo/internal/logic/sys"
 	"hotgo/utility/validate"
 
 	"github.com/gogf/gf/v2/errors/gerror"
@@ -56,7 +57,7 @@ func (c *cSite) getWsAddr(ctx context.Context, request *ghttp.Request) string {
 		return "ws://" + ip + ":" + gstr.StrEx(request.Host, ":") + g.Cfg().MustGet(ctx, "router.websocket.prefix").String()
 	}
 
-	basic, err := service.SysConfig().GetBasic(ctx)
+	basic, err := sysLogic.SysConfig().GetBasic(ctx)
 	if err != nil || basic == nil {
 		return ""
 	}
@@ -75,7 +76,7 @@ func (c *cSite) getDomain(ctx context.Context, request *ghttp.Request) string {
 		return "http://" + ip + ":" + gstr.StrEx(request.Host, ":")
 	}
 
-	basic, err := service.SysConfig().GetBasic(ctx)
+	basic, err := sysLogic.SysConfig().GetBasic(ctx)
 	if err != nil || basic == nil {
 		return ""
 	}
@@ -85,7 +86,7 @@ func (c *cSite) getDomain(ctx context.Context, request *ghttp.Request) string {
 // LoginConfig 登录配置
 func (c *cSite) LoginConfig(ctx context.Context, _ *common.SiteLoginConfigReq) (res *common.SiteLoginConfigRes, err error) {
 	res = new(common.SiteLoginConfigRes)
-	login, err := service.SysConfig().GetLogin(ctx)
+	login, err := sysLogic.SysConfig().GetLogin(ctx)
 	if err != nil {
 		return
 	}
@@ -99,7 +100,7 @@ func (c *cSite) LoginConfig(ctx context.Context, _ *common.SiteLoginConfigReq) (
 
 // Captcha 登录验证码
 func (c *cSite) Captcha(ctx context.Context, _ *common.LoginCaptchaReq) (res *common.LoginCaptchaRes, err error) {
-	loginConf, err := service.SysConfig().GetLogin(ctx)
+	loginConf, err := sysLogic.SysConfig().GetLogin(ctx)
 	if err != nil {
 		return
 	}
@@ -110,13 +111,13 @@ func (c *cSite) Captcha(ctx context.Context, _ *common.LoginCaptchaReq) (res *co
 
 // Register 账号注册
 func (c *cSite) Register(ctx context.Context, req *common.RegisterReq) (res *common.RegisterRes, err error) {
-	err = service.AdminSite().Register(ctx, &req.RegisterInp)
+	err = adminLogic.AdminSite().Register(ctx, &req.RegisterInp)
 	return
 }
 
 // AccountLogin 账号登录
 func (c *cSite) AccountLogin(ctx context.Context, req *common.AccountLoginReq) (res *common.AccountLoginRes, err error) {
-	login, err := service.SysConfig().GetLogin(ctx)
+	login, err := sysLogic.SysConfig().GetLogin(ctx)
 	if err != nil {
 		return
 	}
@@ -129,7 +130,7 @@ func (c *cSite) AccountLogin(ctx context.Context, req *common.AccountLoginReq) (
 		}
 	}
 
-	model, err := service.AdminSite().AccountLogin(ctx, &req.AccountLoginInp)
+	model, err := adminLogic.AdminSite().AccountLogin(ctx, &req.AccountLoginInp)
 	if err != nil {
 		return
 	}
@@ -140,7 +141,7 @@ func (c *cSite) AccountLogin(ctx context.Context, req *common.AccountLoginReq) (
 
 // MobileLogin 手机号登录
 func (c *cSite) MobileLogin(ctx context.Context, req *common.MobileLoginReq) (res *common.MobileLoginRes, err error) {
-	model, err := service.AdminSite().MobileLogin(ctx, &req.MobileLoginInp)
+	model, err := adminLogic.AdminSite().MobileLogin(ctx, &req.MobileLoginInp)
 	if err != nil {
 		return
 	}

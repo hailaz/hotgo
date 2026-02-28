@@ -26,9 +26,14 @@ func NewSysAttachment() *sSysAttachment {
 	return &sSysAttachment{}
 }
 
+var insSysAttachment = NewSysAttachment()
+
+func SysAttachment() *sSysAttachment {
+	return insSysAttachment
+}
+
 func init() {
-	service.RegisterSysAttachment(NewSysAttachment())
-	dict.RegisterFunc("AttachmentKindOption", "上传类型选项", service.SysAttachment().AttachmentKindOption)
+	dict.RegisterFunc("AttachmentKindOption", "上传类型选项", SysAttachment().AttachmentKindOption)
 }
 
 // Model ORM模型

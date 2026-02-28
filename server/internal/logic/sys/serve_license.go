@@ -30,8 +30,10 @@ func NewSysServeLicense() *sSysServeLicense {
 	return &sSysServeLicense{}
 }
 
-func init() {
-	service.RegisterSysServeLicense(NewSysServeLicense())
+var insSysServeLicense = NewSysServeLicense()
+
+func SysServeLicense() *sSysServeLicense {
+	return insSysServeLicense
 }
 
 // Model 服务许可证ORM模型

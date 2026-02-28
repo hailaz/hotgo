@@ -372,6 +372,17 @@ func (l *gCurd) loadView(ctx context.Context, in *CurdPreviewInput) (err error) 
 		importService = "hotgo/addons/" + in.In.AddonName + "/service"
 	}
 
+	// logic 包导入路径和别名（非 addon 模式下 controller 直接调用 logic）
+	importLogic := gstr.Replace(temp.LogicPath, "./", modName+"/")
+	logicAlias := in.options.TemplateGroup + "Logic"
+
+	// 构建 controller 中的服务调用表达式
+	servFunName := l.parseServFunName(in.options.TemplateGroup, in.In.VarName)
+	servCaller := logicAlias + "." + servFunName + "()"
+	if temp.IsAddon {
+		servCaller = "service." + servFunName + "()"
+	}
+
 	in.options.ImportWebApi = "@/api/" + gstr.LcFirst(in.In.VarName)
 	if temp.IsAddon {
 		in.options.ImportWebApi = "@/api/addons/" + in.In.AddonName + "/" + gstr.LcFirst(in.In.VarName)
@@ -400,6 +411,9 @@ func (l *gCurd) loadView(ctx context.Context, in *CurdPreviewInput) (err error) 
 		"importInput":      importInput,                                                 // 导入input包
 		"importController": importController,                                            // 导入控制器包
 		"importService":    importService,                                               // 导入业务服务
+		"importLogic":      importLogic,                                                // 导入logic包
+		"logicAlias":       logicAlias,                                                 // logic包别名
+		"servCaller":       servCaller,                                                 // 服务调用表达式
 		"importWebApi":     in.options.ImportWebApi,                                     // 导入webApi
 		"apiPrefix":        in.options.ApiPrefix,                                        // api前缀
 		"componentPrefix":  componentPrefix,                                             // vue子组件前缀

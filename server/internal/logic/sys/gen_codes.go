@@ -14,7 +14,6 @@ import (
 	"hotgo/internal/model"
 	"hotgo/internal/model/input/form"
 	"hotgo/internal/model/input/sysin"
-	"hotgo/internal/service"
 	"hotgo/utility/validate"
 
 	"github.com/gogf/gf/v2/encoding/gjson"
@@ -31,8 +30,10 @@ func NewSysGenCodes() *sSysGenCodes {
 	return &sSysGenCodes{}
 }
 
-func init() {
-	service.RegisterSysGenCodes(NewSysGenCodes())
+var insSysGenCodes = NewSysGenCodes()
+
+func SysGenCodes() *sSysGenCodes {
+	return insSysGenCodes
 }
 
 // Delete 删除

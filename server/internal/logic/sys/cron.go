@@ -13,7 +13,6 @@ import (
 	"hotgo/internal/model/entity"
 	"hotgo/internal/model/input/form"
 	"hotgo/internal/model/input/sysin"
-	"hotgo/internal/service"
 	"hotgo/utility/simple"
 	"hotgo/utility/validate"
 
@@ -29,8 +28,10 @@ func NewSysCron() *sSysCron {
 	return &sSysCron{}
 }
 
-func init() {
-	service.RegisterSysCron(NewSysCron())
+var insSysCron = NewSysCron()
+
+func SysCron() *sSysCron {
+	return insSysCron
 }
 
 func (s *sSysCron) StartCron(ctx context.Context) {

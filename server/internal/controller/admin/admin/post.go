@@ -8,7 +8,7 @@ package admin
 import (
 	"context"
 	"hotgo/api/admin/post"
-	"hotgo/internal/service"
+	adminLogic "hotgo/internal/logic/admin"
 )
 
 // Post 岗位
@@ -18,26 +18,26 @@ type cPost struct{}
 
 // Delete 删除
 func (c *cPost) Delete(ctx context.Context, req *post.DeleteReq) (res *post.DeleteRes, err error) {
-	err = service.AdminPost().Delete(ctx, &req.PostDeleteInp)
+	err = adminLogic.AdminPost().Delete(ctx, &req.PostDeleteInp)
 	return
 }
 
 // Edit 修改/新增
 func (c *cPost) Edit(ctx context.Context, req *post.EditReq) (res *post.EditRes, err error) {
-	err = service.AdminPost().Edit(ctx, &req.PostEditInp)
+	err = adminLogic.AdminPost().Edit(ctx, &req.PostEditInp)
 	return
 }
 
 // MaxSort 最大排序
 func (c *cPost) MaxSort(ctx context.Context, req *post.MaxSortReq) (res *post.MaxSortRes, err error) {
 	res = new(post.MaxSortRes)
-	res.PostMaxSortModel, err = service.AdminPost().MaxSort(ctx, &req.PostMaxSortInp)
+	res.PostMaxSortModel, err = adminLogic.AdminPost().MaxSort(ctx, &req.PostMaxSortInp)
 	return
 }
 
 // View 获取指定信息
 func (c *cPost) View(ctx context.Context, req *post.ViewReq) (res *post.ViewRes, err error) {
-	data, err := service.AdminPost().View(ctx, &req.PostViewInp)
+	data, err := adminLogic.AdminPost().View(ctx, &req.PostViewInp)
 	if err != nil {
 		return
 	}
@@ -49,7 +49,7 @@ func (c *cPost) View(ctx context.Context, req *post.ViewReq) (res *post.ViewRes,
 
 // List 获取列表
 func (c *cPost) List(ctx context.Context, req *post.ListReq) (res *post.ListRes, err error) {
-	list, totalCount, err := service.AdminPost().List(ctx, &req.PostListInp)
+	list, totalCount, err := adminLogic.AdminPost().List(ctx, &req.PostListInp)
 	if err != nil {
 		return
 	}
@@ -62,6 +62,6 @@ func (c *cPost) List(ctx context.Context, req *post.ListReq) (res *post.ListRes,
 
 // Status 更新状态
 func (c *cPost) Status(ctx context.Context, req *post.StatusReq) (res *post.StatusRes, err error) {
-	err = service.AdminPost().Status(ctx, &req.PostStatusInp)
+	err = adminLogic.AdminPost().Status(ctx, &req.PostStatusInp)
 	return
 }

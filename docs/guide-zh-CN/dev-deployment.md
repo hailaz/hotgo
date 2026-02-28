@@ -333,7 +333,6 @@ system:
 | `make web` | 启动前端开发服务 |
 | `make build` | 一键编译（前端+后端） |
 | `make dao` | 生成 DAO/DO/Entity |
-| `make service` | 生成 Service 接口 |
 | `make image tag=xxx` | 构建 Docker 镜像 |
 | `make deploy` | K8s 部署（Kustomize） |
 | `make start` | 构建+部署+端口转发 |

@@ -8,7 +8,7 @@ package sys
 import (
 	"context"
 	"hotgo/api/admin/blacklist"
-	"hotgo/internal/service"
+	sysLogic "hotgo/internal/logic/sys"
 )
 
 var (
@@ -19,19 +19,19 @@ type cBlacklist struct{}
 
 // Delete 删除
 func (c *cBlacklist) Delete(ctx context.Context, req *blacklist.DeleteReq) (res *blacklist.DeleteRes, err error) {
-	err = service.SysBlacklist().Delete(ctx, &req.BlacklistDeleteInp)
+	err = sysLogic.SysBlacklist().Delete(ctx, &req.BlacklistDeleteInp)
 	return
 }
 
 // Edit 更新
 func (c *cBlacklist) Edit(ctx context.Context, req *blacklist.EditReq) (res *blacklist.EditRes, err error) {
-	err = service.SysBlacklist().Edit(ctx, &req.BlacklistEditInp)
+	err = sysLogic.SysBlacklist().Edit(ctx, &req.BlacklistEditInp)
 	return
 }
 
 // View 获取指定信息
 func (c *cBlacklist) View(ctx context.Context, req *blacklist.ViewReq) (res *blacklist.ViewRes, err error) {
-	data, err := service.SysBlacklist().View(ctx, &req.BlacklistViewInp)
+	data, err := sysLogic.SysBlacklist().View(ctx, &req.BlacklistViewInp)
 	if err != nil {
 		return
 	}
@@ -43,7 +43,7 @@ func (c *cBlacklist) View(ctx context.Context, req *blacklist.ViewReq) (res *bla
 
 // List 查看列表
 func (c *cBlacklist) List(ctx context.Context, req *blacklist.ListReq) (res *blacklist.ListRes, err error) {
-	list, totalCount, err := service.SysBlacklist().List(ctx, &req.BlacklistListInp)
+	list, totalCount, err := sysLogic.SysBlacklist().List(ctx, &req.BlacklistListInp)
 	if err != nil {
 		return
 	}
@@ -56,6 +56,6 @@ func (c *cBlacklist) List(ctx context.Context, req *blacklist.ListReq) (res *bla
 
 // Status 更新黑名单状态
 func (c *cBlacklist) Status(ctx context.Context, req *blacklist.StatusReq) (res *blacklist.StatusRes, err error) {
-	err = service.SysBlacklist().Status(ctx, &req.BlacklistStatusInp)
+	err = sysLogic.SysBlacklist().Status(ctx, &req.BlacklistStatusInp)
 	return
 }

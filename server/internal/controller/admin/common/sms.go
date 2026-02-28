@@ -14,7 +14,7 @@ import (
 	"hotgo/internal/library/contexts"
 	"hotgo/internal/model/entity"
 	"hotgo/internal/model/input/sysin"
-	"hotgo/internal/service"
+	sysLogic "hotgo/internal/logic/sys"
 )
 
 var Sms = new(cSms)
@@ -23,7 +23,7 @@ type cSms struct{}
 
 // SendTest 发送测试短信
 func (c *cSms) SendTest(ctx context.Context, req *common.SendTestSmsReq) (res *common.SendTestSmsRes, err error) {
-	err = service.SysSmsLog().SendCode(ctx, &req.SendCodeInp)
+	err = sysLogic.SysSmsLog().SendCode(ctx, &req.SendCodeInp)
 	return
 }
 
@@ -53,7 +53,7 @@ func (c *cSms) SendBindSms(ctx context.Context, _ *common.SendBindSmsReq) (res *
 		return
 	}
 
-	err = service.SysSmsLog().SendCode(ctx, &sysin.SendCodeInp{
+	err = sysLogic.SysSmsLog().SendCode(ctx, &sysin.SendCodeInp{
 		Event:  consts.SmsTemplateBind,
 		Mobile: models.Mobile,
 	})
@@ -62,6 +62,6 @@ func (c *cSms) SendBindSms(ctx context.Context, _ *common.SendBindSmsReq) (res *
 
 // SendSms 发送短信
 func (c *cSms) SendSms(ctx context.Context, req *common.SendSmsReq) (res *common.SendSmsRes, err error) {
-	err = service.SysSmsLog().SendCode(ctx, &req.SendCodeInp)
+	err = sysLogic.SysSmsLog().SendCode(ctx, &req.SendCodeInp)
 	return
 }

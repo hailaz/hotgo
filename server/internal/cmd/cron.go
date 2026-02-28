@@ -11,6 +11,7 @@ import (
 	_ "hotgo/internal/crons"
 	"hotgo/internal/global"
 	"hotgo/internal/library/cron"
+	sysLogic "hotgo/internal/logic/sys"
 	"hotgo/internal/service"
 )
 
@@ -24,7 +25,7 @@ var (
 			cron.Logger().SetHandlers(global.LoggingServeLogHandler)
 
 			// 启动定时任务
-			service.SysCron().StartCron(ctx)
+			sysLogic.SysCron().StartCron(ctx)
 
 			// tcp客户端
 			service.CronClient().Start(ctx)

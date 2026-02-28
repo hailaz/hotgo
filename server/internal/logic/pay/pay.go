@@ -15,7 +15,6 @@ import (
 	"hotgo/internal/library/hgorm/handler"
 	"hotgo/internal/model/input/form"
 	"hotgo/internal/model/input/payin"
-	"hotgo/internal/service"
 	"hotgo/utility/convert"
 	"hotgo/utility/excel"
 	"hotgo/utility/validate"
@@ -33,8 +32,10 @@ func NewPay() *sPay {
 	return &sPay{}
 }
 
-func init() {
-	service.RegisterPay(NewPay())
+var insPay = NewPay()
+
+func Pay() *sPay {
+	return insPay
 }
 
 // Model 支付日志ORM模型

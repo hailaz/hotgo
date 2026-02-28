@@ -12,7 +12,6 @@ import (
 	"hotgo/internal/model/entity"
 	"hotgo/internal/model/input/form"
 	"hotgo/internal/model/input/sysin"
-	"hotgo/internal/service"
 
 	"github.com/gogf/gf/v2/errors/gerror"
 )
@@ -23,8 +22,10 @@ func NewSysCronGroup() *sSysCronGroup {
 	return &sSysCronGroup{}
 }
 
-func init() {
-	service.RegisterSysCronGroup(NewSysCronGroup())
+var insSysCronGroup = NewSysCronGroup()
+
+func SysCronGroup() *sSysCronGroup {
+	return insSysCronGroup
 }
 
 // Delete 删除

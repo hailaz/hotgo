@@ -17,7 +17,8 @@ import (
 	"hotgo/internal/library/payment"
 	"hotgo/internal/model/entity"
 	"hotgo/internal/model/input/payin"
-	"hotgo/internal/service"
+	commonLogic "hotgo/internal/logic/common"
+	sysLogic "hotgo/internal/logic/sys"
 	"hotgo/utility/validate"
 
 	"github.com/gogf/gf/v2/encoding/gjson"
@@ -36,7 +37,7 @@ func (s *sPay) Create(ctx context.Context, in payin.PayCreateInp) (res *payin.Pa
 	}
 
 	if in.Openid == "" {
-		if in.Openid, err = service.CommonWechat().GetOpenId(ctx); err != nil {
+		if in.Openid, err = commonLogic.CommonWechat().GetOpenId(ctx); err != nil {
 			return
 		}
 	}
@@ -110,7 +111,7 @@ func (s *sPay) Create(ctx context.Context, in payin.PayCreateInp) (res *payin.Pa
 
 // GenNotifyURL 生成支付通知地址
 func (s *sPay) GenNotifyURL(ctx context.Context, in payin.PayCreateInp) (notifyURL string, err error) {
-	basic, err := service.SysConfig().GetBasic(ctx)
+	basic, err := sysLogic.SysConfig().GetBasic(ctx)
 	if err != nil {
 		return
 	}

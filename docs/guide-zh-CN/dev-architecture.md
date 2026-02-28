@@ -40,7 +40,7 @@ graph TB
 
     subgraph 业务分层
         CTRL[Controller 控制器层]
-        SVC[Service 接口层]
+        SVC[Service 桥接/保留接口层]
         LOGIC[Logic 业务逻辑层]
         DAO[DAO 数据访问层]
         MODEL[Model 数据模型层]
@@ -69,35 +69,37 @@ graph TB
     WEB --> WS
     HTTP --> MW1 --> MW2 --> MW3 --> MW4 --> MW5 --> MW6
     MW6 --> ADMIN & API & HOME & SOCKET & ADDON_R
-    ADMIN & API & HOME --> CTRL --> SVC --> LOGIC --> DAO --> MODEL
+    ADMIN & API & HOME --> CTRL --> LOGIC --> DAO --> MODEL
+    CTRL -.->|桥接/保留接口| SVC -.-> LOGIC
     DAO --> DB
     LOGIC --> CACHE --> REDIS
     LOGIC --> QUE --> MQ
     LOGIC --> STORE --> OSS
     LOGIC --> PAY
     QUEUE --> QUE
-    CRON --> SVC
+    CRON --> LOGIC
+    CRON -.->|保留接口| SVC
     TCP --> SVC
 ```
 
 ## 2. 分层架构
 
-HotGo 采用经典的**五层分层架构**：
+HotGo 采用经典的**五层分层架构**（v3.0 起 Controller 直接调用 Logic，Service 层仅保留桥接和多态接口）：
 
 ```
 api (请求/响应结构体定义)
   → controller (参数解析、响应打包)
-    → service (接口定义，依赖倒置)
-      → logic (业务逻辑实现)
-        → dao (数据访问) → model (数据模型)
+    → logic (业务逻辑实现，Controller 直接调用)
+      → dao (数据访问) → model (数据模型)
+    → service (仅桥接接口和保留接口，用于打破循环依赖和多态注册)
 ```
 
 | 层级 | 目录 | 职责 | 关键特性 |
 |------|------|------|----------|
 | **API** | `server/api/` | 定义请求/响应结构体 | GoFrame 规范路由的输入输出 |
-| **Controller** | `server/internal/controller/` | 解包请求参数，调用 Service，打包响应 | 不含任何业务逻辑 |
-| **Service** | `server/internal/service/` | 接口定义（由 GoFrame CLI 自动生成） | Register/Get 全局访问模式 |
-| **Logic** | `server/internal/logic/` | 业务逻辑实现 | 通过 `init()` 自动注册到 Service |
+| **Controller** | `server/internal/controller/` | 解包请求参数，调用 Logic，打包响应 | 不含任何业务逻辑；直接调用 Logic 层 |
+| **Service** | `server/internal/service/` | 桥接接口（打破循环依赖）+ 保留接口（Middleware/Hook/TCP/View） | Register/Get 全局访问模式；不再使用 `gf gen service` |
+| **Logic** | `server/internal/logic/` | 业务逻辑实现 | 单例导出模式；需桥接的通过 `init()` 注册到 Service |
 | **DAO** | `server/internal/dao/` | 数据访问操作 | 外层可扩展 + 内层自动生成 |
 | **Model** | `server/internal/model/` | 实体/操作/输入模型 | entity(表映射) + do(操作) + input(业务) |
 
@@ -137,8 +139,8 @@ func main() {
 | 3 | `gtime.SetTimeZone("Asia/Shanghai")` | 设置默认时区 |
 | 4 | `InitTrace(ctx)` | 当 `jaeger.switch=true` 时初始化 Jaeger 链路追踪 |
 | 5 | `cache.SetAdapter(ctx)` | 根据 `cache.adapter` 配置选择缓存驱动（memory/redis/file） |
-| 6 | `service.SysConfig().InitConfig(ctx)` | 从数据库加载系统功能配置到内存 |
-| 7 | `service.AdminMember().LoadSuperAdmin(ctx)` | 预加载超级管理员数据到内存 |
+| 6 | `service.SysConfig().InitConfig(ctx)` | 从数据库加载系统功能配置到内存（通过桥接接口） |
+| 7 | `service.AdminMember().LoadSuperAdmin(ctx)` | 预加载超级管理员数据到内存（通过桥接接口） |
 | 8 | `SubscribeClusterSync(ctx)` | 集群模式下订阅 Redis PubSub 同步（配置/黑名单/超管数据） |
 
 ### 3.3 集群同步机制
@@ -204,10 +206,10 @@ All.Func = func(ctx context.Context, parser *gcmd.Parser) (err error) {
 ⑤ addons.StartModules(ctx)                           // 启动插件模块
 ⑥ casbin.InitEnforcer(ctx)                           // 初始化 Casbin 权限引擎
 ⑦ hggen.InIt(ctx)                                    // 初始化代码生成配置（非 product 模式）
-⑧ service.TCPServer().Start(ctx)                     // 启动 TCP 服务器
-⑨ service.AdminMonitor().StartMonitor(ctx)           // 启动服务监控
-⑩ service.SysBlacklist().Load(ctx)                   // 加载 IP 黑名单
-⑪ service.Pay().RegisterNotifyCall()                 // 注册支付成功回调
+⑧ service.TCPServer().Start(ctx)                     // 启动 TCP 服务器（保留接口）
+⑨ adminLogic.AdminMonitor().StartMonitor(ctx)        // 启动服务监控（直接调用 Logic）
+⑩ sysLogic.SysBlacklist().Load(ctx)                  // 加载 IP 黑名单（直接调用 Logic）
+⑪ payLogic.Pay().RegisterNotifyCall()                // 注册支付成功回调（直接调用 Logic）
 ⑫ s.Run()                                            // 启动 HTTP 服务
 ```
 
@@ -244,8 +246,8 @@ Queue.Func = func(ctx context.Context, parser *gcmd.Parser) (err error) {
 ```go
 Cron.Func = func(ctx context.Context, parser *gcmd.Parser) (err error) {
     cron.Logger().SetHandlers(global.LoggingServeLogHandler)
-    service.SysCron().StartCron(ctx)     // 启动定时任务
-    service.CronClient().Start(ctx)      // 启动 TCP 客户端（与 HTTP 服务保持连接）
+    sysLogic.SysCron().StartCron(ctx)    // 启动定时任务（直接调用 Logic）
+    service.CronClient().Start(ctx)      // 启动 TCP 客户端（保留接口）
     // ...关闭时: service.CronClient().Stop(ctx) + cron.StopALL()
 }
 ```
@@ -325,7 +327,7 @@ func (s *sMiddleware) CORS(r *ghttp.Request) {
 
 > 文件：`server/internal/logic/middleware/limit_blacklist.go`
 
-命中黑名单时直接拒绝请求并返回错误码。黑名单数据在 HTTP 服务启动时通过 `service.SysBlacklist().Load(ctx)` 加载到内存。
+命中黑名单时直接拒绝请求并返回错误码。黑名单数据在 HTTP 服务启动时通过 `sysLogic.SysBlacklist().Load(ctx)` 加载到内存。
 
 #### ④ DemoLimit — 演示模式限制
 
@@ -591,8 +593,8 @@ sequenceDiagram
     participant MW as 全局中间件
     participant RM as 路由中间件
     participant CT as Controller
-    participant S as Service
     participant L as Logic
+    participant S as Service(桥接)
     participant D as DAO
     participant DB as 数据库
 
@@ -608,14 +610,12 @@ sequenceDiagram
     RM->>RM: Casbin权限验证
     RM->>CT: 路由匹配到控制器
     CT->>CT: 参数解包（GF规范路由自动绑定）
-    CT->>S: 调用Service接口（Input结构体）
-    S->>L: 委托Logic实现
+    CT->>L: 直接调用Logic层（Input结构体）
     L->>D: 数据操作（Entity/DO）
     D->>DB: SQL执行
     DB-->>D: 返回结果
     D-->>L: Entity数据
-    L-->>S: 处理结果
-    S-->>CT: 输出Model
+    L-->>CT: 输出Model
     CT-->>MW: Response
     MW->>MW: ResponseHandler格式化
     MW-->>H: AfterOutput

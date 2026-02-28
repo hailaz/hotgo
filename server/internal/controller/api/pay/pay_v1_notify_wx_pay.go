@@ -7,13 +7,13 @@ import (
 	"hotgo/internal/consts"
 	"hotgo/internal/library/response"
 	"hotgo/internal/model/input/payin"
-	"hotgo/internal/service"
+	payLogic "hotgo/internal/logic/pay"
 
 	"github.com/gogf/gf/v2/frame/g"
 )
 
 func (c *ControllerV1) NotifyWxPay(ctx context.Context, req *v1.NotifyWxPayReq) (res *v1.NotifyWxPayRes, err error) {
-	if _, err = service.Pay().Notify(ctx, &payin.PayNotifyInp{PayType: consts.PayTypeWxPay}); err != nil {
+	if _, err = payLogic.Pay().Notify(ctx, &payin.PayNotifyInp{PayType: consts.PayTypeWxPay}); err != nil {
 		return
 	}
 

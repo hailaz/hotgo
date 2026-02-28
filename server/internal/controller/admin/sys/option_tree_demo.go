@@ -10,7 +10,7 @@ import (
 	"context"
 	"hotgo/api/admin/optiontreedemo"
 	"hotgo/internal/model/input/sysin"
-	"hotgo/internal/service"
+	sysLogic "hotgo/internal/logic/sys"
 )
 
 var (
@@ -21,7 +21,7 @@ type cOptionTreeDemo struct{}
 
 // List 查看选项树表列表
 func (c *cOptionTreeDemo) List(ctx context.Context, req *optiontreedemo.ListReq) (res *optiontreedemo.ListRes, err error) {
-	list, totalCount, err := service.SysOptionTreeDemo().List(ctx, &req.OptionTreeDemoListInp)
+	list, totalCount, err := sysLogic.SysOptionTreeDemo().List(ctx, &req.OptionTreeDemoListInp)
 	if err != nil {
 		return
 	}
@@ -38,13 +38,13 @@ func (c *cOptionTreeDemo) List(ctx context.Context, req *optiontreedemo.ListReq)
 
 // Edit 更新选项树表
 func (c *cOptionTreeDemo) Edit(ctx context.Context, req *optiontreedemo.EditReq) (res *optiontreedemo.EditRes, err error) {
-	err = service.SysOptionTreeDemo().Edit(ctx, &req.OptionTreeDemoEditInp)
+	err = sysLogic.SysOptionTreeDemo().Edit(ctx, &req.OptionTreeDemoEditInp)
 	return
 }
 
 // MaxSort 获取选项树表最大排序
 func (c *cOptionTreeDemo) MaxSort(ctx context.Context, req *optiontreedemo.MaxSortReq) (res *optiontreedemo.MaxSortRes, err error) {
-	data, err := service.SysOptionTreeDemo().MaxSort(ctx, &req.OptionTreeDemoMaxSortInp)
+	data, err := sysLogic.SysOptionTreeDemo().MaxSort(ctx, &req.OptionTreeDemoMaxSortInp)
 	if err != nil {
 		return
 	}
@@ -56,7 +56,7 @@ func (c *cOptionTreeDemo) MaxSort(ctx context.Context, req *optiontreedemo.MaxSo
 
 // View 获取指定选项树表信息
 func (c *cOptionTreeDemo) View(ctx context.Context, req *optiontreedemo.ViewReq) (res *optiontreedemo.ViewRes, err error) {
-	data, err := service.SysOptionTreeDemo().View(ctx, &req.OptionTreeDemoViewInp)
+	data, err := sysLogic.SysOptionTreeDemo().View(ctx, &req.OptionTreeDemoViewInp)
 	if err != nil {
 		return
 	}
@@ -68,13 +68,13 @@ func (c *cOptionTreeDemo) View(ctx context.Context, req *optiontreedemo.ViewReq)
 
 // Delete 删除选项树表
 func (c *cOptionTreeDemo) Delete(ctx context.Context, req *optiontreedemo.DeleteReq) (res *optiontreedemo.DeleteRes, err error) {
-	err = service.SysOptionTreeDemo().Delete(ctx, &req.OptionTreeDemoDeleteInp)
+	err = sysLogic.SysOptionTreeDemo().Delete(ctx, &req.OptionTreeDemoDeleteInp)
 	return
 }
 
 // TreeOption 获取选项树表关系树选项
 func (c *cOptionTreeDemo) TreeOption(ctx context.Context, req *optiontreedemo.TreeOptionReq) (res *optiontreedemo.TreeOptionRes, err error) {
-	data, err := service.SysOptionTreeDemo().TreeOption(ctx)
+	data, err := sysLogic.SysOptionTreeDemo().TreeOption(ctx)
 	if err != nil {
 		return nil, err
 	}

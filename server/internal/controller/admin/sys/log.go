@@ -9,7 +9,7 @@ import (
 	"context"
 	"github.com/gogf/gf/v2/errors/gerror"
 	"hotgo/api/admin/log"
-	"hotgo/internal/service"
+	sysLogic "hotgo/internal/logic/sys"
 )
 
 // Log 日志
@@ -25,13 +25,13 @@ func (c *sLog) Clear(ctx context.Context, _ *log.ClearReq) (res *log.ClearRes, e
 
 // Export 导出
 func (c *sLog) Export(ctx context.Context, req *log.ExportReq) (res *log.ExportRes, err error) {
-	err = service.SysLog().Export(ctx, &req.LogListInp)
+	err = sysLogic.SysLog().Export(ctx, &req.LogListInp)
 	return
 }
 
 // List 获取访问日志列表
 func (c *sLog) List(ctx context.Context, req *log.ListReq) (res *log.ListRes, err error) {
-	list, totalCount, err := service.SysLog().List(ctx, &req.LogListInp)
+	list, totalCount, err := sysLogic.SysLog().List(ctx, &req.LogListInp)
 	if err != nil {
 		return
 	}
@@ -45,12 +45,12 @@ func (c *sLog) List(ctx context.Context, req *log.ListReq) (res *log.ListRes, er
 // View 获取指定信息
 func (c *sLog) View(ctx context.Context, req *log.ViewReq) (res *log.ViewRes, err error) {
 	res = new(log.ViewRes)
-	res.LogViewModel, err = service.SysLog().View(ctx, &req.LogViewInp)
+	res.LogViewModel, err = sysLogic.SysLog().View(ctx, &req.LogViewInp)
 	return
 }
 
 // Delete 删除
 func (c *sLog) Delete(ctx context.Context, req *log.DeleteReq) (res *log.DeleteRes, err error) {
-	err = service.SysLog().Delete(ctx, &req.LogDeleteInp)
+	err = sysLogic.SysLog().Delete(ctx, &req.LogDeleteInp)
 	return
 }

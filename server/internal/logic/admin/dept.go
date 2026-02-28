@@ -18,7 +18,6 @@ import (
 	"hotgo/internal/model/entity"
 	"hotgo/internal/model/input/adminin"
 	"hotgo/internal/model/input/form"
-	"hotgo/internal/service"
 	"hotgo/utility/convert"
 	"hotgo/utility/tree"
 	"hotgo/utility/validate"
@@ -30,8 +29,10 @@ func NewAdminDept() *sAdminDept {
 	return &sAdminDept{}
 }
 
-func init() {
-	service.RegisterAdminDept(NewAdminDept())
+var insAdminDept = NewAdminDept()
+
+func AdminDept() *sAdminDept {
+	return insAdminDept
 }
 
 // Model 部门ORM模型
@@ -265,7 +266,7 @@ func (s *sAdminDept) VerifyDeptId(ctx context.Context, id int64) (err error) {
 	}
 
 	// 非超管只获取下级
-	if !service.AdminMember().VerifySuperId(ctx, mb.Id) {
+	if !AdminMember().VerifySuperId(ctx, mb.Id) {
 		pid = mb.DeptId
 		mod = mod.WhereNot(dao.AdminDept.Columns().Id, pid).WhereLike(dao.AdminDept.Columns().Tree, "%"+tree.GetIdLabel(pid)+"%")
 	}
@@ -291,7 +292,7 @@ func (s *sAdminDept) Option(ctx context.Context, in *adminin.DeptOptionInp) (res
 	)
 
 	// 非超管只获取下级
-	if !service.AdminMember().VerifySuperId(ctx, contexts.GetUserId(ctx)) {
+	if !AdminMember().VerifySuperId(ctx, contexts.GetUserId(ctx)) {
 		pid = contexts.GetUser(ctx).DeptId
 		mod = mod.WhereLike(dao.AdminDept.Columns().Tree, "%"+tree.GetIdLabel(pid)+"%")
 	}

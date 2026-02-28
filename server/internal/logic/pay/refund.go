@@ -18,7 +18,6 @@ import (
 	"hotgo/internal/model/entity"
 	"hotgo/internal/model/input/form"
 	"hotgo/internal/model/input/payin"
-	"hotgo/internal/service"
 	"hotgo/utility/convert"
 	"hotgo/utility/excel"
 
@@ -40,8 +39,10 @@ func NewPayRefund() *sPayRefund {
 	return &sPayRefund{}
 }
 
-func init() {
-	service.RegisterPayRefund(NewPayRefund())
+var insPayRefund = NewPayRefund()
+
+func PayRefund() *sPayRefund {
+	return insPayRefund
 }
 
 // Model 交易退款ORM模型
@@ -52,7 +53,7 @@ func (s *sPayRefund) Model(ctx context.Context, option ...*handler.Option) *gdb.
 // Refund 订单退款
 func (s *sPayRefund) Refund(ctx context.Context, in *payin.PayRefundInp) (res *payin.PayRefundModel, err error) {
 	var models *entity.PayLog
-	if err = service.Pay().Model(ctx).Where(dao.PayLog.Columns().OrderSn, in.OrderSn).Scan(&models); err != nil {
+	if err = Pay().Model(ctx).Where(dao.PayLog.Columns().OrderSn, in.OrderSn).Scan(&models); err != nil {
 		return
 	}
 

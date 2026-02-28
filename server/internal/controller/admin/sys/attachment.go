@@ -8,7 +8,7 @@ package sys
 import (
 	"context"
 	"hotgo/api/admin/attachment"
-	"hotgo/internal/service"
+	sysLogic "hotgo/internal/logic/sys"
 )
 
 var (
@@ -19,13 +19,13 @@ type cAttachment struct{}
 
 // Delete 删除附件
 func (c *cAttachment) Delete(ctx context.Context, req *attachment.DeleteReq) (res *attachment.DeleteRes, err error) {
-	err = service.SysAttachment().Delete(ctx, &req.AttachmentDeleteInp)
+	err = sysLogic.SysAttachment().Delete(ctx, &req.AttachmentDeleteInp)
 	return
 }
 
 // View 获取指定附件信息
 func (c *cAttachment) View(ctx context.Context, req *attachment.ViewReq) (res *attachment.ViewRes, err error) {
-	data, err := service.SysAttachment().View(ctx, &req.AttachmentViewInp)
+	data, err := sysLogic.SysAttachment().View(ctx, &req.AttachmentViewInp)
 	if err != nil {
 		return
 	}
@@ -37,7 +37,7 @@ func (c *cAttachment) View(ctx context.Context, req *attachment.ViewReq) (res *a
 
 // List 查看附件列表
 func (c *cAttachment) List(ctx context.Context, req *attachment.ListReq) (res *attachment.ListRes, err error) {
-	list, totalCount, err := service.SysAttachment().List(ctx, &req.AttachmentListInp)
+	list, totalCount, err := sysLogic.SysAttachment().List(ctx, &req.AttachmentListInp)
 	if err != nil {
 		return
 	}
@@ -50,6 +50,6 @@ func (c *cAttachment) List(ctx context.Context, req *attachment.ListReq) (res *a
 
 // ClearKind 清空上传类型
 func (c *cAttachment) ClearKind(ctx context.Context, req *attachment.ClearKindReq) (res *attachment.ClearKindRes, err error) {
-	err = service.SysAttachment().ClearKind(ctx, &req.AttachmentClearKindInp)
+	err = sysLogic.SysAttachment().ClearKind(ctx, &req.AttachmentClearKindInp)
 	return
 }

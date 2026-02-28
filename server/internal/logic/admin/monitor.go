@@ -14,7 +14,6 @@ import (
 	"github.com/shirou/gopsutil/v3/net"
 	"hotgo/internal/library/location"
 	"hotgo/internal/model"
-	"hotgo/internal/service"
 	"hotgo/utility/format"
 	"hotgo/utility/simple"
 	"runtime"
@@ -32,8 +31,10 @@ func NewAdminMonitor() *sAdminMonitor {
 	}
 }
 
-func init() {
-	service.RegisterAdminMonitor(NewAdminMonitor())
+var insAdminMonitor = NewAdminMonitor()
+
+func AdminMonitor() *sAdminMonitor {
+	return insAdminMonitor
 }
 
 // StartMonitor 启动服务监控

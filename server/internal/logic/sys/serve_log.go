@@ -29,8 +29,14 @@ func NewSysServeLog() *sSysServeLog {
 	return &sSysServeLog{}
 }
 
+var insSysServeLog = NewSysServeLog()
+
 func init() {
-	service.RegisterSysServeLog(NewSysServeLog())
+	service.RegisterSysServeLog(insSysServeLog)
+}
+
+func SysServeLog() *sSysServeLog {
+	return insSysServeLog
 }
 
 // Model 服务日志Orm模型

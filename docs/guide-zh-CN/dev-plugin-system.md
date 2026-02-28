@@ -222,17 +222,18 @@ import _ "hotgo/addons/myplugin"
 
 ### 7.1 使用主系统服务
 
-插件可直接调用主系统的 Service 层接口：
+插件可通过主系统的桥接 Service 接口和保留接口进行调用：
 
 ```go
 // 获取当前用户信息
 user := contexts.GetUser(ctx)
 
-// 调用系统配置
+// 调用系统配置（通过桥接接口）
 config, _ := service.SysConfig().GetBasic(ctx)
 
-// 使用字典服务
-data, _ := service.SysDictData().Select(ctx, "dict_type")
+// 使用字典服务（直接调用 Logic 层，如果无循环依赖）
+// 或通过 isc "hotgo/internal/service" 调用桥接接口
+data, _ := sysLogic.SysDictData().Select(ctx, "dict_type")
 ```
 
 ### 7.2 路由中间件

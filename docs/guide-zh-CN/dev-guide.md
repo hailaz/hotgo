@@ -90,7 +90,7 @@ hotgo/
 
 | 文档 | 说明 |
 |------|------|
-| [服务端核心模块](dev-server-modules.md) | cmd 命令层、controller 控制器、logic 业务逻辑、model 数据模型、service 接口层、dao 数据访问、library 功能库、utility 工具包 |
+| [服务端核心模块](dev-server-modules.md) | cmd 命令层、controller 控制器、logic 业务逻辑、model 数据模型、service 桥接/保留接口、dao 数据访问、library 功能库、utility 工具包 |
 | [前端核心模块](dev-frontend-modules.md) | 入口启动流程、路由系统、状态管理(Pinia)、API 调用层、页面视图、组件体系、国际化 |
 
 ### 接口与扩展
@@ -98,7 +98,7 @@ hotgo/
 | 文档 | 说明 |
 |------|------|
 | [插件系统指南](dev-plugin-system.md) | 插件架构设计、Module 接口、目录结构规范、启动加载流程、示例插件分析 |
-| [关键接口定义](dev-api-interfaces.md) | Service 层接口、消息队列接口、中间件接口、支付网关接口、存储驱动接口 |
+| [关键接口定义](dev-api-interfaces.md) | 保留 Service 接口、桥接接口、消息队列接口、中间件接口、支付网关接口、存储驱动接口 |
 
 ### 配置与部署
 
@@ -217,7 +217,7 @@ CREATE TABLE `hg_sys_article` (
 4. 按需调整：
    - **基本信息**：实体命名填 `Article`，选择模板（如 `admin` 分组）
    - **字段配置**：`content` 字段的表单组件改为 `InputEditor`（富文本）、列表中不显示
-   - **生成选项**：勾选 `runDao`（生成 DAO）、`runService`（生成 Service）、`genMenuPermissions`（生成菜单权限）
+   - **生成选项**：勾选 `runDao`（生成 DAO）、`genMenuPermissions`（生成菜单权限）
    - **表头操作**：勾选 `add`（添加）、`batchDel`（批量删除）、`export`（导出）
    - **列操作**：勾选 `edit`（编辑）、`del`（删除）、`view`（查看）、`status`（状态切换）
 
@@ -255,7 +255,6 @@ web/src/
 
 **同时自动执行：**
 - `gf gen dao` → 生成 DAO/DO/Entity
-- `gf gen service` → 生成 Service 接口
 - 菜单权限 SQL 导入数据库 → 后台菜单可见
 
 #### 第四步：分配权限并访问
@@ -320,8 +319,16 @@ type ArticleListModel struct {
 > 文件：`server/internal/logic/sys/article.go`
 
 ```go
-func init() {
-    service.RegisterSysArticle(New())
+type sSysArticle struct{}
+
+func NewSysArticle() *sSysArticle {
+    return &sSysArticle{}
+}
+
+var insSysArticle = NewSysArticle()
+
+func SysArticle() *sSysArticle {
+    return insSysArticle
 }
 
 func (s *sSysArticle) List(ctx context.Context, in *sysin.ArticleListInp) (list []*sysin.ArticleListModel, totalCount int, err error) {
@@ -346,11 +353,13 @@ func (s *sSysArticle) List(ctx context.Context, in *sysin.ArticleListInp) (list 
 > 控制器设计模式参见 [服务端模块 — Controller 层](dev-server-modules.md#3-controller-层--控制器)
 
 ```go
+import sysLogic "hotgo/internal/logic/sys"
+
 var Article = cArticle{}
 type cArticle struct{}
 
 func (c *cArticle) List(ctx context.Context, req *article.ListReq) (res *article.ListRes, err error) {
-    list, totalCount, err := service.SysArticle().List(ctx, &sysin.ArticleListInp{...})
+    list, totalCount, err := sysLogic.SysArticle().List(ctx, &sysin.ArticleListInp{...})
     // ... 组装响应
 }
 ```
@@ -369,7 +378,7 @@ func init() {
 }
 ```
 
-#### 第六步：生成 DAO 和 Service
+#### 第六步：生成 DAO
 
 ```bash
 cd server
@@ -377,11 +386,9 @@ cd server
 # 生成 DAO/DO/Entity
 make dao
 # 或: gf gen dao
-
-# 生成 Service 接口
-make service
-# 或: gf gen service
 ```
+
+> **注意**：v3.0 起不再需要执行 `make service` / `gf gen service`，Logic 层采用单例导出模式直接暴露给 Controller 调用。
 
 #### 第七步：创建前端页面
 

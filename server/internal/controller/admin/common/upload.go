@@ -11,7 +11,7 @@ import (
 	"github.com/gogf/gf/v2/frame/g"
 	"hotgo/api/admin/common"
 	"hotgo/internal/library/storager"
-	"hotgo/internal/service"
+	commonLogic "hotgo/internal/logic/common"
 	"hotgo/utility/validate"
 )
 
@@ -33,12 +33,12 @@ func (c *cUpload) UploadFile(ctx context.Context, _ *common.UploadFileReq) (res 
 		err = gerror.New("没有找到上传的文件")
 		return
 	}
-	return service.CommonUpload().UploadFile(ctx, uploadType, file)
+	return commonLogic.CommonUpload().UploadFile(ctx, uploadType, file)
 }
 
 // CheckMultipart 检查文件分片
 func (c *cUpload) CheckMultipart(ctx context.Context, req *common.CheckMultipartReq) (res *common.CheckMultipartRes, err error) {
-	data, err := service.CommonUpload().CheckMultipart(ctx, &req.CheckMultipartInp)
+	data, err := commonLogic.CommonUpload().CheckMultipart(ctx, &req.CheckMultipartInp)
 	if err != nil {
 		return nil, err
 	}
@@ -49,7 +49,7 @@ func (c *cUpload) CheckMultipart(ctx context.Context, req *common.CheckMultipart
 
 // UploadPart 上传分片
 func (c *cUpload) UploadPart(ctx context.Context, req *common.UploadPartReq) (res *common.UploadPartRes, err error) {
-	data, err := service.CommonUpload().UploadPart(ctx, &req.UploadPartInp)
+	data, err := commonLogic.CommonUpload().UploadPart(ctx, &req.UploadPartInp)
 	if err != nil {
 		return nil, err
 	}
@@ -61,6 +61,6 @@ func (c *cUpload) UploadPart(ctx context.Context, req *common.UploadPartReq) (re
 // ImageTransferStorage 图片链接转存
 func (c *cUpload) ImageTransferStorage(ctx context.Context, req *common.ImageTransferStorageReq) (res *common.ImageTransferStorageRes, err error) {
 	res = new(common.ImageTransferStorageRes)
-	res.ImageTransferStorageModel, err = service.CommonUpload().ImageTransferStorage(ctx, &req.ImageTransferStorageInp)
+	res.ImageTransferStorageModel, err = commonLogic.CommonUpload().ImageTransferStorage(ctx, &req.ImageTransferStorageInp)
 	return
 }

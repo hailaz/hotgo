@@ -14,7 +14,7 @@ import (
 	"hotgo/internal/library/contexts"
 	"hotgo/internal/model/entity"
 	"hotgo/internal/model/input/sysin"
-	"hotgo/internal/service"
+	sysLogic "hotgo/internal/logic/sys"
 )
 
 var Ems = new(cEms)
@@ -23,7 +23,7 @@ type cEms struct{}
 
 // SendTest 发送测试邮件
 func (c *cEms) SendTest(ctx context.Context, req *common.SendTestEmailReq) (res *common.SendTestEmailRes, err error) {
-	err = service.SysEmsLog().Send(ctx, &sysin.SendEmsInp{
+	err = sysLogic.SysEmsLog().Send(ctx, &sysin.SendEmsInp{
 		Event: consts.EmsTemplateText,
 		Email: req.To,
 		Content: `
@@ -67,7 +67,7 @@ func (c *cEms) SendBindEms(ctx context.Context, _ *common.SendBindEmsReq) (res *
 		return
 	}
 
-	err = service.SysEmsLog().Send(ctx, &sysin.SendEmsInp{
+	err = sysLogic.SysEmsLog().Send(ctx, &sysin.SendEmsInp{
 		Event: consts.EmsTemplateBind,
 		Email: models.Email,
 	})

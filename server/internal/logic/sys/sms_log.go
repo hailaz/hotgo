@@ -19,7 +19,6 @@ import (
 	"hotgo/internal/model"
 	"hotgo/internal/model/entity"
 	"hotgo/internal/model/input/sysin"
-	"hotgo/internal/service"
 	"time"
 )
 
@@ -29,8 +28,10 @@ func NewSysSmsLog() *sSysSmsLog {
 	return &sSysSmsLog{}
 }
 
-func init() {
-	service.RegisterSysSmsLog(NewSysSmsLog())
+var insSysSmsLog = NewSysSmsLog()
+
+func SysSmsLog() *sSysSmsLog {
+	return insSysSmsLog
 }
 
 // Delete 删除
@@ -112,7 +113,7 @@ func (s *sSysSmsLog) SendCode(ctx context.Context, in *sysin.SendCodeInp) (err e
 		return
 	}
 
-	config, err := service.SysConfig().GetSms(ctx)
+	config, err := SysConfig().GetSms(ctx)
 	if err != nil {
 		return
 	}
@@ -153,7 +154,7 @@ func (s *sSysSmsLog) GetTemplate(ctx context.Context, template string, config *m
 		return
 	}
 	if config == nil {
-		config, err = service.SysConfig().GetSms(ctx)
+		config, err = SysConfig().GetSms(ctx)
 		if err != nil {
 			return
 		}
@@ -197,7 +198,7 @@ func (s *sSysSmsLog) AllowSend(ctx context.Context, models *entity.SysSmsLog, co
 	}
 
 	if config == nil {
-		if config, err = service.SysConfig().GetSms(ctx); err != nil {
+		if config, err = SysConfig().GetSms(ctx); err != nil {
 			return
 		}
 	}
@@ -242,7 +243,7 @@ func (s *sSysSmsLog) VerifyCode(ctx context.Context, in *sysin.VerifyCodeInp) (e
 		return
 	}
 
-	config, err := service.SysConfig().GetSms(ctx)
+	config, err := SysConfig().GetSms(ctx)
 	if err != nil {
 		return
 	}

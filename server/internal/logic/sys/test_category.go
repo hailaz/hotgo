@@ -13,7 +13,6 @@ import (
 	"hotgo/internal/model/entity"
 	"hotgo/internal/model/input/form"
 	"hotgo/internal/model/input/sysin"
-	"hotgo/internal/service"
 
 	"github.com/gogf/gf/v2/database/gdb"
 	"github.com/gogf/gf/v2/errors/gerror"
@@ -30,9 +29,14 @@ func NewSysTestCategory() *sSysTestCategory {
 	return &sSysTestCategory{}
 }
 
+var insSysTestCategory = NewSysTestCategory()
+
+func SysTestCategory() *sSysTestCategory {
+	return insSysTestCategory
+}
+
 func init() {
-	service.RegisterSysTestCategory(NewSysTestCategory())
-	dict.RegisterFunc("testCategoryOption", "测试分类选项", service.SysTestCategory().Option)
+	dict.RegisterFunc("testCategoryOption", "测试分类选项", SysTestCategory().Option)
 }
 
 // Model 测试分类ORM模型

@@ -29,8 +29,14 @@ func NewSysAddonsConfig() *sSysAddonsConfig {
 	return &sSysAddonsConfig{}
 }
 
+var insSysAddonsConfig = NewSysAddonsConfig()
+
 func init() {
-	service.RegisterSysAddonsConfig(NewSysAddonsConfig())
+	service.RegisterSysAddonsConfig(insSysAddonsConfig)
+}
+
+func SysAddonsConfig() *sSysAddonsConfig {
+	return insSysAddonsConfig
 }
 
 // GetConfigByGroup 获取指定分组的配置

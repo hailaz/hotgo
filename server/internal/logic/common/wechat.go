@@ -8,13 +8,6 @@ package common
 import (
 	"context"
 	"fmt"
-	"github.com/gogf/gf/v2/errors/gerror"
-	"github.com/gogf/gf/v2/frame/g"
-	"github.com/gogf/gf/v2/net/ghttp"
-	"github.com/gogf/gf/v2/os/gcron"
-	"github.com/gogf/gf/v2/os/gctx"
-	"github.com/gogf/gf/v2/os/gtime"
-	"github.com/gogf/gf/v2/util/gmeta"
 	"hotgo/api/admin/common"
 	"hotgo/internal/consts"
 	"hotgo/internal/library/cache"
@@ -22,9 +15,17 @@ import (
 	"hotgo/internal/library/response"
 	"hotgo/internal/library/token"
 	"hotgo/internal/library/wechat"
+	sysLogic "hotgo/internal/logic/sys"
 	"hotgo/internal/model/input/commonin"
-	"hotgo/internal/service"
 	"time"
+
+	"github.com/gogf/gf/v2/errors/gerror"
+	"github.com/gogf/gf/v2/frame/g"
+	"github.com/gogf/gf/v2/net/ghttp"
+	"github.com/gogf/gf/v2/os/gcron"
+	"github.com/gogf/gf/v2/os/gctx"
+	"github.com/gogf/gf/v2/os/gtime"
+	"github.com/gogf/gf/v2/util/gmeta"
 )
 
 type sCommonWechat struct {
@@ -46,15 +47,19 @@ func NewCommonWechat() *sCommonWechat {
 	}
 }
 
+var insCommonWechat = NewCommonWechat()
+
+func CommonWechat() *sCommonWechat {
+	return insCommonWechat
+}
+
 func init() {
-	serv := NewCommonWechat()
-	service.RegisterCommonWechat(serv)
-	_, _ = gcron.Add(gctx.New(), "@every 300s", serv.CleanTempMap, "WechatCleanTempMap")
+	_, _ = gcron.Add(gctx.New(), "@every 300s", insCommonWechat.CleanTempMap, "WechatCleanTempMap")
 }
 
 // Authorize 微信用户授权
 func (s *sCommonWechat) Authorize(ctx context.Context, in *commonin.WechatAuthorizeInp) (res *commonin.WechatAuthorizeModel, err error) {
-	basic, err := service.SysConfig().GetBasic(ctx)
+	basic, err := sysLogic.SysConfig().GetBasic(ctx)
 	if err != nil {
 		return
 	}

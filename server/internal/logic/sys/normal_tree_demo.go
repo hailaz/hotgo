@@ -16,7 +16,6 @@ import (
 	"hotgo/internal/library/hgorm/hook"
 	"hotgo/internal/model/input/form"
 	"hotgo/internal/model/input/sysin"
-	"hotgo/internal/service"
 
 	"github.com/gogf/gf/v2/database/gdb"
 	"github.com/gogf/gf/v2/errors/gerror"
@@ -31,8 +30,10 @@ func NewSysNormalTreeDemo() *sSysNormalTreeDemo {
 	return &sSysNormalTreeDemo{}
 }
 
-func init() {
-	service.RegisterSysNormalTreeDemo(NewSysNormalTreeDemo())
+var insSysNormalTreeDemo = NewSysNormalTreeDemo()
+
+func SysNormalTreeDemo() *sSysNormalTreeDemo {
+	return insSysNormalTreeDemo
 }
 
 // Model 普通树表ORM模型

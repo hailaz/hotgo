@@ -12,6 +12,7 @@ import (
 	"hotgo/api/servmsg"
 	"hotgo/internal/model/input/sysin"
 	"hotgo/internal/service"
+	sysLogic "hotgo/internal/logic/sys"
 )
 
 var (
@@ -35,13 +36,13 @@ func (c *cCron) Edit(ctx context.Context, req *cron.EditReq) (res *cron.EditRes,
 // MaxSort 最大排序
 func (c *cCron) MaxSort(ctx context.Context, req *cron.MaxSortReq) (res *cron.MaxSortRes, err error) {
 	res = new(cron.MaxSortRes)
-	res.CronMaxSortModel, err = service.SysCron().MaxSort(ctx, &req.CronMaxSortInp)
+	res.CronMaxSortModel, err = sysLogic.SysCron().MaxSort(ctx, &req.CronMaxSortInp)
 	return
 }
 
 // View 获取指定信息
 func (c *cCron) View(ctx context.Context, req *cron.ViewReq) (res *cron.ViewRes, err error) {
-	data, err := service.SysCron().View(ctx, &req.CronViewInp)
+	data, err := sysLogic.SysCron().View(ctx, &req.CronViewInp)
 	if err != nil {
 		return
 	}
@@ -53,7 +54,7 @@ func (c *cCron) View(ctx context.Context, req *cron.ViewReq) (res *cron.ViewRes,
 
 // List 查看列表
 func (c *cCron) List(ctx context.Context, req *cron.ListReq) (res *cron.ListRes, err error) {
-	list, totalCount, err := service.SysCron().List(ctx, &req.CronListInp)
+	list, totalCount, err := sysLogic.SysCron().List(ctx, &req.CronListInp)
 	if err != nil {
 		return
 	}

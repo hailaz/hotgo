@@ -15,7 +15,7 @@ import (
 	"hotgo/internal/model/entity"
 	"hotgo/internal/model/input/adminin"
 	"hotgo/internal/model/input/sysin"
-	"hotgo/internal/service"
+	sysLogic "hotgo/internal/logic/sys"
 	"hotgo/utility/simple"
 
 	"github.com/gogf/gf/v2/crypto/gmd5"
@@ -32,13 +32,15 @@ func NewAdminSite() *sAdminSite {
 	return &sAdminSite{}
 }
 
-func init() {
-	service.RegisterAdminSite(NewAdminSite())
+var insAdminSite = NewAdminSite()
+
+func AdminSite() *sAdminSite {
+	return insAdminSite
 }
 
 // Register 账号注册
 func (s *sAdminSite) Register(ctx context.Context, in *adminin.RegisterInp) (err error) {
-	config, err := service.SysConfig().GetLogin(ctx)
+	config, err := sysLogic.SysConfig().GetLogin(ctx)
 	if err != nil {
 		return
 	}
@@ -55,7 +57,7 @@ func (s *sAdminSite) Register(ctx context.Context, in *adminin.RegisterInp) (err
 
 	// 存在邀请人
 	if in.InviteCode != "" {
-		pmb, err := service.AdminMember().GetIdByCode(ctx, &adminin.GetIdByCodeInp{Code: in.InviteCode})
+		pmb, err := AdminMember().GetIdByCode(ctx, &adminin.GetIdByCodeInp{Code: in.InviteCode})
 		if err != nil {
 			return err
 		}
@@ -84,7 +86,7 @@ func (s *sAdminSite) Register(ctx context.Context, in *adminin.RegisterInp) (err
 	}
 
 	// 验证唯一性
-	err = service.AdminMember().VerifyUnique(ctx, &adminin.VerifyUniqueInp{
+	err = AdminMember().VerifyUnique(ctx, &adminin.VerifyUniqueInp{
 		Where: g.Map{
 			dao.AdminMember.Columns().Username: in.Username,
 			dao.AdminMember.Columns().Mobile:   in.Mobile,
@@ -95,7 +97,7 @@ func (s *sAdminSite) Register(ctx context.Context, in *adminin.RegisterInp) (err
 	}
 
 	// 验证短信验证码
-	err = service.SysSmsLog().VerifyCode(ctx, &sysin.VerifyCodeInp{
+	err = sysLogic.SysSmsLog().VerifyCode(ctx, &sysin.VerifyCodeInp{
 		Event:  consts.SmsTemplateRegister,
 		Mobile: in.Mobile,
 		Code:   in.Code,
@@ -120,7 +122,7 @@ func (s *sAdminSite) Register(ctx context.Context, in *adminin.RegisterInp) (err
 	data.Salt = grand.S(6)
 	data.InviteCode = grand.S(12)
 	data.PasswordHash = gmd5.MustEncryptString(data.Password + data.Salt)
-	data.Level, data.Tree, err = service.AdminMember().GenTree(ctx, data.Pid)
+	data.Level, data.Tree, err = AdminMember().GenTree(ctx, data.Pid)
 	if err != nil {
 		return
 	}
@@ -134,7 +136,7 @@ func (s *sAdminSite) Register(ctx context.Context, in *adminin.RegisterInp) (err
 		}
 
 		// 更新岗位
-		if err = service.AdminMemberPost().UpdatePostIds(ctx, id, config.PostIds); err != nil {
+		if err = AdminMemberPost().UpdatePostIds(ctx, id, config.PostIds); err != nil {
 			err = gerror.Wrap(err, consts.ErrorORM)
 		}
 		return
@@ -144,7 +146,7 @@ func (s *sAdminSite) Register(ctx context.Context, in *adminin.RegisterInp) (err
 // AccountLogin 账号登录
 func (s *sAdminSite) AccountLogin(ctx context.Context, in *adminin.AccountLoginInp) (res *adminin.LoginModel, err error) {
 	defer func() {
-		service.SysLoginLog().Push(ctx, &sysin.LoginLogPushInp{Response: res, Err: err})
+		sysLogic.SysLoginLog().Push(ctx, &sysin.LoginLogPushInp{Response: res, Err: err})
 	}()
 
 	var mb *entity.AdminMember
@@ -182,7 +184,7 @@ func (s *sAdminSite) AccountLogin(ctx context.Context, in *adminin.AccountLoginI
 // MobileLogin 手机号登录
 func (s *sAdminSite) MobileLogin(ctx context.Context, in *adminin.MobileLoginInp) (res *adminin.LoginModel, err error) {
 	defer func() {
-		service.SysLoginLog().Push(ctx, &sysin.LoginLogPushInp{Response: res, Err: err})
+		sysLogic.SysLoginLog().Push(ctx, &sysin.LoginLogPushInp{Response: res, Err: err})
 	}()
 
 	var mb *entity.AdminMember
@@ -200,7 +202,7 @@ func (s *sAdminSite) MobileLogin(ctx context.Context, in *adminin.MobileLoginInp
 	res.Id = mb.Id
 	res.Username = mb.Username
 
-	err = service.SysSmsLog().VerifyCode(ctx, &sysin.VerifyCodeInp{
+	err = sysLogic.SysSmsLog().VerifyCode(ctx, &sysin.VerifyCodeInp{
 		Event:  consts.SmsTemplateLogin,
 		Mobile: in.Mobile,
 		Code:   in.Code,

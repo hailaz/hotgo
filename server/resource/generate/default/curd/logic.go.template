@@ -24,7 +24,8 @@ import (
 	"hotgo/internal/library/hgorm/hook"
 	"@{.importInput}"
 	"hotgo/internal/model/input/form"
-	"@{.importService}"
+	@{ if eq .options.Step.IsAddon true }"@{.importService}"@{end}
+	@{ if and (eq .options.Step.IsAddon false) (eq .options.Step.HasQueryMemberSummary true) }"hotgo/internal/service"@{end}
 	"hotgo/utility/convert"
 	"hotgo/utility/excel"
 	"hotgo/utility/validate"
@@ -41,9 +42,19 @@ func New@{.servFunName}() *s@{.servFunName} {
 	return &s@{.servFunName}{}
 }
 
-func init() {
+@{ if eq .options.Step.IsAddon true }func init() {
 	service.Register@{.servFunName}(New@{.servFunName}())
 	@{ if eq .options.Step.HasFuncDict true }dict.RegisterFunc("@{.varName | LcFirst}Option", "@{.tableComment}选项", service.@{.servFunName}().Option)@{end}}
+@{end}@{ if eq .options.Step.IsAddon false }var ins@{.servFunName} = New@{.servFunName}()
+
+func @{.servFunName}() *s@{.servFunName} {
+	return ins@{.servFunName}
+}
+
+@{ if eq .options.Step.HasFuncDict true }func init() {
+	dict.RegisterFunc("@{.varName | LcFirst}Option", "@{.tableComment}选项", @{.servFunName}().Option)
+}@{end}
+@{end}
 
 // Model @{.tableComment}ORM模型
 func (s *s@{.servFunName}) Model(ctx context.Context, option ...*handler.Option) *gdb.Model {

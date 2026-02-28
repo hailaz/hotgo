@@ -22,6 +22,7 @@ import (
 	"hotgo/internal/library/contexts"
 	"hotgo/internal/library/response"
 	"hotgo/internal/library/token"
+	adminLogic "hotgo/internal/logic/admin"
 	"hotgo/internal/model"
 	"hotgo/internal/service"
 	"hotgo/utility/simple"
@@ -172,7 +173,7 @@ func (s *sMiddleware) DeliverUserContext(r *ghttp.Request) (err error) {
 
 	switch user.App {
 	case consts.AppAdmin:
-		if err = service.AdminSite().BindUserContext(r.Context(), user); err != nil {
+		if err = adminLogic.AdminSite().BindUserContext(r.Context(), user); err != nil {
 			return
 		}
 	default:

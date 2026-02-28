@@ -12,7 +12,7 @@ import (
 	"github.com/gogf/gf/v2/os/gtime"
 	"github.com/gogf/gf/v2/text/gstr"
 	"hotgo/internal/library/contexts"
-	"hotgo/internal/service"
+	sysLogic "hotgo/internal/logic/sys"
 	"hotgo/utility/simple"
 	"strings"
 )
@@ -37,7 +37,7 @@ func (s *sHook) accessLog(r *ghttp.Request) {
 	})
 
 	simple.SafeGo(ctx, func(ctx context.Context) {
-		if err := service.SysLog().AutoLog(ctx); err != nil {
+		if err := sysLogic.SysLog().AutoLog(ctx); err != nil {
 			g.Log().Infof(ctx, "hook accessLog err:%+v", err)
 		}
 	})

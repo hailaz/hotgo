@@ -19,87 +19,62 @@ server/internal/
 ├── model/         # 数据模型层（entity/do/input）
 ├── queues/        # 消息队列消费者（3 个消费者）
 ├── router/        # 路由注册
-├── service/       # 服务接口层（9 个文件，37 个接口）
+├── service/       # 服务接口层（桥接接口 + 保留接口）
 └── websocket/     # WebSocket 核心
 ```
 
 ## 2. Service 层 — 接口定义
 
-Service 层由 GoFrame CLI 工具 (`gf gen service`) 自动生成和维护，定义了所有业务接口。共 **9 个文件**、**37 个接口**。
+> **v3.0 架构变更**：Service 层已大幅简化。不再使用 `gf gen service` 为所有模块自动生成接口，仅保留真正需要多态/解耦的接口和用于打破循环依赖的桥接接口。绝大多数 CRUD 模块由 Controller 直接调用 Logic 层。
 
-### 2.1 设计模式
+### 2.1 设计原则
 
-采用 **全局变量 + Register 注册函数 + 获取函数** 的依赖倒置模式：
+- **CRUD 模块不经过 Service**：Controller 通过 `xxxLogic.XxxFunc()` 直接调用 Logic 层导出函数
+- **保留接口**：中间件（IMiddleware）、Hook（IHook）、TCP 服务端/客户端（ITCPServer/IAuthClient/ICronClient）、视图（IView）等需要多态注册的接口仍保留在 Service 层
+- **桥接接口**：当存在循环依赖（如 `logic/sys` ↔ `logic/admin`、`global` → `logic/*`）时，通过最小化的桥接接口（`admin_bridge.go`、`sys_bridge.go`）解耦，仅暴露被跨包引用的少量方法
 
-```go
-var localXxx IXxx
-
-func Xxx() IXxx {
-    if localXxx == nil {
-        panic("implement not found for interface IXxx, forgot register?")
-    }
-    return localXxx
-}
-
-func RegisterXxx(i IXxx) {
-    localXxx = i
-}
-```
-
-### 2.2 admin.go — 后台管理接口（12 个）
-
-| 接口 | 方法数 | 职责 |
-|------|--------|------|
-| `IAdminCash` | 4 | 提现管理：View, List, Apply, Payment |
-| `IAdminCreditsLog` | 5 | 资产变动：Model, SaveBalance, SaveIntegral, List, Export |
-| `IAdminDept` | 11 | 部门管理：Model, Delete, VerifyUnique, Edit, MaxSort, View, List, GetName, VerifyDeptId, Option, TreeOption |
-| `IAdminMember` | 23 | **用户管理（最大接口）**：AddBalance, AddIntegral, UpdateCash/Email/Mobile/Profile/Pwd, ResetPwd, VerifyUnique, Delete, Edit, View, List, Status, GenTree, LoginMemberInfo, MemberLoginStat, GetIdByCode, Select, GetLowerIds, GetComplexMemberIds, GetIdsByKeyword, VerifySuperId, LoadSuperAdmin, ClusterSyncSuperAdmin, FilterAuthModel |
-| `IAdminMemberPost` | 1 | 用户岗位：UpdatePostIds |
-| `IAdminMenu` | 8 | 菜单管理：Model, Delete, VerifyUnique, Edit, List, GetMenuList, LoginPermissions, GetFastList |
-| `IAdminMonitor` | 2 | 服务监控：StartMonitor, GetMeta |
-| `IAdminNotice` | 13 | 通知公告：Model, Delete, Edit, Status, MaxSort, View, ApiList, List, PullMessages, UnreadCount, UpRead, ReadAll, MessageList |
-| `IAdminOrder` | 11 | 充值订单：Model, AcceptRefund, ApplyRefund, PayNotify, Create, List, Export, Edit, Delete, View, Status |
-| `IAdminPost` | 9 | 岗位管理：Delete, VerifyUnique, Edit, MaxSort, View, List, Option, GetMemberByStartName, Status |
-| `IAdminRole` | 12 | 角色管理：Verify, List, GetName, GetMemberList, GetPermissions, UpdatePermissions, Edit, Delete, DataScopeSelect, DataScopeEdit, VerifyRoleId, GetSubRoleIds |
-| `IAdminSite` | 4 | 站点/登录：Register, AccountLogin, MobileLogin, BindUserContext |
-
-### 2.3 sys.go — 系统管理接口（21 个）
-
-| 接口 | 方法数 | 职责 |
-|------|--------|------|
-| `ISysAddons` | 5 | 插件管理：List, Build, Install, Upgrade, UnInstall |
-| `ISysAddonsConfig` | 3 | 插件配置：GetConfigByGroup, ConversionType, UpdateConfigByGroup |
-| `ISysAttachment` | 6 | 附件管理：Model, Delete, View, List, ClearKind, AttachmentKindOption |
-| `ISysBlacklist` | 9 | IP黑名单：Delete, Edit, Status, View, List, VariableLoad, Load, VerifyRequest, ClusterSync |
-| `ISysConfig` | 17 | **系统配置（核心）**：InitConfig, LoadConfig, GetLogin/Wechat/Pay/Sms/Geo/Upload/Smtp/Basic, GetLoadTCP/Generate/Token/Log/ServeLog, GetConfigByGroup, ConversionType, UpdateConfigByGroup, ClusterSync |
-| `ISysCron` | 9 | 定时任务：StartCron, Delete, Edit, Status, MaxSort, View, List, GetName, OnlineExec, DispatchLog |
-| `ISysCronGroup` | 7 | 任务分组：Delete, Edit, Status, MaxSort, View, List, Select |
-| `ISysCurdDemo` | 9 | CURD示例：Model, List, Export, Edit, Delete, MaxSort, View, Status, Switch |
-| `ISysDictData` | 7 | 字典数据：Delete, Edit, List, GetId, GetType, GetTypes, Select |
-| `ISysDictType` | 5 | 字典类型：Tree, Delete, Edit, TreeSelect, BuiltinSelect |
-| `ISysEmsLog` | 10 | 邮件日志：Delete, Edit, Status, View, List, Send, GetTemplate, AllowSend, NowDayIpSendCount, VerifyCode |
-| `ISysGenCodes` | 12 | **代码生成**：Delete, Edit, Status, MaxSort, View, List, Selects, TableSelect, ColumnSelect, ColumnList, Preview, Build |
-| `ISysLog` | 9 | 请求日志：Model, Export, RealWrite, AutoLog, AnalysisLog, SimplifyHeaderParams, View, Delete, List |
-| `ISysLoginLog` | 6 | 登录日志：Model, List, Export, Delete, Push, RealWrite |
-| `ISysNormalTreeDemo` | 7 | 普通树表示例：Model, List, Edit, Delete, MaxSort, View, TreeOption |
-| `ISysOptionTreeDemo` | 7 | 选项树表示例：Model, List, Edit, Delete, MaxSort, View, TreeOption |
-| `ISysProvinces` | 10 | 省市区：Tree, Delete, Edit, Status, MaxSort, View, List, ChildrenList, UniqueId, Select |
-| `ISysServeLicense` | 8 | 服务许可证：Model, List, Export, Edit, Delete, View, Status, AssignRouter |
-| `ISysServeLog` | 6 | 服务日志：Model, List, Export, Delete, View, RealWrite |
-| `ISysSmsLog` | 8 | 短信日志：Delete, View, List, SendCode, GetTemplate, AllowSend, NowDayIpSendCount, VerifyCode |
-| `ISysTestCategory` | 8 | 测试分类：Model, List, Edit, Delete, MaxSort, View, Status, Option |
-
-### 2.4 其他接口
+### 2.2 保留的接口文件
 
 | 文件 | 接口 | 职责 |
 |------|------|------|
-| `common.go` | `ICommonUpload` (4), `ICommonWechat` (5) | 文件上传、微信授权 |
-| `hook.go` | `IHook` (2) | HTTP 钩子：BeforeServe, AfterOutput |
 | `middleware.go` | `IMiddleware` (15) | 中间件集合 |
-| `pay.go` | `IPay` (11), `IPayRefund` (4) | 支付管理、交易退款 |
-| `tcpclient.go` | `IAuthClient` (6), `ICronClient` (9) | 认证客户端、定时任务客户端 |
+| `hook.go` | `IHook` (2) | HTTP 钩子：BeforeServe, AfterOutput |
 | `tcpserver.go` | `ITCPServer` (12) | TCP 服务端 |
+| `tcpclient.go` | `IAuthClient` (6), `ICronClient` (9) | 认证客户端、定时任务客户端 |
 | `view.go` | `IView` (5) | 前台模板渲染 |
+
+### 2.3 桥接接口文件
+
+**`admin_bridge.go`** — 供 `global`、`queues`、`crons`、`logic/sys`、`logic/pay`、`hggen` 等包跨包调用：
+
+| 接口 | 方法数 | 说明 |
+|------|--------|------|
+| `IAdminMember` | 5 | LoadSuperAdmin, ClusterSyncSuperAdmin, VerifySuperId, GetComplexMemberIds, GetIdsByKeyword |
+| `IAdminOrder` | 2 | PayNotify, Create |
+| `IAdminMenu` | 2 | Model, GetMenuList |
+
+**`sys_bridge.go`** — 供 `global`、`queues`、`hggen`、`logic/hook` 等包跨包调用：
+
+| 接口 | 方法数 | 说明 |
+|------|--------|------|
+| `ISysConfig` | 4 | InitConfig, GetBasic, GetLoadGenerate, ClusterSync |
+| `ISysBlacklist` | 3 | Load, VerifyRequest, ClusterSync |
+| `ISysDictType` | 1 | BuiltinSelect |
+| `ISysServeLog` | 1 | RealWrite |
+| `ISysLog` | 2 | RealWrite, AnalysisLog |
+| `ISysLoginLog` | 1 | RealWrite |
+| `ISysAddonsConfig` | 2 | GetConfigByGroup, UpdateConfigByGroup |
+
+### 2.4 已删除的接口文件
+
+以下文件已删除，原有接口的实现直接通过 Logic 层导出函数访问：
+
+| 原文件 | 原接口数 | 说明 |
+|--------|----------|------|
+| `admin.go` | 12 | AdminCash, AdminCreditsLog, AdminDept, AdminMember 等全部 CRUD 接口 |
+| `sys.go` | 21 | SysAddons, SysAttachment, SysCron, SysGenCodes 等全部 CRUD 接口 |
+| `pay.go` | 2 | Pay, PayRefund |
+| `common.go` | 2 | CommonUpload, CommonWechat |
 
 ## 3. Controller 层 — 控制器
 
@@ -130,14 +105,16 @@ controller/
 
 ### 3.2 设计模式
 
-**Admin 控制器** — 结构体变量 + 方法：
+**Admin 控制器** — 结构体变量 + 方法（直接调用 Logic 层）：
 
 ```go
+import adminLogic "hotgo/internal/logic/admin"
+
 var Member = cMember{}
 type cMember struct{}
 
 func (c *cMember) List(ctx context.Context, req *member.ListReq) (res *member.ListRes, err error) {
-    list, totalCount, err := service.AdminMember().List(ctx, &req.MemberListInp)
+    list, totalCount, err := adminLogic.AdminMember().List(ctx, &req.MemberListInp)
     if err != nil {
         return
     }
@@ -179,7 +156,7 @@ func (c *ControllerV1) GetIdByCode(ctx context.Context, req *v1.GetIdByCodeReq) 
 
 ### 4.2 设计模式
 
-每个 Logic 文件遵循严格的 **init 注册模式**：
+每个 Logic 文件采用 **单例导出模式**（不再使用 `gf gen service` 和 init 注册）：
 
 ```go
 type sAdminMember struct {
@@ -190,10 +167,14 @@ func NewAdminMember() *sAdminMember {
     return &sAdminMember{superAdmin: new(SuperAdmin)}
 }
 
-func init() {
-    service.RegisterAdminMember(NewAdminMember())
+var insAdminMember = NewAdminMember()
+
+func AdminMember() *sAdminMember {
+    return insAdminMember
 }
 ```
+
+> **注意**：需要被桥接接口引用的 Logic 文件（如 `member.go`、`config.go`）仍需保留 `init()` 注册到 `service.RegisterXxx()`，供跨循环依赖的包调用。
 
 **聚合引入**（`logic/logic.go`）：
 
@@ -216,7 +197,9 @@ import (
 | 特性 | 说明 |
 |------|------|
 | DAO 直接调用 | `dao.AdminMember.Ctx(ctx).WherePri(id).Scan(&res)` |
-| 跨模块调用 | 通过 Service 层接口：`service.AdminRole().VerifyRoleId(ctx, in.RoleId)` |
+| 同包调用 | 同一 logic 子包内直接调用：`AdminRole().VerifyRoleId(ctx, in.RoleId)` |
+| 跨包调用 | 通过 import 别名：`sysLogic.SysConfig().GetBasic(ctx)` |
+| 桥接调用 | 存在循环依赖时通过桥接接口：`service.AdminMember().GetIdsByKeyword(ctx, ks)` |
 | 事务处理 | `g.DB().Transaction(ctx, func(ctx context.Context, tx gdb.TX) error { ... })` |
 | 权限过滤 | `FilterAuthModel` 方法实现基于角色的数据权限控制 |
 | 集群同步 | 通过 Redis PubSub 的 `ClusterSync` 方法 |
@@ -489,7 +472,7 @@ func (q *qLoginLog) GetTopic() string { return consts.QueueLoginLogTopic }
 func (q *qLoginLog) Handle(ctx context.Context, mqMsg queue.MqMsg) (err error) {
     var data entity.SysLoginLog
     json.Unmarshal(mqMsg.Body, &data)
-    return service.SysLoginLog().RealWrite(ctx, data)
+    return service.SysLoginLog().RealWrite(ctx, data)  // 通过桥接接口调用
 }
 ```
 
@@ -497,9 +480,9 @@ func (q *qLoginLog) Handle(ctx context.Context, mqMsg queue.MqMsg) (err error) {
 
 | 层级 | 文件数 | 核心设计模式 |
 |------|--------|-------------|
-| **Service** | 9 | 接口定义 + Register/Get 全局访问（GoFrame CLI 生成） |
-| **Controller** | 45 | Admin 用结构体变量模式，API 用 GoFrame 规范路由；只做参数拆装 |
-| **Logic** | 66 | init() 自动注册到 Service；直接操作 DAO；跨模块通过 Service 调用 |
+| **Service** | 7 | 保留接口（Middleware/Hook/TCP/View）+ 桥接接口（admin_bridge/sys_bridge）用于打破循环依赖 |
+| **Controller** | 45 | Admin 用结构体变量模式，API 用 GoFrame 规范路由；只做参数拆装；直接调用 Logic 层 |
+| **Logic** | 66 | 单例导出模式；直接操作 DAO；同包直接调用，跨包通过 import 别名或桥接接口 |
 | **DAO** | 39(外)+39(内) | 两层嵌入（外层可扩展，内层自动生成）；类型安全列名常量 |
 | **Model** | 120+ | entity 映射数据库表；do 用于 DAO 操作；input 定义 Inp/Model |
 | **Library** | 22 模块 | 策略模式（多驱动）+ 注册模式（cron/queue/addons） |

@@ -10,7 +10,7 @@ package admin
 import (
 	"context"
 	"hotgo/api/admin/creditslog"
-	"hotgo/internal/service"
+	adminLogic "hotgo/internal/logic/admin"
 )
 
 var (
@@ -21,7 +21,7 @@ type cCreditsLog struct{}
 
 // List 查看资产变动列表
 func (c *cCreditsLog) List(ctx context.Context, req *creditslog.ListReq) (res *creditslog.ListRes, err error) {
-	list, totalCount, err := service.AdminCreditsLog().List(ctx, &req.CreditsLogListInp)
+	list, totalCount, err := adminLogic.AdminCreditsLog().List(ctx, &req.CreditsLogListInp)
 	if err != nil {
 		return
 	}
@@ -34,6 +34,6 @@ func (c *cCreditsLog) List(ctx context.Context, req *creditslog.ListReq) (res *c
 
 // Export 导出资产变动列表
 func (c *cCreditsLog) Export(ctx context.Context, req *creditslog.ExportReq) (res *creditslog.ExportRes, err error) {
-	err = service.AdminCreditsLog().Export(ctx, &req.CreditsLogListInp)
+	err = adminLogic.AdminCreditsLog().Export(ctx, &req.CreditsLogListInp)
 	return
 }

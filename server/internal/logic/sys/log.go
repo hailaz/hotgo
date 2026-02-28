@@ -43,8 +43,14 @@ func NewSysLog() *sSysLog {
 	return &sSysLog{}
 }
 
+var insSysLog = NewSysLog()
+
 func init() {
-	service.RegisterSysLog(NewSysLog())
+	service.RegisterSysLog(insSysLog)
+}
+
+func SysLog() *sSysLog {
+	return insSysLog
 }
 
 // Model 请求日志Orm模型
@@ -122,7 +128,7 @@ func (s *sSysLog) AutoLog(ctx context.Context) error {
 			}
 		}()
 
-		config, err := service.SysConfig().GetLoadLog(ctx)
+		config, err := SysConfig().GetLoadLog(ctx)
 		if err != nil {
 			return
 		}
@@ -284,7 +290,7 @@ func (s *sSysLog) SimplifyHeaderParams(data *gjson.Json) *gjson.Json {
 func (s *sSysLog) View(ctx context.Context, in *sysin.LogViewInp) (res *sysin.LogViewModel, err error) {
 	mod := s.Model(ctx)
 
-	count, err := service.SysLoginLog().Model(ctx).
+	count, err := SysLoginLog().Model(ctx).
 		LeftJoinOnFields(dao.SysLog.Table(), dao.SysLoginLog.Columns().ReqId, "=", dao.SysLog.Columns().ReqId).
 		WherePrefix(dao.SysLog.Table(), dao.SysLog.Columns().Id, in.Id).Count()
 	if err != nil {

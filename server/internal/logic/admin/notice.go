@@ -15,7 +15,6 @@ import (
 	"hotgo/internal/model/entity"
 	"hotgo/internal/model/input/adminin"
 	"hotgo/internal/model/input/form"
-	"hotgo/internal/service"
 	"hotgo/internal/websocket"
 	"hotgo/utility/simple"
 	"hotgo/utility/validate"
@@ -32,8 +31,10 @@ func NewAdminNotice() *sAdminNotice {
 	return &sAdminNotice{}
 }
 
-func init() {
-	service.RegisterAdminNotice(NewAdminNotice())
+var insAdminNotice = NewAdminNotice()
+
+func AdminNotice() *sAdminNotice {
+	return insAdminNotice
 }
 
 // Model Orm模型

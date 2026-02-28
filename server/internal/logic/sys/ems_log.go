@@ -16,7 +16,6 @@ import (
 	"hotgo/internal/model"
 	"hotgo/internal/model/entity"
 	"hotgo/internal/model/input/sysin"
-	"hotgo/internal/service"
 	"hotgo/utility/charset"
 	"hotgo/utility/simple"
 	"hotgo/utility/useragent"
@@ -38,8 +37,10 @@ func NewSysEmsLog() *sSysEmsLog {
 	return &sSysEmsLog{}
 }
 
-func init() {
-	service.RegisterSysEmsLog(NewSysEmsLog())
+var insSysEmsLog = NewSysEmsLog()
+
+func SysEmsLog() *sSysEmsLog {
+	return insSysEmsLog
 }
 
 // Delete 删除
@@ -128,7 +129,7 @@ func (s *sSysEmsLog) Send(ctx context.Context, in *sysin.SendEmsInp) (err error)
 		return
 	}
 
-	config, err := service.SysConfig().GetSmtp(ctx)
+	config, err := SysConfig().GetSmtp(ctx)
 	if err != nil {
 		return
 	}
@@ -234,7 +235,7 @@ func (s *sSysEmsLog) newView(ctx context.Context, in *sysin.SendEmsInp, config *
 		return
 	}
 
-	basic, err := service.SysConfig().GetBasic(ctx)
+	basic, err := SysConfig().GetBasic(ctx)
 	if err != nil {
 		return
 	}
@@ -297,7 +298,7 @@ func (s *sSysEmsLog) GetTemplate(ctx context.Context, template string, config *m
 		return
 	}
 	if config == nil {
-		config, err = service.SysConfig().GetSmtp(ctx)
+		config, err = SysConfig().GetSmtp(ctx)
 		if err != nil {
 			return
 		}
@@ -328,7 +329,7 @@ func (s *sSysEmsLog) AllowSend(ctx context.Context, models *entity.SysEmsLog, co
 	}
 
 	if config == nil {
-		config, err = service.SysConfig().GetSmtp(ctx)
+		config, err = SysConfig().GetSmtp(ctx)
 		if err != nil {
 			return
 		}
@@ -378,7 +379,7 @@ func (s *sSysEmsLog) VerifyCode(ctx context.Context, in *sysin.VerifyEmsCodeInp)
 		return
 	}
 
-	config, err := service.SysConfig().GetSmtp(ctx)
+	config, err := SysConfig().GetSmtp(ctx)
 	if err != nil {
 		return
 	}

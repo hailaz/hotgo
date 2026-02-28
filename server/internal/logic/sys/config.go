@@ -36,8 +36,14 @@ func NewSysConfig() *sSysConfig {
 	return &sSysConfig{}
 }
 
+var insSysConfig = NewSysConfig()
+
 func init() {
-	service.RegisterSysConfig(NewSysConfig())
+	service.RegisterSysConfig(insSysConfig)
+}
+
+func SysConfig() *sSysConfig {
+	return insSysConfig
 }
 
 // InitConfig 初始化系统配置

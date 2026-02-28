@@ -41,8 +41,8 @@ graph TD
 package main
 
 func main()  {
-	// 创建支付网关订单
-	create, err := service.Pay().Create(ctx, payin.PayCreateInp{
+	// 创建支付网关订单（直接调用 Logic 层）
+	create, err := payLogic.Pay().Create(ctx, payin.PayCreateInp{
 		Subject:    "充值100元",
 		OrderSn:    "唯一业务订单编号",
 		OrderGroup: "admin_order", // 订单分组，用于订单分类和绑定支付成功的回调方法
@@ -69,7 +69,7 @@ import (
 // RegisterNotifyCall 注册支付成功回调方法
 func (s *sPay) RegisterNotifyCall() {
 	payment.RegisterNotifyCallMap(map[string]payment.NotifyCallFunc{
-		consts.OrderGroupAdminOrder: service.AdminOrder().PayNotify, // 后台充值订单
+		consts.OrderGroupAdminOrder: service.AdminOrder().PayNotify, // 后台充值订单（通过桥接接口）
 		// ...
 	})
 }
@@ -82,7 +82,7 @@ func (s *sPay) RegisterNotifyCall() {
 package main
 
 func main()  {
-	refund, err := service.PayRefund().Refund(ctx, payin.PayRefundInp{
+	refund, err := payLogic.PayRefund().Refund(ctx, payin.PayRefundInp{
 		OrderSn:     "唯一业务订单编号",
 		RefundMoney: "退款金额",
 		Reason:      "买家申请退款原因",

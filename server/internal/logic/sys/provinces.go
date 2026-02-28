@@ -13,7 +13,6 @@ import (
 	"hotgo/internal/model/entity"
 	"hotgo/internal/model/input/form"
 	"hotgo/internal/model/input/sysin"
-	"hotgo/internal/service"
 
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
@@ -25,8 +24,10 @@ func NewSysProvinces() *sSysProvinces {
 	return &sSysProvinces{}
 }
 
-func init() {
-	service.RegisterSysProvinces(NewSysProvinces())
+var insSysProvinces = NewSysProvinces()
+
+func SysProvinces() *sSysProvinces {
+	return insSysProvinces
 }
 
 // Tree 关系树选项列表

@@ -10,7 +10,7 @@ package sys
 import (
 	"context"
 	"hotgo/api/admin/loginlog"
-	"hotgo/internal/service"
+	sysLogic "hotgo/internal/logic/sys"
 )
 
 var (
@@ -21,7 +21,7 @@ type cLoginLog struct{}
 
 // List 查看登录日志列表
 func (c *cLoginLog) List(ctx context.Context, req *loginlog.ListReq) (res *loginlog.ListRes, err error) {
-	list, totalCount, err := service.SysLoginLog().List(ctx, &req.LoginLogListInp)
+	list, totalCount, err := sysLogic.SysLoginLog().List(ctx, &req.LoginLogListInp)
 	if err != nil {
 		return
 	}
@@ -34,12 +34,12 @@ func (c *cLoginLog) List(ctx context.Context, req *loginlog.ListReq) (res *login
 
 // Export 导出登录日志列表
 func (c *cLoginLog) Export(ctx context.Context, req *loginlog.ExportReq) (res *loginlog.ExportRes, err error) {
-	err = service.SysLoginLog().Export(ctx, &req.LoginLogListInp)
+	err = sysLogic.SysLoginLog().Export(ctx, &req.LoginLogListInp)
 	return
 }
 
 // Delete 删除登录日志
 func (c *cLoginLog) Delete(ctx context.Context, req *loginlog.DeleteReq) (res *loginlog.DeleteRes, err error) {
-	err = service.SysLoginLog().Delete(ctx, &req.LoginLogDeleteInp)
+	err = sysLogic.SysLoginLog().Delete(ctx, &req.LoginLogDeleteInp)
 	return
 }

@@ -11,6 +11,7 @@ import (
 	"github.com/gogf/gf/v2/os/gctx"
 	"hotgo/api/servmsg"
 	"hotgo/internal/library/network/tcp"
+	sysLogic "hotgo/internal/logic/sys"
 	"hotgo/internal/model/input/servmsgin"
 	"hotgo/internal/service"
 	"hotgo/utility/simple"
@@ -39,7 +40,7 @@ func (s *sAuthClient) Instance() *tcp.Client {
 func (s *sAuthClient) Start(ctx context.Context) {
 	g.Log().Debug(ctx, "AuthClient start..")
 
-	config, err := service.SysConfig().GetLoadTCP(ctx)
+	config, err := sysLogic.SysConfig().GetLoadTCP(ctx)
 	if err != nil {
 		g.Log().Errorf(ctx, "AuthClient start fail:%+v", err)
 		return

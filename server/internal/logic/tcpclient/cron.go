@@ -10,6 +10,7 @@ import (
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/gctx"
 	"hotgo/internal/library/network/tcp"
+	sysLogic "hotgo/internal/logic/sys"
 	"hotgo/internal/service"
 	"hotgo/utility/simple"
 )
@@ -36,7 +37,7 @@ func (s *sCronClient) Instance() *tcp.Client {
 func (s *sCronClient) Start(ctx context.Context) {
 	g.Log().Debug(ctx, "CronClient start..")
 
-	config, err := service.SysConfig().GetLoadTCP(ctx)
+	config, err := sysLogic.SysConfig().GetLoadTCP(ctx)
 	if err != nil {
 		g.Log().Errorf(ctx, "CronClient start fail:%+v", err)
 		return

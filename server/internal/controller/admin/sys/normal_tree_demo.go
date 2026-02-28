@@ -10,7 +10,7 @@ import (
 	"context"
 	"hotgo/api/admin/normaltreedemo"
 	"hotgo/internal/model/input/sysin"
-	"hotgo/internal/service"
+	sysLogic "hotgo/internal/logic/sys"
 )
 
 var (
@@ -21,7 +21,7 @@ type cNormalTreeDemo struct{}
 
 // List 查看普通树表列表
 func (c *cNormalTreeDemo) List(ctx context.Context, req *normaltreedemo.ListReq) (res *normaltreedemo.ListRes, err error) {
-	list, totalCount, err := service.SysNormalTreeDemo().List(ctx, &req.NormalTreeDemoListInp)
+	list, totalCount, err := sysLogic.SysNormalTreeDemo().List(ctx, &req.NormalTreeDemoListInp)
 	if err != nil {
 		return
 	}
@@ -38,13 +38,13 @@ func (c *cNormalTreeDemo) List(ctx context.Context, req *normaltreedemo.ListReq)
 
 // Edit 更新普通树表
 func (c *cNormalTreeDemo) Edit(ctx context.Context, req *normaltreedemo.EditReq) (res *normaltreedemo.EditRes, err error) {
-	err = service.SysNormalTreeDemo().Edit(ctx, &req.NormalTreeDemoEditInp)
+	err = sysLogic.SysNormalTreeDemo().Edit(ctx, &req.NormalTreeDemoEditInp)
 	return
 }
 
 // MaxSort 获取普通树表最大排序
 func (c *cNormalTreeDemo) MaxSort(ctx context.Context, req *normaltreedemo.MaxSortReq) (res *normaltreedemo.MaxSortRes, err error) {
-	data, err := service.SysNormalTreeDemo().MaxSort(ctx, &req.NormalTreeDemoMaxSortInp)
+	data, err := sysLogic.SysNormalTreeDemo().MaxSort(ctx, &req.NormalTreeDemoMaxSortInp)
 	if err != nil {
 		return
 	}
@@ -56,7 +56,7 @@ func (c *cNormalTreeDemo) MaxSort(ctx context.Context, req *normaltreedemo.MaxSo
 
 // View 获取指定普通树表信息
 func (c *cNormalTreeDemo) View(ctx context.Context, req *normaltreedemo.ViewReq) (res *normaltreedemo.ViewRes, err error) {
-	data, err := service.SysNormalTreeDemo().View(ctx, &req.NormalTreeDemoViewInp)
+	data, err := sysLogic.SysNormalTreeDemo().View(ctx, &req.NormalTreeDemoViewInp)
 	if err != nil {
 		return
 	}
@@ -68,13 +68,13 @@ func (c *cNormalTreeDemo) View(ctx context.Context, req *normaltreedemo.ViewReq)
 
 // Delete 删除普通树表
 func (c *cNormalTreeDemo) Delete(ctx context.Context, req *normaltreedemo.DeleteReq) (res *normaltreedemo.DeleteRes, err error) {
-	err = service.SysNormalTreeDemo().Delete(ctx, &req.NormalTreeDemoDeleteInp)
+	err = sysLogic.SysNormalTreeDemo().Delete(ctx, &req.NormalTreeDemoDeleteInp)
 	return
 }
 
 // TreeOption 获取普通树表关系树选项
 func (c *cNormalTreeDemo) TreeOption(ctx context.Context, req *normaltreedemo.TreeOptionReq) (res *normaltreedemo.TreeOptionRes, err error) {
-	data, err := service.SysNormalTreeDemo().TreeOption(ctx)
+	data, err := sysLogic.SysNormalTreeDemo().TreeOption(ctx)
 	if err != nil {
 		return nil, err
 	}

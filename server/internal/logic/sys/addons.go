@@ -14,7 +14,6 @@ import (
 	"hotgo/internal/library/dict"
 	"hotgo/internal/model/input/form"
 	"hotgo/internal/model/input/sysin"
-	"hotgo/internal/service"
 )
 
 type sSysAddons struct{}
@@ -23,8 +22,10 @@ func NewSysAddons() *sSysAddons {
 	return &sSysAddons{}
 }
 
-func init() {
-	service.RegisterSysAddons(NewSysAddons())
+var insSysAddons = NewSysAddons()
+
+func SysAddons() *sSysAddons {
+	return insSysAddons
 }
 
 // List 获取列表
@@ -94,7 +95,7 @@ func (s *sSysAddons) List(ctx context.Context, in *sysin.AddonsListInp) (list []
 
 // Build 提交生成
 func (s *sSysAddons) Build(ctx context.Context, in *sysin.AddonsBuildInp) (err error) {
-	config, err := service.SysConfig().GetLoadGenerate(ctx)
+	config, err := SysConfig().GetLoadGenerate(ctx)
 	if err != nil {
 		return
 	}

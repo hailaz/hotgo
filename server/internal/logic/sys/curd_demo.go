@@ -35,8 +35,10 @@ func NewSysCurdDemo() *sSysCurdDemo {
 	return &sSysCurdDemo{}
 }
 
-func init() {
-	service.RegisterSysCurdDemo(NewSysCurdDemo())
+var insSysCurdDemo = NewSysCurdDemo()
+
+func SysCurdDemo() *sSysCurdDemo {
+	return insSysCurdDemo
 }
 
 // Model CURD列表ORM模型

@@ -10,7 +10,6 @@ import (
 	"github.com/gogf/gf/v2/errors/gerror"
 	"hotgo/internal/dao"
 	"hotgo/internal/model/entity"
-	"hotgo/internal/service"
 )
 
 type sAdminMemberPost struct{}
@@ -19,8 +18,10 @@ func NewAdminMemberPost() *sAdminMemberPost {
 	return &sAdminMemberPost{}
 }
 
-func init() {
-	service.RegisterAdminMemberPost(NewAdminMemberPost())
+var insAdminMemberPost = NewAdminMemberPost()
+
+func AdminMemberPost() *sAdminMemberPost {
+	return insAdminMemberPost
 }
 
 // UpdatePostIds 更新用户岗位

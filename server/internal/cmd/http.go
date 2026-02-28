@@ -14,6 +14,9 @@ import (
 	"hotgo/internal/library/addons"
 	"hotgo/internal/library/casbin"
 	"hotgo/internal/library/hggen"
+	adminLogic "hotgo/internal/logic/admin"
+	payLogic "hotgo/internal/logic/pay"
+	sysLogic "hotgo/internal/logic/sys"
 	"hotgo/internal/router"
 	"hotgo/internal/service"
 	"hotgo/internal/websocket"
@@ -75,13 +78,13 @@ var (
 			service.TCPServer().Start(ctx)
 
 			// 启动服务监控
-			service.AdminMonitor().StartMonitor(ctx)
+			adminLogic.AdminMonitor().StartMonitor(ctx)
 
 			// 加载ip访问黑名单
-			service.SysBlacklist().Load(ctx)
+			sysLogic.SysBlacklist().Load(ctx)
 
 			// 注册支付成功回调方法
-			service.Pay().RegisterNotifyCall()
+			payLogic.Pay().RegisterNotifyCall()
 
 			serverWg.Add(1)
 

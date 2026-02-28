@@ -12,7 +12,6 @@ import (
 	"hotgo/internal/dao"
 	"hotgo/internal/library/dict"
 	"hotgo/internal/model/input/sysin"
-	"hotgo/internal/service"
 
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
@@ -24,8 +23,10 @@ func NewSysDictData() *sSysDictData {
 	return &sSysDictData{}
 }
 
-func init() {
-	service.RegisterSysDictData(NewSysDictData())
+var insSysDictData = NewSysDictData()
+
+func SysDictData() *sSysDictData {
+	return insSysDictData
 }
 
 // Delete 删除

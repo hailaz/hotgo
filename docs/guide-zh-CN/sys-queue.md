@@ -95,7 +95,7 @@ func (q *qSysLog) Handle(ctx context.Context, mqMsg queue.MqMsg) (err error) {
 	if err = json.Unmarshal(mqMsg.Body, &data); err != nil {
 		return err
 	}
-	return service.SysLog().RealWrite(ctx, data)
+	return service.SysLog().RealWrite(ctx, data)  // 通过桥接接口调用
 }
 
 ```

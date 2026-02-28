@@ -10,7 +10,7 @@ import (
 	"context"
 	"hotgo/api/admin/curddemo"
 	"hotgo/internal/model/input/sysin"
-	"hotgo/internal/service"
+	sysLogic "hotgo/internal/logic/sys"
 )
 
 var (
@@ -21,7 +21,7 @@ type cCurdDemo struct{}
 
 // List 查看CURD列表列表
 func (c *cCurdDemo) List(ctx context.Context, req *curddemo.ListReq) (res *curddemo.ListRes, err error) {
-	list, totalCount, err := service.SysCurdDemo().List(ctx, &req.CurdDemoListInp)
+	list, totalCount, err := sysLogic.SysCurdDemo().List(ctx, &req.CurdDemoListInp)
 	if err != nil {
 		return
 	}
@@ -38,19 +38,19 @@ func (c *cCurdDemo) List(ctx context.Context, req *curddemo.ListReq) (res *curdd
 
 // Export 导出CURD列表列表
 func (c *cCurdDemo) Export(ctx context.Context, req *curddemo.ExportReq) (res *curddemo.ExportRes, err error) {
-	err = service.SysCurdDemo().Export(ctx, &req.CurdDemoListInp)
+	err = sysLogic.SysCurdDemo().Export(ctx, &req.CurdDemoListInp)
 	return
 }
 
 // Edit 更新CURD列表
 func (c *cCurdDemo) Edit(ctx context.Context, req *curddemo.EditReq) (res *curddemo.EditRes, err error) {
-	err = service.SysCurdDemo().Edit(ctx, &req.CurdDemoEditInp)
+	err = sysLogic.SysCurdDemo().Edit(ctx, &req.CurdDemoEditInp)
 	return
 }
 
 // MaxSort 获取CURD列表最大排序
 func (c *cCurdDemo) MaxSort(ctx context.Context, req *curddemo.MaxSortReq) (res *curddemo.MaxSortRes, err error) {
-	data, err := service.SysCurdDemo().MaxSort(ctx, &req.CurdDemoMaxSortInp)
+	data, err := sysLogic.SysCurdDemo().MaxSort(ctx, &req.CurdDemoMaxSortInp)
 	if err != nil {
 		return
 	}
@@ -62,7 +62,7 @@ func (c *cCurdDemo) MaxSort(ctx context.Context, req *curddemo.MaxSortReq) (res 
 
 // View 获取指定CURD列表信息
 func (c *cCurdDemo) View(ctx context.Context, req *curddemo.ViewReq) (res *curddemo.ViewRes, err error) {
-	data, err := service.SysCurdDemo().View(ctx, &req.CurdDemoViewInp)
+	data, err := sysLogic.SysCurdDemo().View(ctx, &req.CurdDemoViewInp)
 	if err != nil {
 		return
 	}
@@ -74,18 +74,18 @@ func (c *cCurdDemo) View(ctx context.Context, req *curddemo.ViewReq) (res *curdd
 
 // Delete 删除CURD列表
 func (c *cCurdDemo) Delete(ctx context.Context, req *curddemo.DeleteReq) (res *curddemo.DeleteRes, err error) {
-	err = service.SysCurdDemo().Delete(ctx, &req.CurdDemoDeleteInp)
+	err = sysLogic.SysCurdDemo().Delete(ctx, &req.CurdDemoDeleteInp)
 	return
 }
 
 // Status 更新CURD列表状态
 func (c *cCurdDemo) Status(ctx context.Context, req *curddemo.StatusReq) (res *curddemo.StatusRes, err error) {
-	err = service.SysCurdDemo().Status(ctx, &req.CurdDemoStatusInp)
+	err = sysLogic.SysCurdDemo().Status(ctx, &req.CurdDemoStatusInp)
 	return
 }
 
 // Switch 更新CURD列表开关状态
 func (c *cCurdDemo) Switch(ctx context.Context, req *curddemo.SwitchReq) (res *curddemo.SwitchRes, err error) {
-	err = service.SysCurdDemo().Switch(ctx, &req.CurdDemoSwitchInp)
+	err = sysLogic.SysCurdDemo().Switch(ctx, &req.CurdDemoSwitchInp)
 	return
 }

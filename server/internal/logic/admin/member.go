@@ -28,6 +28,8 @@ import (
 	"hotgo/internal/model/entity"
 	"hotgo/internal/model/input/adminin"
 	"hotgo/internal/model/input/sysin"
+	commonLogic "hotgo/internal/logic/common"
+	sysLogic "hotgo/internal/logic/sys"
 	"hotgo/internal/service"
 	"hotgo/utility/convert"
 	"hotgo/utility/tree"
@@ -52,8 +54,14 @@ func NewAdminMember() *sAdminMember {
 	}
 }
 
+var insAdminMember = NewAdminMember()
+
 func init() {
-	service.RegisterAdminMember(NewAdminMember())
+	service.RegisterAdminMember(insAdminMember)
+}
+
+func AdminMember() *sAdminMember {
+	return insAdminMember
 }
 
 // AddBalance 增加余额
@@ -75,7 +83,7 @@ func (s *sAdminMember) AddBalance(ctx context.Context, in *adminin.MemberAddBala
 
 	return g.DB().Transaction(ctx, func(ctx context.Context, tx gdb.TX) (err error) {
 		// 更新我的余额
-		_, err = service.AdminCreditsLog().SaveBalance(ctx, &adminin.CreditsLogSaveBalanceInp{
+		_, err = AdminCreditsLog().SaveBalance(ctx, &adminin.CreditsLogSaveBalanceInp{
 			MemberId:    memberId,
 			AppId:       in.AppId,
 			AddonsName:  in.AddonsName,
@@ -88,7 +96,7 @@ func (s *sAdminMember) AddBalance(ctx context.Context, in *adminin.MemberAddBala
 		}
 
 		// 更新对方余额
-		_, err = service.AdminCreditsLog().SaveBalance(ctx, &adminin.CreditsLogSaveBalanceInp{
+		_, err = AdminCreditsLog().SaveBalance(ctx, &adminin.CreditsLogSaveBalanceInp{
 			MemberId:    mb.Id,
 			AppId:       in.AppId,
 			AddonsName:  in.AddonsName,
@@ -119,7 +127,7 @@ func (s *sAdminMember) AddIntegral(ctx context.Context, in *adminin.MemberAddInt
 
 	return g.DB().Transaction(ctx, func(ctx context.Context, tx gdb.TX) (err error) {
 		// 更新我的余额
-		_, err = service.AdminCreditsLog().SaveIntegral(ctx, &adminin.CreditsLogSaveIntegralInp{
+		_, err = AdminCreditsLog().SaveIntegral(ctx, &adminin.CreditsLogSaveIntegralInp{
 			MemberId:    memberId,
 			AppId:       in.AppId,
 			AddonsName:  in.AddonsName,
@@ -132,7 +140,7 @@ func (s *sAdminMember) AddIntegral(ctx context.Context, in *adminin.MemberAddInt
 		}
 
 		// 更新对方余额
-		_, err = service.AdminCreditsLog().SaveIntegral(ctx, &adminin.CreditsLogSaveIntegralInp{
+		_, err = AdminCreditsLog().SaveIntegral(ctx, &adminin.CreditsLogSaveIntegralInp{
 			MemberId:    mb.Id,
 			AppId:       in.AppId,
 			AddonsName:  in.AddonsName,
@@ -211,7 +219,7 @@ func (s *sAdminMember) UpdateEmail(ctx context.Context, in *adminin.MemberUpdate
 
 	// 存在原绑定号码，需要进行验证
 	if mb.Email != "" {
-		err = service.SysEmsLog().VerifyCode(ctx, &sysin.VerifyEmsCodeInp{
+		err = sysLogic.SysEmsLog().VerifyCode(ctx, &sysin.VerifyEmsCodeInp{
 			Event: consts.EmsTemplateBind,
 			Email: mb.Email,
 			Code:  in.Code,
@@ -263,7 +271,7 @@ func (s *sAdminMember) UpdateMobile(ctx context.Context, in *adminin.MemberUpdat
 
 	// 存在原绑定号码，需要进行验证
 	if mb.Mobile != "" {
-		err = service.SysSmsLog().VerifyCode(ctx, &sysin.VerifyCodeInp{
+		err = sysLogic.SysSmsLog().VerifyCode(ctx, &sysin.VerifyCodeInp{
 			Event:  consts.SmsTemplateBind,
 			Mobile: mb.Mobile,
 			Code:   in.Code,
@@ -481,16 +489,16 @@ func (s *sAdminMember) Edit(ctx context.Context, in *adminin.MemberEditInp) (err
 	}
 
 	// 验证角色ID
-	if err = service.AdminRole().VerifyRoleId(ctx, in.RoleId); err != nil {
+	if err = AdminRole().VerifyRoleId(ctx, in.RoleId); err != nil {
 		return
 	}
 
 	// 验证部门ID
-	if err = service.AdminDept().VerifyDeptId(ctx, in.DeptId); err != nil {
+	if err = AdminDept().VerifyDeptId(ctx, in.DeptId); err != nil {
 		return
 	}
 
-	config, err := service.SysConfig().GetLogin(ctx)
+	config, err := sysLogic.SysConfig().GetLogin(ctx)
 	if err != nil {
 		return
 	}
@@ -537,7 +545,7 @@ func (s *sAdminMember) Edit(ctx context.Context, in *adminin.MemberEditInp) (err
 			}
 
 			// 更新岗位
-			if err = service.AdminMemberPost().UpdatePostIds(ctx, in.Id, in.PostIds); err != nil {
+			if err = AdminMemberPost().UpdatePostIds(ctx, in.Id, in.PostIds); err != nil {
 				err = gerror.Wrap(err, "更新用户岗位失败，请稍后重试！")
 			}
 
@@ -573,7 +581,7 @@ func (s *sAdminMember) Edit(ctx context.Context, in *adminin.MemberEditInp) (err
 		}
 
 		// 更新岗位
-		if err = service.AdminMemberPost().UpdatePostIds(ctx, id, in.PostIds); err != nil {
+		if err = AdminMemberPost().UpdatePostIds(ctx, id, in.PostIds); err != nil {
 			err = gerror.Wrap(err, "新增用户岗位失败，请稍后重试！")
 		}
 
@@ -696,7 +704,7 @@ func (s *sAdminMember) LoginMemberInfo(ctx context.Context) (res *adminin.LoginM
 	}
 
 	// 细粒度权限
-	permissions, err := service.AdminMenu().LoginPermissions(ctx, memberId)
+	permissions, err := AdminMenu().LoginPermissions(ctx, memberId)
 	if err != nil {
 		return
 	}
@@ -711,7 +719,7 @@ func (s *sAdminMember) LoginMemberInfo(ctx context.Context) (res *adminin.LoginM
 	res.MemberLoginStatModel = stat
 	res.Mobile = gstr.HideStr(res.Mobile, 40, `*`)
 	res.Email = gstr.HideStr(res.Email, 40, `*`)
-	res.OpenId, _ = service.CommonWechat().GetOpenId(ctx)
+	res.OpenId, _ = commonLogic.CommonWechat().GetOpenId(ctx)
 	res.DeptType = contexts.GetDeptType(ctx)
 	return
 }
@@ -905,7 +913,7 @@ func (s *sAdminMember) FilterAuthModel(ctx context.Context, memberId int64) *gdb
 		roleId = ro.Int64()
 	}
 
-	roleIds, err := service.AdminRole().GetSubRoleIds(ctx, roleId, false)
+	roleIds, err := AdminRole().GetSubRoleIds(ctx, roleId, false)
 	if err != nil {
 		g.Log().Panicf(ctx, "get the subordinate role permission exception, err:%+v", err)
 		return nil

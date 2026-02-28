@@ -65,6 +65,8 @@ func (m *module) UnInstall(ctx context.Context) (err error) {
 
 这里推荐的方式是在插件input层新建一个结构，继承主模块中的input结构。这样做的目的是为了服务与服务之间的输入/输出关系解耦，便于参数扩展和避免插件模块下使用`gf gen service`时出现`import cycle not allowed`。
 
+> **注意**：v3.0 起主模块不再使用 `gf gen service`，但插件模块仍保持 service 接口模式。插件通过 `isc "hotgo/internal/service"` 调用主模块的桥接接口。
+
 一个简单的例子：
 > 假设hgexample插件模块要通过主模块的服务接口更新插件配置
 
@@ -146,6 +148,13 @@ func NewSysAddonsConfig() *sSysAddonsConfig {
 	return &sSysAddonsConfig{}
 }
 
+var insSysAddonsConfig = NewSysAddonsConfig()
+
+func SysAddonsConfig() *sSysAddonsConfig {
+	return insSysAddonsConfig
+}
+
+// init 注册到桥接接口，供插件通过 isc.SysAddonsConfig() 调用
 func init() {
 	service.RegisterSysAddonsConfig(NewSysAddonsConfig())
 }

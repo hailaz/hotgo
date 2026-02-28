@@ -9,7 +9,6 @@ import (
 	"context"
 	"hotgo/internal/library/storager"
 	"hotgo/internal/model/input/sysin"
-	"hotgo/internal/service"
 	"hotgo/utility/file"
 	"hotgo/utility/format"
 	"time"
@@ -27,8 +26,10 @@ func NewCommonUpload() *sCommonUpload {
 	return &sCommonUpload{}
 }
 
-func init() {
-	service.RegisterCommonUpload(NewCommonUpload())
+var insCommonUpload = NewCommonUpload()
+
+func CommonUpload() *sCommonUpload {
+	return insCommonUpload
 }
 
 // UploadFile 上传文件

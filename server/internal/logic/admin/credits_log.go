@@ -18,7 +18,6 @@ import (
 	"hotgo/internal/model/entity"
 	"hotgo/internal/model/input/adminin"
 	"hotgo/internal/model/input/form"
-	"hotgo/internal/service"
 	"hotgo/utility/convert"
 	"hotgo/utility/excel"
 	"hotgo/utility/validate"
@@ -34,8 +33,10 @@ func NewAdminCreditsLog() *sAdminCreditsLog {
 	return &sAdminCreditsLog{}
 }
 
-func init() {
-	service.RegisterAdminCreditsLog(NewAdminCreditsLog())
+var insAdminCreditsLog = NewAdminCreditsLog()
+
+func AdminCreditsLog() *sAdminCreditsLog {
+	return insAdminCreditsLog
 }
 
 // Model 资产变动ORM模型
@@ -177,7 +178,7 @@ func (s *sAdminCreditsLog) List(ctx context.Context, in *adminin.CreditsLogListI
 
 	// 用户筛选
 	if len(in.ComplexMemberId) == 2 && len(in.ComplexMemberId[0]) > 0 {
-		memberIds, err := service.AdminMember().GetComplexMemberIds(ctx, in.ComplexMemberId[0], in.ComplexMemberId[1])
+		memberIds, err := AdminMember().GetComplexMemberIds(ctx, in.ComplexMemberId[0], in.ComplexMemberId[1])
 		if err != nil {
 			return nil, 0, err
 		}

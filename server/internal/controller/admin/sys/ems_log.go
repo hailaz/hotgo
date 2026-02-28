@@ -8,7 +8,7 @@ package sys
 import (
 	"context"
 	"hotgo/api/admin/emslog"
-	"hotgo/internal/service"
+	sysLogic "hotgo/internal/logic/sys"
 )
 
 var (
@@ -19,19 +19,19 @@ type cEmsLog struct{}
 
 // Delete 删除
 func (c *cEmsLog) Delete(ctx context.Context, req *emslog.DeleteReq) (res *emslog.DeleteRes, err error) {
-	err = service.SysEmsLog().Delete(ctx, &req.EmsLogDeleteInp)
+	err = sysLogic.SysEmsLog().Delete(ctx, &req.EmsLogDeleteInp)
 	return
 }
 
 // Edit 更新
 func (c *cEmsLog) Edit(ctx context.Context, req *emslog.EditReq) (res *emslog.EditRes, err error) {
-	err = service.SysEmsLog().Edit(ctx, &req.EmsLogEditInp)
+	err = sysLogic.SysEmsLog().Edit(ctx, &req.EmsLogEditInp)
 	return
 }
 
 // View 获取指定信息
 func (c *cEmsLog) View(ctx context.Context, req *emslog.ViewReq) (res *emslog.ViewRes, err error) {
-	data, err := service.SysEmsLog().View(ctx, &req.EmsLogViewInp)
+	data, err := sysLogic.SysEmsLog().View(ctx, &req.EmsLogViewInp)
 	if err != nil {
 		return
 	}
@@ -43,7 +43,7 @@ func (c *cEmsLog) View(ctx context.Context, req *emslog.ViewReq) (res *emslog.Vi
 
 // List 查看列表
 func (c *cEmsLog) List(ctx context.Context, req *emslog.ListReq) (res *emslog.ListRes, err error) {
-	list, totalCount, err := service.SysEmsLog().List(ctx, &req.EmsLogListInp)
+	list, totalCount, err := sysLogic.SysEmsLog().List(ctx, &req.EmsLogListInp)
 	if err != nil {
 		return
 	}
@@ -56,6 +56,6 @@ func (c *cEmsLog) List(ctx context.Context, req *emslog.ListReq) (res *emslog.Li
 
 // Status 更新状态
 func (c *cEmsLog) Status(ctx context.Context, req *emslog.StatusReq) (res *emslog.StatusRes, err error) {
-	err = service.SysEmsLog().Status(ctx, &req.EmsLogStatusInp)
+	err = sysLogic.SysEmsLog().Status(ctx, &req.EmsLogStatusInp)
 	return
 }

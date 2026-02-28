@@ -23,7 +23,7 @@ import (
 	"hotgo/internal/model/entity"
 	"hotgo/internal/model/input/adminin"
 	"hotgo/internal/model/input/sysin"
-	"hotgo/internal/service"
+	sysLogic "hotgo/internal/logic/sys"
 )
 
 type sAdminCash struct{}
@@ -32,14 +32,16 @@ func NewAdminCash() *sAdminCash {
 	return &sAdminCash{}
 }
 
-func init() {
-	service.RegisterAdminCash(NewAdminCash())
+var insAdminCash = NewAdminCash()
+
+func AdminCash() *sAdminCash {
+	return insAdminCash
 }
 
 // View 获取指定提现信息
 func (s *sAdminCash) View(ctx context.Context, in *adminin.CashViewInp) (res *adminin.CashViewModel, err error) {
 	// 这里做了强制限制非超管不允许访问，如果你想通过菜单权限控制，请注释掉以下验证
-	if !service.AdminMember().VerifySuperId(ctx, contexts.GetUserId(ctx)) {
+	if !AdminMember().VerifySuperId(ctx, contexts.GetUserId(ctx)) {
 		err = gerror.New("没有访问权限")
 		return
 	}
@@ -74,7 +76,7 @@ func (s *sAdminCash) List(ctx context.Context, in *adminin.CashListInp) (list []
 	var (
 		mod        = dao.AdminCash.Ctx(ctx)
 		opMemberId = contexts.GetUserId(ctx)
-		isSuper    = service.AdminMember().VerifySuperId(ctx, opMemberId)
+		isSuper    = AdminMember().VerifySuperId(ctx, opMemberId)
 	)
 
 	if in.MemberId > 0 {
@@ -83,7 +85,7 @@ func (s *sAdminCash) List(ctx context.Context, in *adminin.CashListInp) (list []
 
 	// 用户筛选
 	if len(in.ComplexMemberId) == 2 && len(in.ComplexMemberId[0]) > 0 {
-		memberIds, err := service.AdminMember().GetComplexMemberIds(ctx, in.ComplexMemberId[0], in.ComplexMemberId[1])
+		memberIds, err := AdminMember().GetComplexMemberIds(ctx, in.ComplexMemberId[0], in.ComplexMemberId[1])
 		if err != nil {
 			return nil, 0, err
 		}
@@ -187,7 +189,7 @@ func (s *sAdminCash) Apply(ctx context.Context, in *adminin.CashApplyInp) (err e
 		return
 	}
 
-	conf, err := service.SysConfig().GetConfigByGroup(ctx, &sysin.GetConfigInp{Group: "cash"})
+	conf, err := sysLogic.SysConfig().GetConfigByGroup(ctx, &sysin.GetConfigInp{Group: "cash"})
 	if err != nil {
 		return
 	}
@@ -234,7 +236,7 @@ func (s *sAdminCash) Apply(ctx context.Context, in *adminin.CashApplyInp) (err e
 		}
 
 		// 更新余额
-		_, err = service.AdminCreditsLog().SaveBalance(ctx, &adminin.CreditsLogSaveBalanceInp{
+		_, err = AdminCreditsLog().SaveBalance(ctx, &adminin.CreditsLogSaveBalanceInp{
 			MemberId:    in.MemberId,
 			AppId:       contexts.GetModule(ctx),
 			AddonsName:  contexts.GetAddonName(ctx),
@@ -256,7 +258,7 @@ func (s *sAdminCash) Apply(ctx context.Context, in *adminin.CashApplyInp) (err e
 
 // Payment 提现打款处理
 func (s *sAdminCash) Payment(ctx context.Context, in *adminin.CashPaymentInp) (err error) {
-	if !service.AdminMember().VerifySuperId(ctx, contexts.GetUserId(ctx)) {
+	if !AdminMember().VerifySuperId(ctx, contexts.GetUserId(ctx)) {
 		err = gerror.New("没有访问权限")
 		return
 	}

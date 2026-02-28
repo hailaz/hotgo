@@ -10,7 +10,7 @@ import (
 	"hotgo/api/admin/cash"
 	"hotgo/internal/library/contexts"
 	"hotgo/internal/model/input/adminin"
-	"hotgo/internal/service"
+	adminLogic "hotgo/internal/logic/admin"
 )
 
 var (
@@ -21,7 +21,7 @@ type cCash struct{}
 
 // View 获取指定信息
 func (c *cCash) View(ctx context.Context, req *cash.ViewReq) (res *cash.ViewRes, err error) {
-	data, err := service.AdminCash().View(ctx, &req.CashViewInp)
+	data, err := adminLogic.AdminCash().View(ctx, &req.CashViewInp)
 	if err != nil {
 		return
 	}
@@ -33,7 +33,7 @@ func (c *cCash) View(ctx context.Context, req *cash.ViewReq) (res *cash.ViewRes,
 
 // List 查看列表
 func (c *cCash) List(ctx context.Context, req *cash.ListReq) (res *cash.ListRes, err error) {
-	list, totalCount, err := service.AdminCash().List(ctx, &req.CashListInp)
+	list, totalCount, err := adminLogic.AdminCash().List(ctx, &req.CashListInp)
 	if err != nil {
 		return
 	}
@@ -46,7 +46,7 @@ func (c *cCash) List(ctx context.Context, req *cash.ListReq) (res *cash.ListRes,
 
 // Apply 申请提现
 func (c *cCash) Apply(ctx context.Context, req *cash.ApplyReq) (res *cash.ApplyRes, err error) {
-	err = service.AdminCash().Apply(ctx, &adminin.CashApplyInp{
+	err = adminLogic.AdminCash().Apply(ctx, &adminin.CashApplyInp{
 		Money:    req.Money,
 		MemberId: contexts.GetUserId(ctx),
 	})
@@ -55,6 +55,6 @@ func (c *cCash) Apply(ctx context.Context, req *cash.ApplyReq) (res *cash.ApplyR
 
 // Payment 提现打款处理
 func (c *cCash) Payment(ctx context.Context, req *cash.PaymentReq) (res *cash.PaymentRes, err error) {
-	err = service.AdminCash().Payment(ctx, &req.CashPaymentInp)
+	err = adminLogic.AdminCash().Payment(ctx, &req.CashPaymentInp)
 	return
 }
