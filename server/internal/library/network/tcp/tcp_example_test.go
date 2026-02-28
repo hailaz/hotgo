@@ -4,11 +4,13 @@ package tcp_test
 import (
 	"context"
 	"fmt"
-	"github.com/gogf/gf/v2/os/gctx"
-	"github.com/gogf/gf/v2/test/gtest"
-	"hotgo/internal/library/network/tcp"
 	"testing"
 	"time"
+
+	"github.com/gogf/gf/v2/os/gctx"
+	"github.com/gogf/gf/v2/test/gtest"
+
+	"hotgo/internal/library/network/tcp"
 )
 
 var T *testing.T // 声明一个全局的 *testing.T 变量

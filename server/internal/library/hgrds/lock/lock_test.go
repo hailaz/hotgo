@@ -2,15 +2,16 @@
 package lock_test
 
 import (
-	_ "github.com/gogf/gf/contrib/nosql/redis/v2"
-
 	"context"
-	"github.com/gogf/gf/v2/errors/gerror"
-	"hotgo/internal/library/hgrds/lock"
 	"runtime"
 	"sync"
 	"testing"
 	"time"
+
+	_ "github.com/gogf/gf/contrib/nosql/redis/v2"
+	"github.com/gogf/gf/v2/errors/gerror"
+
+	"hotgo/internal/library/hgrds/lock"
 )
 
 func TestDefaultLock(t *testing.T) {

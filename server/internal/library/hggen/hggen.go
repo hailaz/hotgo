@@ -3,6 +3,7 @@ package hggen
 
 import (
 	"context"
+	"os/exec"
 	"sort"
 	_ "unsafe"
 
@@ -261,18 +262,28 @@ func Build(ctx context.Context, in *sysin.GenCodesBuildInp) (err error) {
 				Config:    genConfig,
 			},
 			BeforeEvent: views.CurdBuildEvent{"runDao": Dao},
-			AfterEvent: views.CurdBuildEvent{"runService": func(ctx context.Context) (err error) {
-				cfg := GetServiceConfig()
+			AfterEvent: views.CurdBuildEvent{
+				"runService": func(ctx context.Context) (err error) {
+					cfg := GetServiceConfig()
 
-				// 插件模块，切换到插件下运行gen service
-				if genConfig.Application.Crud.Templates[pin.GenTemplate].IsAddon {
-					// 依然使用配置中的参数，只是将生成路径指向插件模块路径
-					cfg.SrcFolder = "addons/" + pin.AddonName + "/logic"
-					cfg.DstFolder = "addons/" + pin.AddonName + "/service"
-				}
-				err = ServiceWithCfg(ctx, cfg)
-				return
-			}},
+					// 插件模块，切换到插件下运行gen service
+					if genConfig.Application.Crud.Templates[pin.GenTemplate].IsAddon {
+						// 依然使用配置中的参数，只是将生成路径指向插件模块路径
+						cfg.SrcFolder = "addons/" + pin.AddonName + "/logic"
+						cfg.DstFolder = "addons/" + pin.AddonName + "/service"
+					}
+					err = ServiceWithCfg(ctx, cfg)
+					return
+				},
+				"runLint": func(ctx context.Context) (err error) {
+					output, err := exec.CommandContext(ctx, "golangci-lint", "run", "--fix").CombinedOutput()
+					if err != nil {
+						return gerror.Newf("run golangci-lint failed, output:%s, err:%v", string(output), err)
+					}
+					g.Log().Infof(ctx, "golangci-lint run --fix output:%s", string(output))
+					return
+				},
+			},
 		})
 	case consts.GenCodesTypeQueue:
 		err = gerror.Newf("生成类型开发中！")

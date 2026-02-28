@@ -1,5 +1,4 @@
 // Package casbin
-//
 package casbin
 
 import (

@@ -3,10 +3,12 @@ package validate_test
 
 import (
 	"context"
+	"testing"
+
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/test/gtest"
+
 	"hotgo/utility/validate"
-	"testing"
 )
 
 // MockFilter 是 Filter 接口的模拟实现。

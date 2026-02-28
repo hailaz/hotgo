@@ -199,6 +199,15 @@
                       </template>
                       <span>将表数据生成为数据选项，并注册到内置的方法字典</span>
                     </n-popover>
+                    <n-checkbox value="runLint" label="生成后运行 [golangci-lint]" />
+                    <n-popover trigger="hover">
+                      <template #trigger>
+                        <n-icon size="15" class="tips-help-icon" color="#2d8cf0">
+                          <QuestionCircleOutlined />
+                        </n-icon>
+                      </template>
+                      <span>生成代码后自动运行 golangci-lint run --fix 进行代码质量检查和修复</span>
+                    </n-popover>
                     <n-checkbox value="forcedCover" label="强制覆盖" />
                     <n-popover trigger="hover">
                       <template #trigger>

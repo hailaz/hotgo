@@ -51,6 +51,7 @@ clear:
 
 # 运行代码质量分析工具
 # https://github.com/ywanbing/golangci
+# go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@latest
 .PHONY: lint
 lint:
 	golangci-lint run --fix

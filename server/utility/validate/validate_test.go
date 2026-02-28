@@ -2,9 +2,11 @@
 package validate_test
 
 import (
-	"github.com/gogf/gf/v2/test/gtest"
-	"hotgo/utility/validate"
 	"testing"
+
+	"github.com/gogf/gf/v2/test/gtest"
+
+	"hotgo/utility/validate"
 )
 
 func TestIsEmail(t *testing.T) {

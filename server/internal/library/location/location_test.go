@@ -2,13 +2,15 @@
 package location_test
 
 import (
+	"sync"
+	"testing"
+
 	"github.com/gogf/gf/v2/encoding/gjson"
 	"github.com/gogf/gf/v2/os/gctx"
 	"github.com/gogf/gf/v2/os/gtime"
 	"github.com/gogf/gf/v2/test/gtest"
+
 	"hotgo/internal/library/location"
-	"sync"
-	"testing"
 )
 
 var ip = "120.12.151.65"

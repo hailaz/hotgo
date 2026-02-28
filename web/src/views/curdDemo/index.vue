@@ -73,6 +73,7 @@
       </BasicTable>
     </n-card>
     <Edit ref="editRef" @reloadTable="reloadTable" />
+    <View ref="viewRef" />
   </div>
 </template>
 <script lang="ts" setup>
@@ -80,12 +81,14 @@
   import { BasicTable, TableAction } from '@/components/Table';
   import { BasicForm, useForm } from '@/components/Form/index';
   import { usePermission } from '@/hooks/web/usePermission';
+  import { h, reactive, ref, computed, onMounted } from 'vue';
   import { useDictStore } from '@/store/modules/dict';
   import { List, Export, Delete, Status } from '@/api/curdDemo';
   import { PlusOutlined, ExportOutlined, DeleteOutlined } from '@vicons/antd';
   import { columns, schemas, State, loadOptions } from './model';
   import { adaTableScrollX } from '@/utils/hotgo';
   import Edit from './edit.vue';
+  import View from './view.vue';
 
   const dict = useDictStore();
   const dialog = useDialog();
@@ -94,11 +97,11 @@
   const actionRef = ref();
   const searchFormRef = ref<any>({});
   const editRef = ref();
-  
+  const viewRef = ref();
   const checkedIds = ref([]);
 
   const actionColumn = reactive({
-    width: 216,
+    width: 288,
     title: '操作',
     key: 'action',
     fixed: 'right',
@@ -134,7 +137,18 @@
             auth: ['/curdDemo/delete'],
           },
         ],
-
+        dropDownActions: [
+          {
+            label: '查看详情',
+            key: 'view',
+            auth: ['/curdDemo/view'],
+          },
+        ],
+        select: (key) => {
+          if (key === 'view') {
+            return handleView(record);
+          }
+        },
       });
     },
   });
@@ -172,6 +186,11 @@
   // 编辑数据
   function handleEdit(record: Recordable) {
     editRef.value.openModal(record);
+  }
+
+  // 查看详情
+  function handleView(record: Recordable) {
+    viewRef.value.openModal(record);
   }
 
   // 单个删除
