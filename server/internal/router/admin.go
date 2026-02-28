@@ -63,8 +63,9 @@ func Admin(ctx context.Context, group *ghttp.RouterGroup) {
 
 		group.Middleware(service.Middleware().Develop)
 		group.Bind(
-			sys.GenCodes, // 生成代码
-			sys.Addons,   // 插件管理
+			sys.GenCodes,  // 生成代码
+			sys.GenTables, // 数据表管理
+			sys.Addons,    // 插件管理
 		)
 	})
 

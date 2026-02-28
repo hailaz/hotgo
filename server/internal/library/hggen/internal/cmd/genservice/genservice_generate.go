@@ -44,6 +44,16 @@ func (c CGenService) generateServiceFile(in generateServiceFilesInput) (ok bool,
 			return false, nil
 		}
 	}
+
+	// 检查目标目录中是否存在同包名的 _bridge.go 手动维护文件。
+	// 如果存在，说明该包的 service 接口已改为手动维护模式，跳过自动生成以避免接口定义冲突。
+	dstDir := gfile.Dir(in.DstFilePath)
+	bridgeFile := gfile.Join(dstDir, in.SrcPackageName+"_bridge.go")
+	if gfile.Exists(bridgeFile) && !utils.IsFileDoNotEdit(bridgeFile) {
+		mlog.Printf(`ignore package "%s" as it has a manually maintained bridge file: %s`, in.SrcPackageName, bridgeFile)
+		return false, nil
+	}
+
 	mlog.Printf(`generating service go file: %s`, in.DstFilePath)
 	if err = gfile.PutBytes(in.DstFilePath, generatedContent.Bytes()); err != nil {
 		return true, err

@@ -184,7 +184,7 @@
                           <QuestionCircleOutlined />
                         </n-icon>
                       </template>
-                      <span>如果是插件模块，勾选后也会自动在对应插件下运行service相关代码生成</span>
+                      <span>已存在 bridge 手动维护文件的包会自动跳过；插件模块勾选后会在对应插件下运行</span>
                     </n-popover>
                     <n-checkbox
                       value="genFuncDict"

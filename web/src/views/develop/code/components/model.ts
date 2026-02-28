@@ -26,7 +26,7 @@ export const genInfoObj = {
   options: {
     headOps: ['add', 'batchDel', 'export'],
     columnOps: ['edit', 'del', 'view', 'status', 'check'],
-    autoOps: ['genMenuPermissions', 'runDao', 'runService'],
+    autoOps: ['genMenuPermissions', 'runDao'],
     join: [],
     menu: {
       pid: 0,
