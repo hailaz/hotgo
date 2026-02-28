@@ -24,7 +24,7 @@ type SysDictDataColumns struct {
 	Id        string // 字典数据ID
 	Label     string // 字典标签
 	Value     string // 字典键值
-	ValueType string // 键值数据类型：string,int,uint,bool,TIMESTAMP,date
+	ValueType string // 键值数据类型：string,int,uint,bool,datetime,date
 	Type      string // 字典类型
 	ListClass string // 表格回显样式
 	IsDefault string // 是否为系统默认

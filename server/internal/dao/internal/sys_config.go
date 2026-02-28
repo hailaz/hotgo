@@ -24,7 +24,7 @@ type SysConfigColumns struct {
 	Id           string // 配置ID
 	Group        string // 配置分组
 	Name         string // 参数名称
-	Type         string // 键值类型:string,int,uint,bool,TIMESTAMP,date
+	Type         string // 键值类型:string,int,uint,bool,datetime,date
 	Key          string // 参数键名
 	Value        string // 参数键值
 	DefaultValue string // 默认值

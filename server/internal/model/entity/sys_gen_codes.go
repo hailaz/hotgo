@@ -12,7 +12,7 @@ import (
 // SysGenCodes is the golang structure for table sys_gen_codes.
 type SysGenCodes struct {
 	Id            int64       `json:"id"            orm:"id"             description:"生成ID"`
-	GenType       int         `json:"genType"       orm:"gen_type"       description:"生成类型"`
+	GenType       uint        `json:"genType"       orm:"gen_type"       description:"生成类型"`
 	GenTemplate   int         `json:"genTemplate"   orm:"gen_template"   description:"生成模板"`
 	VarName       string      `json:"varName"       orm:"var_name"       description:"实体命名"`
 	Options       *gjson.Json `json:"options"       orm:"options"        description:"配置选项"`

@@ -15,7 +15,7 @@ type SysDictData struct {
 	Id        any         // 字典数据ID
 	Label     any         // 字典标签
 	Value     any         // 字典键值
-	ValueType any         // 键值数据类型：string,int,uint,bool,TIMESTAMP,date
+	ValueType any         // 键值数据类型：string,int,uint,bool,datetime,date
 	Type      any         // 字典类型
 	ListClass any         // 表格回显样式
 	IsDefault any         // 是否为系统默认

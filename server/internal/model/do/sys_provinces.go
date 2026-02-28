@@ -19,7 +19,7 @@ type SysProvinces struct {
 	Lat       any         // 纬度
 	Pid       any         // 父栏目
 	Level     any         // 关系树等级
-	Tree      any         // 关系
+	Tree      any         // 关系树
 	Sort      any         // 排序
 	Status    any         // 状态
 	CreatedAt *gtime.Time // 创建时间

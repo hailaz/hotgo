@@ -21,15 +21,25 @@
             :label-width="100"
             class="py-4"
           >
-            <n-grid cols="1 s:1 m:2 l:2 xl:2 2xl:2" responsive="screen">
+            <n-grid
+              cols="1 s:1 m:2 l:2 xl:2 2xl:2"
+              responsive="screen"
+            >
               <n-gi span="1">
                 <n-form-item label="标题" path="title">
-                  <n-input placeholder="请输入标题" v-model:value="formValue.title" />
+                  <n-input
+                    placeholder="请输入标题"
+                    v-model:value="formValue.title"
+                    />
                 </n-form-item>
               </n-gi>
               <n-gi span="2">
                 <n-form-item label="描述" path="description">
-                  <n-input type="textarea" placeholder="描述" v-model:value="formValue.description" />
+                  <n-input
+                    type="textarea"
+                    placeholder="描述"
+                    v-model:value="formValue.description"
+                    />
                 </n-form-item>
               </n-gi>
               <n-gi span="2">
@@ -54,13 +64,19 @@
               </n-gi>
               <n-gi span="1">
                 <n-form-item label="显示开关" path="switch">
-                  <n-switch :unchecked-value="2" :checked-value="1" v-model:value="formValue.switch"
-        />
+                  <n-switch
+                    :unchecked-value="2"
+                    :checked-value="1"
+                    v-model:value="formValue.switch"
+                    />
                 </n-form-item>
               </n-gi>
               <n-gi span="1">
                 <n-form-item label="排序" path="sort">
-                  <n-input-number placeholder="请输入排序" v-model:value="formValue.sort" />
+                  <n-input-number
+                    placeholder="请输入排序"
+                    v-model:value="formValue.sort"
+                    />
                 </n-form-item>
               </n-gi>
             </n-grid>
@@ -80,9 +96,7 @@
     </n-modal>
   </div>
 </template>
-
 <script lang="ts" setup>
-  import { ref, computed } from 'vue';
   import { useDictStore } from '@/store/modules/dict';
   import { Edit, View, MaxSort } from '@/api/curdDemo';
   import { State, newState, rules } from './model';
@@ -138,11 +152,11 @@
   // 打开模态框
   function openModal(state: State) {
     showModal.value = true;
-
+    
     // 新增
     if (!state || state.id < 1) {
       formValue.value = newState(state);
-
+      
       loading.value = true;
       MaxSort()
         .then((res) => {

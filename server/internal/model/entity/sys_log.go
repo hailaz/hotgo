@@ -14,7 +14,7 @@ type SysLog struct {
 	Id         int64       `json:"id"         orm:"id"           description:"日志ID"`
 	ReqId      string      `json:"reqId"      orm:"req_id"       description:"对外ID"`
 	AppId      string      `json:"appId"      orm:"app_id"       description:"应用ID"`
-	MerchantId int64       `json:"merchantId" orm:"merchant_id"  description:"商户ID"`
+	MerchantId uint64      `json:"merchantId" orm:"merchant_id"  description:"商户ID"`
 	MemberId   int64       `json:"memberId"   orm:"member_id"    description:"用户ID"`
 	Method     string      `json:"method"     orm:"method"       description:"提交类型"`
 	Module     string      `json:"module"     orm:"module"       description:"访问模块"`

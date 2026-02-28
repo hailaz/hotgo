@@ -17,7 +17,7 @@ type SysProvinces struct {
 	Lat       string      `json:"lat"       orm:"lat"        description:"纬度"`
 	Pid       int64       `json:"pid"       orm:"pid"        description:"父栏目"`
 	Level     int         `json:"level"     orm:"level"      description:"关系树等级"`
-	Tree      string      `json:"tree"      orm:"tree"       description:"关系"`
+	Tree      string      `json:"tree"      orm:"tree"       description:"关系树"`
 	Sort      int         `json:"sort"      orm:"sort"       description:"排序"`
 	Status    int         `json:"status"    orm:"status"     description:"状态"`
 	CreatedAt *gtime.Time `json:"createdAt" orm:"created_at" description:"创建时间"`

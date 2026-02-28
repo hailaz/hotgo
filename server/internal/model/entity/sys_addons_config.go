@@ -14,7 +14,7 @@ type SysAddonsConfig struct {
 	AddonName    string      `json:"addonName"    orm:"addon_name"    description:"插件名称"`
 	Group        string      `json:"group"        orm:"group"         description:"分组"`
 	Name         string      `json:"name"         orm:"name"          description:"参数名称"`
-	Type         string      `json:"type"         orm:"type"          description:"键值类型:string,int,uint,bool,TIMESTAMP,date"`
+	Type         string      `json:"type"         orm:"type"          description:"键值类型:string,int,uint,bool,datetime,date"`
 	Key          string      `json:"key"          orm:"key"           description:"参数键名"`
 	Value        string      `json:"value"        orm:"value"         description:"参数键值"`
 	DefaultValue string      `json:"defaultValue" orm:"default_value" description:"默认值"`

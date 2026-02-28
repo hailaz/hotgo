@@ -28,7 +28,7 @@ type SysProvincesColumns struct {
 	Lat       string // 纬度
 	Pid       string // 父栏目
 	Level     string // 关系树等级
-	Tree      string // 关系
+	Tree      string // 关系树
 	Sort      string // 排序
 	Status    string // 状态
 	CreatedAt string // 创建时间

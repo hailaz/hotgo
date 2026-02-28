@@ -13,7 +13,7 @@ type SysAttachment struct {
 	Id        int64       `json:"id"        orm:"id"         description:"文件ID"`
 	AppId     string      `json:"appId"     orm:"app_id"     description:"应用ID"`
 	MemberId  int64       `json:"memberId"  orm:"member_id"  description:"管理员ID"`
-	CateId    int64       `json:"cateId"    orm:"cate_id"    description:"上传分类"`
+	CateId    uint64      `json:"cateId"    orm:"cate_id"    description:"上传分类"`
 	Drive     string      `json:"drive"     orm:"drive"      description:"上传驱动"`
 	Name      string      `json:"name"      orm:"name"       description:"文件原始名"`
 	Kind      string      `json:"kind"      orm:"kind"       description:"上传类型"`

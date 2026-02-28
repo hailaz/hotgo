@@ -16,7 +16,7 @@ type SysAddonsConfig struct {
 	AddonName    any         // 插件名称
 	Group        any         // 分组
 	Name         any         // 参数名称
-	Type         any         // 键值类型:string,int,uint,bool,TIMESTAMP,date
+	Type         any         // 键值类型:string,int,uint,bool,datetime,date
 	Key          any         // 参数键名
 	Value        any         // 参数键值
 	DefaultValue any         // 默认值

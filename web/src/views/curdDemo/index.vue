@@ -6,14 +6,36 @@
       </n-card>
     </div>
     <n-card :bordered="false" class="proCard">
-      <BasicForm  ref="searchFormRef" @register="register" @submit="reloadTable" @reset="reloadTable" @keyup.enter="reloadTable">
+      <BasicForm
+        ref="searchFormRef"
+        @register="register"
+        @submit="reloadTable"
+        @reset="reloadTable"
+        @keyup.enter="reloadTable"
+      >
         <template #statusSlot="{ model, field }">
           <n-input v-model:value="model[field]" />
         </template>
       </BasicForm>
-      <BasicTable  ref="actionRef" openChecked :columns="columns" :request="loadDataTable" :row-key="(row) => row.id" :actionColumn="actionColumn" :scroll-x="scrollX" :resizeHeightOffset="-10000"  :checked-row-keys="checkedIds" @update:checked-row-keys="handleOnCheckedRow">
+      <BasicTable
+        ref="actionRef"
+        openChecked
+        :columns="columns"
+        :request="loadDataTable"
+        :row-key="(row) => row.id"
+        :actionColumn="actionColumn"
+        :scroll-x="scrollX"
+        :resizeHeightOffset="-10000"
+        :checked-row-keys="checkedIds"
+        @update:checked-row-keys="handleOnCheckedRow"
+      >
         <template #tableTitle>
-          <n-button type="primary"  @click="addTable" class="min-left-space" v-if="hasPermission(['/curdDemo/edit'])">
+          <n-button
+            type="primary"
+            @click="addTable"
+            class="min-left-space"
+            v-if="hasPermission(['/curdDemo/edit'])"
+          >
             <template #icon>
               <n-icon>
                 <PlusOutlined />
@@ -21,7 +43,12 @@
             </template>
             添加
           </n-button>
-          <n-button type="error" @click="handleBatchDelete" class="min-left-space" v-if="hasPermission(['/curdDemo/delete'])">
+          <n-button
+            type="error"
+            @click="handleBatchDelete"
+            class="min-left-space"
+            v-if="hasPermission(['/curdDemo/delete'])"
+          >
             <template #icon>
               <n-icon>
                 <DeleteOutlined />
@@ -29,7 +56,12 @@
             </template>
             批量删除
           </n-button>
-          <n-button type="primary" @click="handleExport" class="min-left-space" v-if="hasPermission(['/curdDemo/export'])">
+          <n-button
+            type="primary"
+            @click="handleExport"
+            class="min-left-space"
+            v-if="hasPermission(['/curdDemo/export'])"
+          >
             <template #icon>
               <n-icon>
                 <ExportOutlined />
@@ -43,9 +75,7 @@
     <Edit ref="editRef" @reloadTable="reloadTable" />
   </div>
 </template>
-
 <script lang="ts" setup>
-  import { h, reactive, ref, computed, onMounted } from 'vue';
   import { useDialog, useMessage } from 'naive-ui';
   import { BasicTable, TableAction } from '@/components/Table';
   import { BasicForm, useForm } from '@/components/Form/index';
@@ -53,7 +83,7 @@
   import { useDictStore } from '@/store/modules/dict';
   import { List, Export, Delete, Status } from '@/api/curdDemo';
   import { PlusOutlined, ExportOutlined, DeleteOutlined } from '@vicons/antd';
-  import { columns, schemas, loadOptions } from './model';
+  import { columns, schemas, State, loadOptions } from './model';
   import { adaTableScrollX } from '@/utils/hotgo';
   import Edit from './edit.vue';
 
@@ -64,7 +94,7 @@
   const actionRef = ref();
   const searchFormRef = ref<any>({});
   const editRef = ref();
-
+  
   const checkedIds = ref([]);
 
   const actionColumn = reactive({
@@ -200,7 +230,7 @@
 
   onMounted(() => {
     loadOptions();
-
+    
   });
 </script>
 

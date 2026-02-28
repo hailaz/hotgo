@@ -13,7 +13,7 @@ type SysDictData struct {
 	Id        int64       `json:"id"        orm:"id"         description:"字典数据ID"`
 	Label     string      `json:"label"     orm:"label"      description:"字典标签"`
 	Value     string      `json:"value"     orm:"value"      description:"字典键值"`
-	ValueType string      `json:"valueType" orm:"value_type" description:"键值数据类型：string,int,uint,bool,TIMESTAMP,date"`
+	ValueType string      `json:"valueType" orm:"value_type" description:"键值数据类型：string,int,uint,bool,datetime,date"`
 	Type      string      `json:"type"      orm:"type"       description:"字典类型"`
 	ListClass string      `json:"listClass" orm:"list_class" description:"表格回显样式"`
 	IsDefault int         `json:"isDefault" orm:"is_default" description:"是否为系统默认"`
