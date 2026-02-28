@@ -4,7 +4,9 @@ package sys
 import (
 	"context"
 	"fmt"
+
 	"github.com/gogf/gf/v2/os/gtime"
+
 	"hotgo/addons/hgexample/global"
 	"hotgo/addons/hgexample/model/input/sysin"
 	"hotgo/addons/hgexample/service"

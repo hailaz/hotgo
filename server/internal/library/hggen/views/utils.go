@@ -4,19 +4,10 @@ package views
 import (
 	"context"
 	"fmt"
-	"hotgo/internal/consts"
-	"hotgo/internal/library/hggen/views/gohtml"
-	"hotgo/internal/model"
-	"hotgo/internal/model/input/sysin"
-	"hotgo/utility/convert"
-	"hotgo/utility/simple"
-	"hotgo/utility/validate"
 	"os"
 	"regexp"
 	"strings"
 	"unicode"
-
-	"github.com/gogf/gf/v2/util/gutil"
 
 	"github.com/gogf/gf/v2/database/gdb"
 	"github.com/gogf/gf/v2/errors/gerror"
@@ -27,7 +18,16 @@ import (
 	"github.com/gogf/gf/v2/text/gregex"
 	"github.com/gogf/gf/v2/text/gstr"
 	"github.com/gogf/gf/v2/util/gconv"
+	"github.com/gogf/gf/v2/util/gutil"
 	"golang.org/x/tools/imports"
+
+	"hotgo/internal/consts"
+	"hotgo/internal/library/hggen/views/gohtml"
+	"hotgo/internal/model"
+	"hotgo/internal/model/input/sysin"
+	"hotgo/utility/convert"
+	"hotgo/utility/simple"
+	"hotgo/utility/validate"
 )
 
 // parseServFunName 解析业务服务名称
@@ -388,7 +388,7 @@ func tryPrettierFormat(code string, parser string) (string, bool) {
 	}
 
 	tmpFile := gfile.Temp(gtime.TimestampNanoStr()) + "." + getFileExt(parser)
-	defer gfile.Remove(tmpFile)
+	defer func() { _ = gfile.Remove(tmpFile) }()
 
 	if err := gfile.PutContents(tmpFile, code); err != nil {
 		return "", false

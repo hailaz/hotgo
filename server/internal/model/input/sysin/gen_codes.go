@@ -3,9 +3,11 @@ package sysin
 
 import (
 	"context"
+
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/text/gregex"
 	"github.com/gogf/gf/v2/util/gconv"
+
 	"hotgo/internal/consts"
 	"hotgo/internal/model"
 	"hotgo/internal/model/entity"
@@ -36,7 +38,7 @@ type GenCodesEditModel struct {
 
 // GenCodesDeleteInp 删除
 type GenCodesDeleteInp struct {
-	Id interface{} `json:"id" v:"required#生成代码ID不能为空" dc:"生成代码ID"`
+	Id any `json:"id" v:"required#生成代码ID不能为空" dc:"生成代码ID"`
 }
 
 type GenCodesDeleteModel struct{}
@@ -102,10 +104,10 @@ type GenTypeSelect struct {
 type GenTemplateSelects []*GenTemplateSelect
 
 type GenTemplateSelect struct {
-	Value   interface{} `json:"value"`
-	Label   string      `json:"label"`
-	Name    string      `json:"name"`
-	IsAddon bool        `json:"isAddon"`
+	Value   any    `json:"value"`
+	Label   string `json:"label"`
+	Name    string `json:"name"`
+	IsAddon bool   `json:"isAddon"`
 }
 
 func (p GenTemplateSelects) Len() int {

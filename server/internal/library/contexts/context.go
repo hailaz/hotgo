@@ -3,8 +3,10 @@ package contexts
 
 import (
 	"context"
+
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/ghttp"
+
 	"hotgo/internal/consts"
 	"hotgo/internal/model"
 )
@@ -159,7 +161,7 @@ func GetAddonName(ctx context.Context) string {
 }
 
 // SetData 设置额外数据
-func SetData(ctx context.Context, k string, v interface{}) {
+func SetData(ctx context.Context, k string, v any) {
 	c := Get(ctx)
 	if c == nil {
 		g.Log().Warning(ctx, "contexts.SetData, c == nil ")

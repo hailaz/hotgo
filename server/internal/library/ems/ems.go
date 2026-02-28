@@ -2,11 +2,13 @@
 package ems
 
 import (
-	"github.com/gogf/gf/v2/errors/gerror"
-	"hotgo/internal/model"
-	"hotgo/utility/validate"
 	"net/smtp"
 	"strings"
+
+	"github.com/gogf/gf/v2/errors/gerror"
+
+	"hotgo/internal/model"
+	"hotgo/utility/validate"
 )
 
 // Send 发送邮件入口

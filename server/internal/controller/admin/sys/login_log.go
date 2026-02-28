@@ -4,6 +4,7 @@ package sys
 
 import (
 	"context"
+
 	"hotgo/api/admin/loginlog"
 	sysLogic "hotgo/internal/logic/sys"
 )
@@ -23,7 +24,7 @@ func (c *cLoginLog) List(ctx context.Context, req *loginlog.ListReq) (res *login
 
 	res = new(loginlog.ListRes)
 	res.List = list
-	res.PageRes.Pack(req, totalCount)
+	res.Pack(req, totalCount)
 	return
 }
 

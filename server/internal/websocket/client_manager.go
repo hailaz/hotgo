@@ -4,11 +4,12 @@ package websocket
 import (
 	"context"
 	"fmt"
+	"runtime/debug"
+	"sync"
+
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/gcron"
 	"github.com/gogf/gf/v2/os/gtime"
-	"runtime/debug"
-	"sync"
 )
 
 // ClientManager 客户端管理

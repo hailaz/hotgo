@@ -3,12 +3,14 @@ package sys
 
 import (
 	"context"
+
 	"github.com/gogf/gf/v2/errors/gerror"
+
 	"hotgo/api/admin/cron"
 	"hotgo/api/servmsg"
+	sysLogic "hotgo/internal/logic/sys"
 	"hotgo/internal/model/input/sysin"
 	"hotgo/internal/service"
-	sysLogic "hotgo/internal/logic/sys"
 )
 
 var (
@@ -57,7 +59,7 @@ func (c *cCron) List(ctx context.Context, req *cron.ListReq) (res *cron.ListRes,
 
 	res = new(cron.ListRes)
 	res.List = list
-	res.PageRes.Pack(req, totalCount)
+	res.Pack(req, totalCount)
 	return
 }
 

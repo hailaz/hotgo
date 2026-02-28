@@ -3,6 +3,7 @@ package sys
 
 import (
 	"context"
+
 	"hotgo/addons/hgexample/api/admin/tenantorder"
 	"hotgo/addons/hgexample/model/input/sysin"
 	"hotgo/addons/hgexample/service"
@@ -27,7 +28,7 @@ func (c *cTenantOrder) List(ctx context.Context, req *tenantorder.ListReq) (res 
 
 	res = new(tenantorder.ListRes)
 	res.List = list
-	res.PageRes.Pack(req, totalCount)
+	res.Pack(req, totalCount)
 	return
 }
 

@@ -41,7 +41,7 @@ type serviceInstallAvailablePath struct {
 func (s serviceInstall) Run(ctx context.Context) (err error) {
 	// Ask where to install.
 	paths := s.getAvailablePaths()
-	if len(paths) <= 0 {
+	if len(paths) == 0 {
 		mlog.Printf("no path detected, you can manually install gf by copying the binary to path folder.")
 		return
 	}

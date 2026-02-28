@@ -3,7 +3,9 @@ package router
 
 import (
 	"context"
+
 	"github.com/gogf/gf/v2/net/ghttp"
+
 	"hotgo/addons/hgexample/controller/api"
 	"hotgo/addons/hgexample/global"
 	"hotgo/internal/consts"

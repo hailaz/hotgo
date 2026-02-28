@@ -132,7 +132,7 @@ func (c CGenPb) doGenerateControllers(in generateControllerInput, controllers []
 			return err
 		}
 	}
-	err = utils.ReplaceGeneratedContentGFV2(in.OutputCtrlPath)
+	_ = utils.ReplaceGeneratedContentGFV2(in.OutputCtrlPath)
 	return nil
 }
 

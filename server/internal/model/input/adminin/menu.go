@@ -3,7 +3,9 @@ package adminin
 
 import (
 	"context"
+
 	"github.com/gogf/gf/v2/errors/gerror"
+
 	"hotgo/internal/model"
 	"hotgo/internal/model/entity"
 	"hotgo/internal/model/input/form"
@@ -34,7 +36,7 @@ type MenuEditModel struct{}
 
 // MenuDeleteInp 删除菜单
 type MenuDeleteInp struct {
-	Id interface{} `json:"id" v:"required#菜单ID不能为空" dc:"菜单ID"`
+	Id any `json:"id" v:"required#菜单ID不能为空" dc:"菜单ID"`
 }
 
 func (in *MenuDeleteInp) Filter(ctx context.Context) (err error) {

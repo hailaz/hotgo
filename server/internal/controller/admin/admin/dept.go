@@ -3,6 +3,7 @@ package admin
 
 import (
 	"context"
+
 	"hotgo/api/admin/dept"
 	adminLogic "hotgo/internal/logic/admin"
 )
@@ -59,7 +60,7 @@ func (c *cDept) Option(ctx context.Context, req *dept.OptionReq) (res *dept.Opti
 
 	res = new(dept.OptionRes)
 	res.DeptOptionModel = list
-	res.PageRes.Pack(req, totalCount)
+	res.Pack(req, totalCount)
 	return
 }
 

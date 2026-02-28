@@ -3,6 +3,7 @@ package table
 
 import (
 	"github.com/gogf/gf/v2/frame/g"
+
 	"hotgo/addons/hgexample/model/input/sysin"
 	"hotgo/internal/model/input/form"
 )

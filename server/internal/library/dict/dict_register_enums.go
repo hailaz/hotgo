@@ -3,8 +3,9 @@ package dict
 
 import (
 	"fmt"
-	"hotgo/internal/model"
 	"sync"
+
+	"hotgo/internal/model"
 )
 
 type EnumsOption struct {

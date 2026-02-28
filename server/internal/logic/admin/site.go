@@ -3,16 +3,6 @@ package admin
 
 import (
 	"context"
-	"hotgo/internal/consts"
-	"hotgo/internal/dao"
-	"hotgo/internal/library/contexts"
-	"hotgo/internal/library/token"
-	"hotgo/internal/model"
-	"hotgo/internal/model/entity"
-	"hotgo/internal/model/input/adminin"
-	"hotgo/internal/model/input/sysin"
-	sysLogic "hotgo/internal/logic/sys"
-	"hotgo/utility/simple"
 
 	"github.com/gogf/gf/v2/crypto/gmd5"
 	"github.com/gogf/gf/v2/database/gdb"
@@ -20,6 +10,17 @@ import (
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/gtime"
 	"github.com/gogf/gf/v2/util/grand"
+
+	"hotgo/internal/consts"
+	"hotgo/internal/dao"
+	"hotgo/internal/library/contexts"
+	"hotgo/internal/library/token"
+	sysLogic "hotgo/internal/logic/sys"
+	"hotgo/internal/model"
+	"hotgo/internal/model/entity"
+	"hotgo/internal/model/input/adminin"
+	"hotgo/internal/model/input/sysin"
+	"hotgo/utility/simple"
 )
 
 type sAdminSite struct{}

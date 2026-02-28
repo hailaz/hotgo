@@ -4,12 +4,13 @@ package charset
 import (
 	"bytes"
 	"crypto/rand"
-	"github.com/gogf/gf/v2/errors/gerror"
-	"github.com/gogf/gf/v2/text/gstr"
-	"github.com/gogf/gf/v2/util/gutil"
 	r "math/rand"
 	"strings"
 	"time"
+
+	"github.com/gogf/gf/v2/errors/gerror"
+	"github.com/gogf/gf/v2/text/gstr"
+	"github.com/gogf/gf/v2/util/gutil"
 )
 
 // RandomCreateBytes 生成随机字串符

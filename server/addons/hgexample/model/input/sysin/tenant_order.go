@@ -3,11 +3,12 @@ package sysin
 
 import (
 	"context"
-	"hotgo/internal/model/entity"
-	"hotgo/internal/model/input/form"
 
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/gtime"
+
+	"hotgo/internal/model/entity"
+	"hotgo/internal/model/input/form"
 )
 
 // TenantOrderUpdateFields 修改多租户功能演示字段过滤
@@ -52,7 +53,7 @@ type TenantOrderEditModel struct{}
 
 // TenantOrderDeleteInp 删除多租户功能演示
 type TenantOrderDeleteInp struct {
-	Id interface{} `json:"id" v:"required#主键不能为空" dc:"主键"`
+	Id any `json:"id" v:"required#主键不能为空" dc:"主键"`
 }
 
 func (in *TenantOrderDeleteInp) Filter(ctx context.Context) (err error) {

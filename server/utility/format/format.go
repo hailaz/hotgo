@@ -3,13 +3,14 @@ package format
 
 import (
 	"fmt"
+	"strconv"
+
 	"github.com/gogf/gf/v2/os/gtime"
 	"github.com/gogf/gf/v2/util/gconv"
-	"strconv"
 )
 
 // Round2String 四舍五入保留小数，默认2位
-func Round2String(value float64, args ...interface{}) string {
+func Round2String(value float64, args ...any) string {
 	var places = 2
 	if len(args) > 0 {
 		places = gconv.Int(args[0])
@@ -18,7 +19,7 @@ func Round2String(value float64, args ...interface{}) string {
 }
 
 // Round2Float64 四舍五入保留小数，默认2位
-func Round2Float64(value float64, args ...interface{}) float64 {
+func Round2Float64(value float64, args ...any) float64 {
 	return gconv.Float64(Round2String(value, args...))
 }
 

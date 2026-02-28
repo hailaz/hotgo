@@ -12,9 +12,8 @@ import (
 	"os"
 	"time"
 
-	"github.com/schollz/progressbar/v3"
-
 	"github.com/gogf/gf/v2/errors/gerror"
+	"github.com/schollz/progressbar/v3"
 
 	"hotgo/internal/library/hggen/internal/utility/mlog"
 )
@@ -42,7 +41,7 @@ func HTTPDownloadFileWithPercent(url string, localSaveFilePath string) error {
 
 	bar := progressbar.NewOptions(int(resp.ContentLength), progressbar.OptionShowBytes(true), progressbar.OptionShowCount())
 	writer := io.MultiWriter(out, bar)
-	_, err = io.Copy(writer, resp.Body)
+	_, _ = io.Copy(writer, resp.Body)
 
 	elapsed := time.Since(start)
 	if elapsed > time.Minute {

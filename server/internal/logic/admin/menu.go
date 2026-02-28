@@ -3,6 +3,14 @@ package admin
 
 import (
 	"context"
+
+	"github.com/gogf/gf/v2/database/gdb"
+	"github.com/gogf/gf/v2/errors/gerror"
+	"github.com/gogf/gf/v2/frame/g"
+	"github.com/gogf/gf/v2/text/gstr"
+	"github.com/gogf/gf/v2/util/gconv"
+	"github.com/gogf/gf/v2/util/gmode"
+
 	"hotgo/api/admin/role"
 	"hotgo/internal/consts"
 	"hotgo/internal/dao"
@@ -15,13 +23,6 @@ import (
 	"hotgo/internal/service"
 	"hotgo/utility/convert"
 	"hotgo/utility/validate"
-
-	"github.com/gogf/gf/v2/database/gdb"
-	"github.com/gogf/gf/v2/errors/gerror"
-	"github.com/gogf/gf/v2/frame/g"
-	"github.com/gogf/gf/v2/text/gstr"
-	"github.com/gogf/gf/v2/util/gconv"
-	"github.com/gogf/gf/v2/util/gmode"
 )
 
 type sAdminMenu struct{}
@@ -246,8 +247,8 @@ func (s *sAdminMenu) LoginPermissions(ctx context.Context, memberId int64) (list
 	var (
 		allPermissions []*Permissions
 		mod            = dao.AdminMenu.Ctx(ctx).Fields(dao.AdminMenu.Columns().Permissions).
-			Where(dao.AdminMenu.Columns().Status, consts.StatusEnabled).
-			WhereNot(dao.AdminMenu.Columns().Permissions, "")
+				Where(dao.AdminMenu.Columns().Status, consts.StatusEnabled).
+				WhereNot(dao.AdminMenu.Columns().Permissions, "")
 	)
 
 	// 非超管验证允许的菜单列表

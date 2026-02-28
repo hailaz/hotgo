@@ -3,7 +3,9 @@ package sysin
 
 import (
 	"context"
+
 	"github.com/gogf/gf/v2/errors/gerror"
+
 	"hotgo/internal/consts"
 	"hotgo/internal/model/entity"
 	"hotgo/internal/model/input/form"
@@ -69,7 +71,7 @@ type ProvincesInsertFields struct {
 
 // ProvincesDeleteInp 删除字典类型
 type ProvincesDeleteInp struct {
-	Id interface{} `json:"id" v:"required#省市区ID不能为空" dc:"省市区ID"`
+	Id any `json:"id" v:"required#省市区ID不能为空" dc:"省市区ID"`
 }
 
 type ProvincesDeleteModel struct{}

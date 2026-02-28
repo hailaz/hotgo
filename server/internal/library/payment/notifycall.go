@@ -3,12 +3,14 @@ package payment
 
 import (
 	"context"
+	"sync"
+
 	"github.com/gogf/gf/v2/encoding/gjson"
 	"github.com/gogf/gf/v2/frame/g"
+
 	"hotgo/internal/library/contexts"
 	"hotgo/internal/model/input/payin"
 	"hotgo/utility/simple"
-	"sync"
 )
 
 // 异步回调

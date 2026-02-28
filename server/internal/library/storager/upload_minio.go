@@ -3,14 +3,15 @@ package storager
 
 import (
 	"context"
+	"mime"
+	"path/filepath"
+
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/net/ghttp"
 	"github.com/gogf/gf/v2/os/gfile"
 	"github.com/minio/minio-go/v7"
 	"github.com/minio/minio-go/v7/pkg/credentials"
 	"github.com/minio/minio-go/v7/pkg/s3utils"
-	"mime"
-	"path/filepath"
 )
 
 // MinioDrive minio对象存储驱动

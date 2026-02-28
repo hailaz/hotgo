@@ -3,8 +3,10 @@ package sys
 
 import (
 	"context"
+
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/text/gstr"
+
 	"hotgo/internal/consts"
 	"hotgo/internal/library/addons"
 	"hotgo/internal/library/dict"
@@ -45,18 +47,18 @@ func (s *sSysAddons) List(ctx context.Context, in *sysin.AddonsListInp) (list []
 		row.Skeleton = *skeleton
 
 		if in.Group > 0 {
-			if row.Skeleton.Group != in.Group {
+			if row.Group != in.Group {
 				continue
 			}
 		}
 
 		if in.Name != "" {
-			if row.Skeleton.Label != in.Name && row.Skeleton.Name != in.Name {
+			if row.Label != in.Name && row.Name != in.Name {
 				continue
 			}
 		}
 
-		install, err := addons.ScanInstall(row.Skeleton.GetModule())
+		install, err := addons.ScanInstall(row.GetModule())
 		if err != nil {
 			continue
 		}
@@ -67,7 +69,7 @@ func (s *sSysAddons) List(ctx context.Context, in *sysin.AddonsListInp) (list []
 		} else {
 			row.InstallStatus = install.Status
 			row.InstallVersion = install.Version
-			row.CanSave = gstr.CompareVersion(row.Skeleton.Version, install.Version) > 0
+			row.CanSave = gstr.CompareVersion(row.Version, install.Version) > 0
 		}
 
 		if in.Status > 0 {
@@ -76,11 +78,11 @@ func (s *sSysAddons) List(ctx context.Context, in *sysin.AddonsListInp) (list []
 			}
 		}
 
-		if row.Skeleton.Logo == "" {
-			row.Skeleton.Logo = consts.AddonsGroupIconMap[row.Skeleton.Group]
+		if row.Logo == "" {
+			row.Logo = consts.AddonsGroupIconMap[row.Group]
 		}
 
-		row.GroupName = dict.GetOptionLabel(consts.AddonsGroupOptions, row.Skeleton.Group)
+		row.GroupName = dict.GetOptionLabel(consts.AddonsGroupOptions, row.Group)
 		list = append(list, row)
 		i++
 	}

@@ -3,6 +3,12 @@ package sys
 
 import (
 	"context"
+
+	"github.com/gogf/gf/v2/database/gdb"
+	"github.com/gogf/gf/v2/errors/gerror"
+	"github.com/gogf/gf/v2/frame/g"
+	"github.com/gogf/gf/v2/os/gctx"
+
 	"hotgo/internal/consts"
 	"hotgo/internal/dao"
 	"hotgo/internal/library/cron"
@@ -11,11 +17,6 @@ import (
 	"hotgo/internal/model/input/sysin"
 	"hotgo/utility/simple"
 	"hotgo/utility/validate"
-
-	"github.com/gogf/gf/v2/database/gdb"
-	"github.com/gogf/gf/v2/errors/gerror"
-	"github.com/gogf/gf/v2/frame/g"
-	"github.com/gogf/gf/v2/os/gctx"
 )
 
 type sSysCron struct{}
@@ -87,12 +88,12 @@ func (s *sSysCron) Edit(ctx context.Context, in *sysin.CronEditInp) (err error) 
 	}
 
 	// 新增
-	in.SysCron.Id, err = dao.SysCron.Ctx(ctx).Data(in).OmitEmptyData().InsertAndGetId()
-	if err != nil || in.SysCron.Id < 1 {
+	in.Id, err = dao.SysCron.Ctx(ctx).Data(in).OmitEmptyData().InsertAndGetId()
+	if err != nil || in.Id < 1 {
 		return
 	}
 
-	if in.SysCron.Status == consts.StatusEnabled {
+	if in.Status == consts.StatusEnabled {
 		simple.SafeGo(ctx, func(ctx context.Context) {
 			_ = cron.Start(&in.SysCron)
 		})

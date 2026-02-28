@@ -5,14 +5,15 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"hotgo/internal/consts"
-	"hotgo/internal/dao"
 	"math"
 	"strings"
 
 	"github.com/casbin/casbin/v2/model"
 	"github.com/casbin/casbin/v2/persist"
 	"github.com/gogf/gf/v2/database/gdb"
+
+	"hotgo/internal/consts"
+	"hotgo/internal/dao"
 )
 
 var defaultTableName = dao.AdminRoleCasbin.Table()
@@ -230,7 +231,7 @@ func (a *adapter) RemovePolicies(sec string, ptype string, rules [][]string) (er
 	db := a.model()
 
 	for _, rule := range rules {
-		where := map[string]interface{}{policyColumnsName.PType: ptype}
+		where := map[string]any{policyColumnsName.PType: ptype}
 
 		for i := 0; i <= 5; i++ {
 			if len(rule) > i {

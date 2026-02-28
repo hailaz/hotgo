@@ -3,6 +3,10 @@ package admin
 
 import (
 	"fmt"
+	"os"
+	"runtime"
+	"time"
+
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/gtime"
 	"github.com/gogf/gf/v2/util/gconv"
@@ -11,16 +15,14 @@ import (
 	"github.com/shirou/gopsutil/v3/host"
 	"github.com/shirou/gopsutil/v3/mem"
 	"github.com/shirou/gopsutil/v3/process"
+
 	"hotgo/internal/consts"
-	"hotgo/internal/model"
 	adminLogic "hotgo/internal/logic/admin"
+	"hotgo/internal/model"
 	"hotgo/internal/websocket"
 	"hotgo/utility/file"
 	"hotgo/utility/format"
 	"hotgo/utility/simple"
-	"os"
-	"runtime"
-	"time"
 )
 
 var (
@@ -30,8 +32,8 @@ var (
 type cMonitor struct{}
 
 type MonitorHeadExtra struct {
-	Data  interface{} `json:"data"`
-	Data1 string      `json:"data1,omitempty"`
+	Data  any    `json:"data"`
+	Data1 string `json:"data1,omitempty"`
 }
 type MonitorHead struct {
 	Title       string           `json:"title"`
@@ -66,7 +68,7 @@ func (c *cMonitor) RunInfo(client *websocket.Client, req *websocket.WRequest) {
 		"hgVersion": consts.VersionApp, // HG 版本
 		"startTime": gtime.New(meta.STartTime),
 		"runTime":   gtime.Now().Timestamp() - meta.STartTime,
-		"rootPath":  runtime.GOROOT(),
+		"rootPath":  runtime.GOROOT(), //nolint:staticcheck // still useful for server monitoring
 		"pwd":       pwd,
 		"goroutine": runtime.NumGoroutine(),
 		"goMem":     format.FileSize(int64(gm.Sys)),

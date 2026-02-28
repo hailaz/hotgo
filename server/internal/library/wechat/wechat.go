@@ -3,6 +3,7 @@ package wechat
 
 import (
 	"context"
+
 	"github.com/gogf/gf/v2/errors/gerror"
 	officialOauth "github.com/silenceper/wechat/v2/officialaccount/oauth"
 )

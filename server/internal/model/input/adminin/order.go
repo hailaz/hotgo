@@ -3,8 +3,10 @@ package adminin
 
 import (
 	"context"
+
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/os/gtime"
+
 	"hotgo/internal/consts"
 	"hotgo/internal/library/dict"
 	"hotgo/internal/library/hgorm/hook"
@@ -81,7 +83,7 @@ type OrderEditModel struct{}
 
 // OrderDeleteInp 删除充值订单
 type OrderDeleteInp struct {
-	Id interface{} `json:"id" v:"required#ID不能为空" dc:"ID"`
+	Id any `json:"id" v:"required#ID不能为空" dc:"ID"`
 }
 
 func (in *OrderDeleteInp) Filter(ctx context.Context) (err error) {

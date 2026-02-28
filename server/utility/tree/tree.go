@@ -3,8 +3,9 @@ package tree
 
 import (
 	"fmt"
-	"github.com/gogf/gf/v2/util/gconv"
 	"strings"
+
+	"github.com/gogf/gf/v2/util/gconv"
 )
 
 const (
@@ -49,7 +50,7 @@ func GetIds(tree string) (ids []int64) {
 }
 
 // GenTree 生成关系树
-func GenTree(menus []map[string]interface{}) (realMenu []map[string]interface{}) {
+func GenTree(menus []map[string]any) (realMenu []map[string]any) {
 	return GenTreeWithField(menus, GenOption{
 		IdField:       treeDefaultId,
 		PidField:      treeDefaultPid,
@@ -58,13 +59,13 @@ func GenTree(menus []map[string]interface{}) (realMenu []map[string]interface{})
 }
 
 // GenTreeWithField 生成关系树 自定义生成属性
-func GenTreeWithField(menus []map[string]interface{}, op GenOption) (realMenu []map[string]interface{}) {
+func GenTreeWithField(menus []map[string]any, op GenOption) (realMenu []map[string]any) {
 	if len(menus) < 1 {
 		return
 	}
 
 	minPid := GetMinPid(menus, op.PidField)
-	formatMenu := make(map[int]map[string]interface{})
+	formatMenu := make(map[int]map[string]any)
 	for _, m := range menus {
 		formatMenu[gconv.Int(m[op.IdField])] = m
 		if gconv.Int(m[op.PidField]) == minPid {
@@ -77,15 +78,15 @@ func GenTreeWithField(menus []map[string]interface{}, op GenOption) (realMenu []
 			continue
 		}
 		if formatMenu[gconv.Int(m[op.PidField])][op.ChildrenField] == nil {
-			formatMenu[gconv.Int(m[op.PidField])][op.ChildrenField] = []map[string]interface{}{}
+			formatMenu[gconv.Int(m[op.PidField])][op.ChildrenField] = []map[string]any{}
 		}
 
-		formatMenu[gconv.Int(m[op.PidField])][op.ChildrenField] = append(formatMenu[gconv.Int(m[op.PidField])][op.ChildrenField].([]map[string]interface{}), m)
+		formatMenu[gconv.Int(m[op.PidField])][op.ChildrenField] = append(formatMenu[gconv.Int(m[op.PidField])][op.ChildrenField].([]map[string]any), m)
 	}
 	return
 }
 
-func GetMinPid(menus []map[string]interface{}, pidField string) int {
+func GetMinPid(menus []map[string]any, pidField string) int {
 	index := -1
 	for _, m := range menus {
 		if index == -1 {

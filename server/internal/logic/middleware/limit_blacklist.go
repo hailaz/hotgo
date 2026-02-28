@@ -4,6 +4,7 @@ package middleware
 import (
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/net/ghttp"
+
 	"hotgo/internal/library/response"
 	sysLogic "hotgo/internal/logic/sys"
 )

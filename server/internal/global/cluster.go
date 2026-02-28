@@ -4,7 +4,9 @@ package global
 import (
 	"context"
 	"fmt"
+
 	"github.com/gogf/gf/v2/frame/g"
+
 	"hotgo/internal/consts"
 	"hotgo/internal/library/hgrds/lock"
 	"hotgo/internal/library/hgrds/pubsub"
@@ -30,7 +32,7 @@ func SubscribeClusterSync(ctx context.Context) {
 }
 
 // PublishClusterSync 推送集群同步消息，如果没有开启集群部署，则不进行推送
-func PublishClusterSync(ctx context.Context, channel string, message interface{}) {
+func PublishClusterSync(ctx context.Context, channel string, message any) {
 	if !simple.IsCluster(ctx) {
 		return
 	}

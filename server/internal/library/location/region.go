@@ -3,14 +3,15 @@ package location
 
 import (
 	"context"
-	"hotgo/internal/consts"
-	"hotgo/internal/dao"
-	"hotgo/internal/model/entity"
-	"hotgo/utility/tree"
 
 	"github.com/gogf/gf/v2/container/gvar"
 	"github.com/gogf/gf/v2/database/gdb"
 	"github.com/gogf/gf/v2/errors/gerror"
+
+	"hotgo/internal/consts"
+	"hotgo/internal/dao"
+	"hotgo/internal/model/entity"
+	"hotgo/utility/tree"
 )
 
 func GetModel(ctx context.Context) *gdb.Model {

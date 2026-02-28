@@ -3,13 +3,14 @@ package addons
 
 import (
 	"context"
-	"hotgo/internal/consts"
-	"hotgo/internal/dao"
 
 	"github.com/gogf/gf/v2/database/gdb"
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/gtime"
+
+	"hotgo/internal/consts"
+	"hotgo/internal/dao"
 )
 
 // InstallRecord 安装记录

@@ -4,13 +4,14 @@ package sys
 import (
 	"context"
 	"errors"
+
+	"github.com/gogf/gf/v2/errors/gerror"
+	"github.com/gogf/gf/v2/frame/g"
+
 	"hotgo/internal/consts"
 	"hotgo/internal/dao"
 	"hotgo/internal/library/dict"
 	"hotgo/internal/model/input/sysin"
-
-	"github.com/gogf/gf/v2/errors/gerror"
-	"github.com/gogf/gf/v2/frame/g"
 )
 
 type sSysDictData struct{}
@@ -153,7 +154,7 @@ func (s *sSysDictData) Select(ctx context.Context, in *sysin.DataSelectInp) (lis
 	if err == nil {
 		return options, nil
 	}
-	if !errors.Is(err, dict.NotExistKeyError) {
+	if !errors.Is(err, dict.ErrNotExistKey) {
 		return nil, err
 	}
 

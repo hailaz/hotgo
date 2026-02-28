@@ -2,10 +2,10 @@
 package tenantorder
 
 import (
+	"github.com/gogf/gf/v2/frame/g"
+
 	"hotgo/addons/hgexample/model/input/sysin"
 	"hotgo/internal/model/input/form"
-
-	"github.com/gogf/gf/v2/frame/g"
 )
 
 // ListReq 查询多租户功能演示列表

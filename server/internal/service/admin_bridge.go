@@ -9,6 +9,7 @@ import (
 
 	"github.com/gogf/gf/v2/database/gdb"
 	"github.com/gogf/gf/v2/database/gredis"
+
 	"hotgo/internal/library/hgorm/handler"
 	"hotgo/internal/model/entity"
 	"hotgo/internal/model/input/payin"
@@ -27,7 +28,7 @@ type IAdminMember interface {
 var localAdminMember IAdminMember
 
 func RegisterAdminMember(i IAdminMember) { localAdminMember = i }
-func AdminMember() IAdminMember           { return localAdminMember }
+func AdminMember() IAdminMember          { return localAdminMember }
 
 // ---- AdminOrder ----
 
@@ -39,7 +40,7 @@ type IAdminOrder interface {
 var localAdminOrder IAdminOrder
 
 func RegisterAdminOrder(i IAdminOrder) { localAdminOrder = i }
-func AdminOrder() IAdminOrder           { return localAdminOrder }
+func AdminOrder() IAdminOrder          { return localAdminOrder }
 
 // ---- AdminMenu ----
 
@@ -51,4 +52,4 @@ type IAdminMenu interface {
 var localAdminMenu IAdminMenu
 
 func RegisterAdminMenu(i IAdminMenu) { localAdminMenu = i }
-func AdminMenu() IAdminMenu           { return localAdminMenu }
+func AdminMenu() IAdminMenu          { return localAdminMenu }

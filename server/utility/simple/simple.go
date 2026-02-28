@@ -3,6 +3,7 @@ package simple
 
 import (
 	"context"
+
 	"github.com/gogf/gf/v2/crypto/gmd5"
 	"github.com/gogf/gf/v2/encoding/gbase64"
 	"github.com/gogf/gf/v2/errors/gerror"
@@ -10,6 +11,7 @@ import (
 	"github.com/gogf/gf/v2/net/ghttp"
 	"github.com/gogf/gf/v2/os/gfile"
 	"github.com/gogf/gf/v2/os/glog"
+
 	"hotgo/internal/consts"
 	"hotgo/utility/encrypt"
 )
@@ -116,7 +118,7 @@ func SafeGo(ctx context.Context, f func(ctx context.Context), lv ...int) {
 	})
 }
 
-func Logf(level int, ctx context.Context, format string, v ...interface{}) {
+func Logf(level int, ctx context.Context, format string, v ...any) {
 	switch level {
 	case glog.LEVEL_DEBU:
 		g.Log().Debugf(ctx, format, v...)

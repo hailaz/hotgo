@@ -36,11 +36,11 @@ type GenTableListInp struct {
 
 // GenTableListModel 表列表项
 type GenTableListModel struct {
-	TableName    string `json:"tableName"    dc:"表名"`
-	TableComment string `json:"tableComment" dc:"表注释"`
-	Engine       string `json:"engine"       dc:"存储引擎"`
-	TableRows    int64  `json:"tableRows"    dc:"数据行数"`
-	CreateTime   string `json:"createTime"   dc:"创建时间"`
+	TableName      string `json:"tableName"    dc:"表名"`
+	TableComment   string `json:"tableComment" dc:"表注释"`
+	Engine         string `json:"engine"       dc:"存储引擎"`
+	TableRows      int64  `json:"tableRows"    dc:"数据行数"`
+	CreateTime     string `json:"createTime"   dc:"创建时间"`
 	TableCollation string `json:"tableCollation" dc:"字符集"`
 }
 

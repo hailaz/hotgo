@@ -84,7 +84,6 @@ func (l *gCurd) webIndexTplData(ctx context.Context, in *CurdPreviewInput) (g.Ma
 
 	// 选项式树表
 	if in.options.Step.IsOptionTreeTable {
-		importVueMethod = append(importVueMethod, []string{"onMounted", "unref"}...)
 		importIcons = append(importIcons, []string{"FormOutlined", "SearchOutlined"}...)
 		importApiMethod = append(importApiMethod, "TreeOption")
 		importUtilsMethod = append(importUtilsMethod, "getTreeKeys")
@@ -101,6 +100,9 @@ func (l *gCurd) webIndexTplData(ctx context.Context, in *CurdPreviewInput) (g.Ma
 	importBuffer.WriteString("  import { BasicTable, TableAction } from '@/components/Table';\n")
 	importBuffer.WriteString("  import { BasicForm, useForm } from '@/components/Form/index';\n")
 	importBuffer.WriteString("  import { usePermission } from '@/hooks/web/usePermission';\n")
+
+	// 导入vue方法
+	importBuffer.WriteString("  import " + ImportWebMethod(importVueMethod) + " from 'vue';\n")
 
 	// 导入字典
 	if in.options.DictOps.Has {

@@ -7,13 +7,13 @@ import (
 	"fmt"
 	"strings"
 
-	"hotgo/utility/convert"
-	"hotgo/utility/db"
-
 	"github.com/gogf/gf/v2/database/gdb"
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/text/gstr"
+
+	"hotgo/utility/convert"
+	"hotgo/utility/db"
 )
 
 type daoInstance interface {
@@ -39,7 +39,7 @@ func GenJoinOnRelation(masterTable, masterField, joinTable, alias, onField strin
 	return []string{joinTable, alias, relation}
 }
 
-func JoinFields(ctx context.Context, entity interface{}, dao daoInstance, as string) (fs string) {
+func JoinFields(ctx context.Context, entity any, dao daoInstance, as string) (fs string) {
 	entityFs, err := convert.GetEntityFieldTags(entity)
 	if err != nil {
 		return
@@ -74,7 +74,7 @@ func JoinFields(ctx context.Context, entity interface{}, dao daoInstance, as str
 
 // GenJoinSelect 生成关联表select
 // 这里会将实体中的字段驼峰转为下划线于数据库进行匹配，意味着数据库字段必须全部是小写字母+下划线的格式
-func GenJoinSelect(ctx context.Context, entity interface{}, dao daoInstance, joins []*Join) (allFields string, err error) {
+func GenJoinSelect(ctx context.Context, entity any, dao daoInstance, joins []*Join) (allFields string, err error) {
 	var tmpFields []string
 	if len(joins) == 0 {
 		err = gerror.New("JoinFields joins len = 0")
@@ -168,7 +168,7 @@ func GetFieldsToSlice(ctx context.Context, dao daoInstance) ([]string, error) {
 }
 
 // IsUnique 是否唯一
-func IsUnique(ctx context.Context, dao daoInstance, where g.Map, message string, pkId ...interface{}) error {
+func IsUnique(ctx context.Context, dao daoInstance, where g.Map, message string, pkId ...any) error {
 	if len(where) == 0 {
 		return gerror.New("where condition cannot be empty")
 	}
@@ -201,12 +201,12 @@ func IsUnique(ctx context.Context, dao daoInstance, where g.Map, message string,
 
 // FilterKeywordsWithOr 多条件关键词OR查询
 func FilterKeywordsWithOr(m *gdb.Model, filterColumns map[string]string, keyword string) *gdb.Model {
-	if filterColumns == nil || len(filterColumns) == 0 {
+	if len(filterColumns) == 0 {
 		return m
 	}
 
 	conditions := make([]string, 0)
-	args := make([]interface{}, 0)
+	args := make([]any, 0)
 
 	for col, operator := range filterColumns {
 		val := keyword

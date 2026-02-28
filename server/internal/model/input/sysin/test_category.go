@@ -3,14 +3,15 @@ package sysin
 
 import (
 	"context"
-	"hotgo/internal/consts"
-	"hotgo/internal/model/entity"
-	"hotgo/internal/model/input/form"
-	"hotgo/utility/validate"
 
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/gtime"
+
+	"hotgo/internal/consts"
+	"hotgo/internal/model/entity"
+	"hotgo/internal/model/input/form"
+	"hotgo/utility/validate"
 )
 
 // TestCategoryUpdateFields 修改测试分类字段过滤
@@ -56,7 +57,7 @@ type TestCategoryEditModel struct{}
 
 // TestCategoryDeleteInp 删除测试分类
 type TestCategoryDeleteInp struct {
-	Id interface{} `json:"id" v:"required#分类ID不能为空" dc:"分类ID"`
+	Id any `json:"id" v:"required#分类ID不能为空" dc:"分类ID"`
 }
 
 func (in *TestCategoryDeleteInp) Filter(ctx context.Context) (err error) {

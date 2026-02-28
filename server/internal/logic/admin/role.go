@@ -3,6 +3,13 @@ package admin
 
 import (
 	"context"
+	"sort"
+
+	"github.com/gogf/gf/v2/database/gdb"
+	"github.com/gogf/gf/v2/encoding/gjson"
+	"github.com/gogf/gf/v2/errors/gerror"
+	"github.com/gogf/gf/v2/frame/g"
+
 	"hotgo/internal/consts"
 	"hotgo/internal/dao"
 	"hotgo/internal/library/casbin"
@@ -14,12 +21,6 @@ import (
 	"hotgo/utility/convert"
 	"hotgo/utility/tree"
 	"hotgo/utility/validate"
-	"sort"
-
-	"github.com/gogf/gf/v2/database/gdb"
-	"github.com/gogf/gf/v2/encoding/gjson"
-	"github.com/gogf/gf/v2/errors/gerror"
-	"github.com/gogf/gf/v2/frame/g"
 )
 
 type sAdminRole struct{}

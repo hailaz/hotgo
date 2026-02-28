@@ -3,9 +3,11 @@ package sysin
 
 import (
 	"context"
+
 	"github.com/gogf/gf/v2/database/gdb"
 	"github.com/gogf/gf/v2/encoding/gjson"
 	"github.com/gogf/gf/v2/os/gtime"
+
 	"hotgo/internal/model/entity"
 	"hotgo/internal/model/input/adminin"
 	"hotgo/internal/model/input/form"
@@ -13,7 +15,7 @@ import (
 
 // LoginLogDeleteInp 删除登录日志
 type LoginLogDeleteInp struct {
-	Id interface{} `json:"id" v:"required#日志ID不能为空" dc:"日志ID"`
+	Id any `json:"id" v:"required#日志ID不能为空" dc:"日志ID"`
 }
 
 type LoginLogDeleteModel struct{}

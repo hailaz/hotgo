@@ -1,9 +1,9 @@
 // Package encrypt
-//
 package encrypt
 
 import (
 	"encoding/base64"
+
 	"github.com/forgoer/openssl"
 )
 

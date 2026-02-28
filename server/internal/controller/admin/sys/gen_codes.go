@@ -3,6 +3,7 @@ package sys
 
 import (
 	"context"
+
 	"hotgo/api/admin/gencodes"
 	sysLogic "hotgo/internal/logic/sys"
 )
@@ -59,7 +60,7 @@ func (c *cGenCodes) List(ctx context.Context, req *gencodes.ListReq) (res *genco
 
 	res = new(gencodes.ListRes)
 	res.List = list
-	res.PageRes.Pack(req, totalCount)
+	res.Pack(req, totalCount)
 	return
 }
 

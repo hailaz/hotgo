@@ -3,11 +3,12 @@ package tcp
 
 import (
 	"context"
+	"reflect"
+	"runtime"
+
 	"github.com/gogf/gf/v2/errors/gcode"
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/text/gstr"
-	"reflect"
-	"runtime"
 )
 
 // RouteHandler 路由处理器
@@ -20,7 +21,7 @@ type RouteHandler struct {
 }
 
 // ParseRouteHandler 解析路由
-func ParseRouteHandler(router interface{}, isRPC bool) (info *RouteHandler, err error) {
+func ParseRouteHandler(router any, isRPC bool) (info *RouteHandler, err error) {
 	funcName := runtime.FuncForPC(reflect.ValueOf(router).Pointer()).Name()
 	funcType := reflect.ValueOf(router).Type()
 
@@ -35,7 +36,7 @@ func ParseRouteHandler(router interface{}, isRPC bool) (info *RouteHandler, err 
 	}
 
 	inputType := funcType.In(1)
-	if !(inputType.Kind() == reflect.Ptr && inputType.Elem().Kind() == reflect.Struct) {
+	if inputType.Kind() != reflect.Pointer || inputType.Elem().Kind() != reflect.Struct {
 		err = gerror.Newf(ParseRouterErrInvalidSecondParam, funcName)
 		return
 	}

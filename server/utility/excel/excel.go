@@ -4,18 +4,20 @@ package excel
 import (
 	"context"
 	"fmt"
+	"net/url"
+	"reflect"
+	"time"
+	"unicode"
+
 	"github.com/gogf/gf/v2/errors/gcode"
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/net/ghttp"
 	"github.com/gogf/gf/v2/os/gctx"
 	"github.com/gogf/gf/v2/util/gconv"
 	"github.com/xuri/excelize/v2"
+
 	"hotgo/internal/library/contexts"
 	"hotgo/internal/model"
-	"net/url"
-	"reflect"
-	"time"
-	"unicode"
 )
 
 var (
@@ -36,9 +38,9 @@ var (
 )
 
 // ExportByStructs 导出切片结构体到excel表格
-func ExportByStructs(ctx context.Context, tags []string, list interface{}, fileName string, sheetName string) (err error) {
+func ExportByStructs(ctx context.Context, tags []string, list any, fileName string, sheetName string) (err error) {
 	f := excelize.NewFile()
-	f.SetSheetName("Sheet1", sheetName)
+	_ = f.SetSheetName("Sheet1", sheetName)
 	_ = f.SetRowHeight("Sheet1", 1, 30)
 
 	rowStyleID, _ := f.NewStyle(defaultRowStyle)
@@ -69,7 +71,7 @@ func ExportByStructs(ctx context.Context, tags []string, list interface{}, fileN
 	for _, v := range gconv.Interfaces(list) {
 		t := reflect.TypeOf(v)
 		value := reflect.ValueOf(v)
-		row := make([]interface{}, 0)
+		row := make([]any, 0)
 		for l := 0; l < t.NumField(); l++ {
 			val := value.Field(l).Interface()
 			row = append(row, val)

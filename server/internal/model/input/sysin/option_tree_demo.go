@@ -3,13 +3,14 @@ package sysin
 
 import (
 	"context"
+
+	"github.com/gogf/gf/v2/frame/g"
+	"github.com/gogf/gf/v2/os/gtime"
+
 	"hotgo/internal/library/hgorm/hook"
 	"hotgo/internal/model/entity"
 	"hotgo/internal/model/input/form"
 	"hotgo/utility/tree"
-
-	"github.com/gogf/gf/v2/frame/g"
-	"github.com/gogf/gf/v2/os/gtime"
 )
 
 // OptionTreeDemoUpdateFields 修改选项树表字段过滤
@@ -55,7 +56,7 @@ type OptionTreeDemoEditModel struct{}
 
 // OptionTreeDemoDeleteInp 删除选项树表
 type OptionTreeDemoDeleteInp struct {
-	Id interface{} `json:"id" v:"required#ID不能为空" dc:"ID"`
+	Id any `json:"id" v:"required#ID不能为空" dc:"ID"`
 }
 
 func (in *OptionTreeDemoDeleteInp) Filter(ctx context.Context) (err error) {

@@ -3,14 +3,15 @@ package validate
 
 import (
 	"context"
-	"github.com/gogf/gf/v2/frame/g"
-	"github.com/gogf/gf/v2/net/ghttp"
-	"github.com/gogf/gf/v2/text/gstr"
 	"net"
 	"net/url"
 	"regexp"
 	"strings"
 	"time"
+
+	"github.com/gogf/gf/v2/frame/g"
+	"github.com/gogf/gf/v2/net/ghttp"
+	"github.com/gogf/gf/v2/text/gstr"
 )
 
 // 是否判断
@@ -53,7 +54,7 @@ func IsPublicIp(ip string) bool {
 
 // IsLocalIPAddr 检测 IP 地址字符串是否是内网地址
 func IsLocalIPAddr(ip string) bool {
-	if "localhost" == ip {
+	if ip == "localhost" {
 		return true
 	}
 	return HasLocalIP(net.ParseIP(ip))

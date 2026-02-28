@@ -4,6 +4,8 @@ package admin
 import (
 	"context"
 	"fmt"
+	"sync"
+
 	"github.com/gogf/gf/v2/container/gvar"
 	"github.com/gogf/gf/v2/crypto/gmd5"
 	"github.com/gogf/gf/v2/database/gdb"
@@ -14,6 +16,7 @@ import (
 	"github.com/gogf/gf/v2/text/gstr"
 	"github.com/gogf/gf/v2/util/gconv"
 	"github.com/gogf/gf/v2/util/grand"
+
 	"hotgo/internal/consts"
 	"hotgo/internal/dao"
 	"hotgo/internal/global"
@@ -21,16 +24,15 @@ import (
 	"hotgo/internal/library/hgorm"
 	"hotgo/internal/library/hgorm/handler"
 	"hotgo/internal/library/hgorm/hook"
+	commonLogic "hotgo/internal/logic/common"
+	sysLogic "hotgo/internal/logic/sys"
 	"hotgo/internal/model/entity"
 	"hotgo/internal/model/input/adminin"
 	"hotgo/internal/model/input/sysin"
-	commonLogic "hotgo/internal/logic/common"
-	sysLogic "hotgo/internal/logic/sys"
 	"hotgo/internal/service"
 	"hotgo/utility/convert"
 	"hotgo/utility/tree"
 	"hotgo/utility/validate"
-	"sync"
 )
 
 // SuperAdmin 超级管理员用户

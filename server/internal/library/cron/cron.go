@@ -5,6 +5,10 @@ import (
 	"bufio"
 	"context"
 	"fmt"
+	"os"
+	"strings"
+	"sync"
+
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/gcron"
@@ -12,13 +16,11 @@ import (
 	"github.com/gogf/gf/v2/os/gfile"
 	"github.com/gogf/gf/v2/os/glog"
 	"github.com/gogf/gf/v2/os/gtime"
+
 	"hotgo/internal/consts"
 	"hotgo/internal/dao"
 	"hotgo/internal/model/entity"
 	"hotgo/utility/simple"
-	"os"
-	"strings"
-	"sync"
 )
 
 var crons = &cronManager{

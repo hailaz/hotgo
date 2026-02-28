@@ -3,8 +3,10 @@ package sysin
 
 import (
 	"context"
+
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/os/gtime"
+
 	"hotgo/internal/consts"
 	"hotgo/internal/model/entity"
 	"hotgo/internal/model/input/form"
@@ -19,7 +21,7 @@ type SmsLogEditModel struct{}
 
 // SmsLogDeleteInp 删除
 type SmsLogDeleteInp struct {
-	Id interface{} `json:"id" v:"required#短信记录ID不能为空" dc:"短信记录ID"`
+	Id any `json:"id" v:"required#短信记录ID不能为空" dc:"短信记录ID"`
 }
 
 type SmsLogDeleteModel struct{}

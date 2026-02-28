@@ -96,7 +96,7 @@ func (c CGenPb) Pb(ctx context.Context, in CGenPbInput) (out *CGenPbOutput, err 
 	}
 
 	var originPwd = gfile.Pwd()
-	defer gfile.Chdir(originPwd)
+	defer func() { _ = gfile.Chdir(originPwd) }()
 
 	if err = gfile.Chdir(protoPath); err != nil {
 		mlog.Fatal(err)

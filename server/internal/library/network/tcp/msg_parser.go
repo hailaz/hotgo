@@ -4,14 +4,15 @@ package tcp
 import (
 	"context"
 	"encoding/json"
+	"reflect"
+	"sync"
+
 	"github.com/gogf/gf/v2/encoding/gjson"
 	"github.com/gogf/gf/v2/errors/gcode"
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/os/gctx"
 	"github.com/gogf/gf/v2/util/gconv"
 	"github.com/gogf/gf/v2/util/gutil"
-	"reflect"
-	"sync"
 )
 
 // MsgParser 消息处理器
@@ -31,11 +32,11 @@ type Interceptor func(ctx context.Context, msg *Message) (err error)
 
 // Message 标准消息
 type Message struct {
-	Router  string      `json:"router"`          // 路由
-	TraceId string      `json:"traceId"`         // 链路ID
-	Data    interface{} `json:"data"`            // 数据
-	MsgId   string      `json:"msgId,omitempty"` // 消息ID，rpc用
-	Error   string      `json:"error,omitempty"` // 消息错误，rpc用
+	Router  string `json:"router"`          // 路由
+	TraceId string `json:"traceId"`         // 链路ID
+	Data    any    `json:"data"`            // 数据
+	MsgId   string `json:"msgId,omitempty"` // 消息ID，rpc用
+	Error   string `json:"error,omitempty"` // 消息错误，rpc用
 }
 
 // NewMsgParser 初始化消息处理器
@@ -48,7 +49,7 @@ func NewMsgParser(task RoutineTask) *MsgParser {
 }
 
 // RegisterRouter 注册路由
-func (m *MsgParser) RegisterRouter(routers ...interface{}) (err error) {
+func (m *MsgParser) RegisterRouter(routers ...any) (err error) {
 	m.mutex.Lock()
 	defer m.mutex.Unlock()
 
@@ -66,7 +67,7 @@ func (m *MsgParser) RegisterRouter(routers ...interface{}) (err error) {
 }
 
 // RegisterRPCRouter 注册rpc路由
-func (m *MsgParser) RegisterRPCRouter(routers ...interface{}) (err error) {
+func (m *MsgParser) RegisterRPCRouter(routers ...any) (err error) {
 	m.mutex.Lock()
 	defer m.mutex.Unlock()
 
@@ -101,7 +102,7 @@ func (m *MsgParser) Encoding(data []byte) (*Message, error) {
 }
 
 // Decoding 消息解码
-func (m *MsgParser) Decoding(ctx context.Context, data interface{}, msgId string) ([]byte, error) {
+func (m *MsgParser) Decoding(ctx context.Context, data any, msgId string) ([]byte, error) {
 	message, err := m.doDecoding(ctx, data, msgId)
 	if err != nil {
 		return nil, err
@@ -110,9 +111,9 @@ func (m *MsgParser) Decoding(ctx context.Context, data interface{}, msgId string
 }
 
 // Decoding 消息解码
-func (m *MsgParser) doDecoding(ctx context.Context, data interface{}, msgId string) (*Message, error) {
+func (m *MsgParser) doDecoding(ctx context.Context, data any, msgId string) (*Message, error) {
 	msgType := reflect.TypeOf(data)
-	if msgType == nil || msgType.Kind() != reflect.Ptr {
+	if msgType == nil || msgType.Kind() != reflect.Pointer {
 		return nil, gerror.Newf("json message pointer required: %+v", data)
 	}
 

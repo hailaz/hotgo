@@ -4,6 +4,7 @@ package admin
 
 import (
 	"context"
+
 	"hotgo/api/admin/creditslog"
 	adminLogic "hotgo/internal/logic/admin"
 )
@@ -23,7 +24,7 @@ func (c *cCreditsLog) List(ctx context.Context, req *creditslog.ListReq) (res *c
 
 	res = new(creditslog.ListRes)
 	res.List = list
-	res.PageRes.Pack(req, totalCount)
+	res.Pack(req, totalCount)
 	return
 }
 

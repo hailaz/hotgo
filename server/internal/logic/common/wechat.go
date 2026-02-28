@@ -4,15 +4,6 @@ package common
 import (
 	"context"
 	"fmt"
-	"hotgo/api/admin/common"
-	"hotgo/internal/consts"
-	"hotgo/internal/library/cache"
-	"hotgo/internal/library/contexts"
-	"hotgo/internal/library/response"
-	"hotgo/internal/library/token"
-	"hotgo/internal/library/wechat"
-	sysLogic "hotgo/internal/logic/sys"
-	"hotgo/internal/model/input/commonin"
 	"time"
 
 	"github.com/gogf/gf/v2/errors/gerror"
@@ -22,6 +13,16 @@ import (
 	"github.com/gogf/gf/v2/os/gctx"
 	"github.com/gogf/gf/v2/os/gtime"
 	"github.com/gogf/gf/v2/util/gmeta"
+
+	"hotgo/api/admin/common"
+	"hotgo/internal/consts"
+	"hotgo/internal/library/cache"
+	"hotgo/internal/library/contexts"
+	"hotgo/internal/library/response"
+	"hotgo/internal/library/token"
+	"hotgo/internal/library/wechat"
+	sysLogic "hotgo/internal/logic/sys"
+	"hotgo/internal/model/input/commonin"
 )
 
 type sCommonWechat struct {

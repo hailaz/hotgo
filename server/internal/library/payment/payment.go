@@ -4,6 +4,10 @@ package payment
 import (
 	"context"
 	"fmt"
+
+	"github.com/gogf/gf/v2/os/gtime"
+	"github.com/gogf/gf/v2/util/grand"
+
 	"hotgo/internal/consts"
 	"hotgo/internal/dao"
 	"hotgo/internal/library/payment/alipay"
@@ -11,9 +15,6 @@ import (
 	"hotgo/internal/library/payment/wxpay"
 	"hotgo/internal/model/input/payin"
 	"hotgo/utility/validate"
-
-	"github.com/gogf/gf/v2/os/gtime"
-	"github.com/gogf/gf/v2/util/grand"
 )
 
 // PayClient 支付客户端

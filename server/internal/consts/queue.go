@@ -1,5 +1,4 @@
 // Package consts
-//
 package consts
 
 // 消息队列

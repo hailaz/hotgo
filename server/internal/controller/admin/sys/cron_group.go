@@ -3,6 +3,7 @@ package sys
 
 import (
 	"context"
+
 	"hotgo/api/admin/cron"
 	sysLogic "hotgo/internal/logic/sys"
 )
@@ -53,7 +54,7 @@ func (c *cCronGroup) List(ctx context.Context, req *cron.GroupListReq) (res *cro
 
 	res = new(cron.GroupListRes)
 	res.List = list
-	res.PageRes.Pack(req, totalCount)
+	res.Pack(req, totalCount)
 	return
 }
 

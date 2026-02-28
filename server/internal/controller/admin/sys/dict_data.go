@@ -3,9 +3,10 @@ package sys
 
 import (
 	"context"
+
 	"hotgo/api/admin/dict"
-	"hotgo/internal/model/input/sysin"
 	sysLogic "hotgo/internal/logic/sys"
+	"hotgo/internal/model/input/sysin"
 )
 
 var (
@@ -35,7 +36,7 @@ func (c *cDictData) List(ctx context.Context, req *dict.DataListReq) (res *dict.
 
 	res = new(dict.DataListRes)
 	res.List = list
-	res.PageRes.Pack(req, totalCount)
+	res.Pack(req, totalCount)
 	return
 }
 

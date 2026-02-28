@@ -3,15 +3,16 @@ package sysin
 
 import (
 	"context"
+
+	"github.com/gogf/gf/v2/errors/gerror"
+	"github.com/gogf/gf/v2/frame/g"
+	"github.com/gogf/gf/v2/os/gtime"
+
 	"hotgo/internal/consts"
 	"hotgo/internal/library/hgorm/hook"
 	"hotgo/internal/model/entity"
 	"hotgo/internal/model/input/form"
 	"hotgo/utility/validate"
-
-	"github.com/gogf/gf/v2/errors/gerror"
-	"github.com/gogf/gf/v2/frame/g"
-	"github.com/gogf/gf/v2/os/gtime"
 )
 
 // CurdDemoUpdateFields 修改CURD列表字段过滤
@@ -69,7 +70,7 @@ type CurdDemoEditModel struct{}
 
 // CurdDemoDeleteInp 删除CURD列表
 type CurdDemoDeleteInp struct {
-	Id interface{} `json:"id" v:"required#ID不能为空" dc:"ID"`
+	Id any `json:"id" v:"required#ID不能为空" dc:"ID"`
 }
 
 func (in *CurdDemoDeleteInp) Filter(ctx context.Context) (err error) {

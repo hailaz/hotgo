@@ -14,10 +14,6 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/olekukonko/tablewriter"
-	"github.com/olekukonko/tablewriter/renderer"
-	"github.com/olekukonko/tablewriter/tw"
-
 	"github.com/gogf/gf/v2/container/garray"
 	"github.com/gogf/gf/v2/container/gset"
 	"github.com/gogf/gf/v2/database/gdb"
@@ -29,6 +25,9 @@ import (
 	"github.com/gogf/gf/v2/text/gstr"
 	"github.com/gogf/gf/v2/util/gconv"
 	"github.com/gogf/gf/v2/util/gtag"
+	"github.com/olekukonko/tablewriter"
+	"github.com/olekukonko/tablewriter/renderer"
+	"github.com/olekukonko/tablewriter/tw"
 
 	"hotgo/internal/library/hggen/internal/consts"
 	"hotgo/internal/library/hggen/internal/utility/mlog"
@@ -312,7 +311,7 @@ func doGenPbEntityForArray(ctx context.Context, index int, in CGenPbEntityInput)
 			match, _  = gregex.MatchString(`([a-z]+):(.+)`, in.Link)
 		)
 		if len(match) == 3 {
-			gdb.AddConfigNode(tempGroup, gdb.ConfigNode{
+			_ = gdb.AddConfigNode(tempGroup, gdb.ConfigNode{
 				Type: gstr.Trim(match[1]),
 				Link: in.Link,
 			})
@@ -459,13 +458,13 @@ func generateEntityMessageDefinition(entityName string, fieldMap map[string]*gdb
 			},
 		}),
 	)
-	table.Bulk(array)
-	table.Render()
+	_ = table.Bulk(array)
+	_ = table.Render()
 	stContent := buffer.String()
 	// Let's do this hack of table writer for indent!
 	stContent = regexp.MustCompile(`\s+\n`).ReplaceAllString(gstr.Replace(stContent, "  #", ""), "\n")
 	buffer.Reset()
-	buffer.WriteString(fmt.Sprintf("message %s {\n", entityName))
+	fmt.Fprintf(buffer, "message %s {\n", entityName)
 	buffer.WriteString(stContent)
 	buffer.WriteString("}")
 	return buffer.String(), appendImports
@@ -481,7 +480,7 @@ func generateMessageFieldForPbEntity(index int, field *gdb.TableField, in CGenPb
 		err              error
 		ctx              = gctx.GetInitCtx()
 	)
-	if in.TypeMapping != nil && len(in.TypeMapping) > 0 {
+	if len(in.TypeMapping) > 0 {
 		// match typeMapping after local type transform.
 		// eg: double => string, varchar => string etc.
 		localTypeName, err = in.DB.CheckLocalTypeForField(ctx, field.Type, nil)
@@ -536,7 +535,7 @@ func generateMessageFieldForPbEntity(index int, field *gdb.TableField, in CGenPb
 		newFiledName = gstr.TrimLeftStr(newFiledName, v, 1)
 	}
 
-	if in.FieldMapping != nil && len(in.FieldMapping) > 0 {
+	if len(in.FieldMapping) > 0 {
 		if typeMapping, ok := in.FieldMapping[fmt.Sprintf("%s.%s", in.TableName, newFiledName)]; ok {
 			localTypeNameStr = typeMapping.Type
 			appendImport = typeMapping.Import
@@ -576,10 +575,7 @@ func sortFieldKeyForPbEntity(fieldMap map[string]*gdb.TableField) []string {
 		i      = 0
 		j      = 0
 	)
-	for {
-		if len(names) == 0 {
-			break
-		}
+	for len(names) != 0 {
 		if val, ok := names[i]; ok {
 			result[j] = val
 			j++

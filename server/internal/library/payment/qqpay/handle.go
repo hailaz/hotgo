@@ -3,6 +3,7 @@ package qqpay
 
 import (
 	"context"
+
 	"github.com/go-pay/gopay"
 	"github.com/go-pay/gopay/qq"
 	"github.com/gogf/gf/v2/errors/gerror"
@@ -10,6 +11,7 @@ import (
 	"github.com/gogf/gf/v2/os/gtime"
 	"github.com/gogf/gf/v2/util/gconv"
 	"github.com/gogf/gf/v2/util/grand"
+
 	"hotgo/internal/consts"
 	"hotgo/internal/model"
 	"hotgo/internal/model/input/payin"

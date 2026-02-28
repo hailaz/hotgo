@@ -4,8 +4,9 @@ package dict
 import (
 	"context"
 	"fmt"
-	"hotgo/internal/model"
 	"sync"
+
+	"hotgo/internal/model"
 )
 
 // FuncDict 方法字典，实现本接口即可使用内置方法字典
@@ -71,7 +72,7 @@ func SaveFunc(key, label string, fun FuncDict, cache ...bool) {
 func ClearFuncCache(key string) (err error) {
 	fun, ok := funcOptions[key]
 	if !ok {
-		err = NotExistKeyError
+		err = ErrNotExistKey
 		return
 	}
 
@@ -88,7 +89,7 @@ func ClearFuncCache(key string) (err error) {
 func GetFuncOptions(ctx context.Context, key string) (res []*model.Option, err error) {
 	fun, ok := funcOptions[key]
 	if !ok {
-		err = NotExistKeyError
+		err = ErrNotExistKey
 		return
 	}
 	return LoadFuncOptions(ctx, fun)

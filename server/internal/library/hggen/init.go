@@ -3,10 +3,12 @@ package hggen
 
 import (
 	"context"
+
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/gfile"
 	"github.com/gogf/gf/v2/util/gconv"
 	"gopkg.in/yaml.v3"
+
 	"hotgo/internal/library/hggen/internal/cmd/gendao"
 	"hotgo/internal/library/hggen/internal/cmd/genservice"
 )
@@ -18,7 +20,7 @@ const (
 
 var (
 	config        g.Map
-	daoConfig     []interface{}
+	daoConfig     []any
 	serviceConfig g.Map
 
 	// 生成service默认参数，请不要直接修改以下配置，如需调整请到/hack/config.yaml，可参考：https://goframe.org/pages/viewpage.action?pageId=49770772
@@ -102,11 +104,11 @@ func loadConfig(ctx context.Context) {
 		g.Log().Fatalf(ctx, RequiredErrorTag, "gfcli.gen")
 	}
 
-	dao, ok := config["gfcli"].(g.Map)["gen"].(map[string]interface{})["dao"]
+	dao, ok := config["gfcli"].(g.Map)["gen"].(map[string]any)["dao"]
 	if !ok {
 		g.Log().Fatalf(ctx, RequiredErrorTag, "gfcli.gen.dao")
 	}
-	daoConf, ok := dao.([]interface{})
+	daoConf, ok := dao.([]any)
 	if !ok {
 		g.Log().Fatalf(ctx, RequiredErrorTag, "gfcli.gen.dao format error")
 	}
@@ -117,7 +119,7 @@ func loadConfig(ctx context.Context) {
 		}
 	}
 
-	if serviceConf, ok := config["gfcli"].(g.Map)["gen"].(map[string]interface{})["service"]; ok {
+	if serviceConf, ok := config["gfcli"].(g.Map)["gen"].(map[string]any)["service"]; ok {
 		if serviceConfig == nil {
 			serviceConfig = make(g.Map)
 		}

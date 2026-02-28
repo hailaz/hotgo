@@ -5,18 +5,18 @@ import (
 	"bytes"
 	"context"
 	"fmt"
-	"github.com/olekukonko/tablewriter/renderer"
-	"github.com/olekukonko/tablewriter/tw"
 	"strings"
-
-	"hotgo/internal/dao"
-	"hotgo/internal/model/input/sysin"
 
 	"github.com/gogf/gf/v2/database/gdb"
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/text/gstr"
 	"github.com/olekukonko/tablewriter"
+	"github.com/olekukonko/tablewriter/renderer"
+	"github.com/olekukonko/tablewriter/tw"
+
+	"hotgo/internal/dao"
+	"hotgo/internal/model/input/sysin"
 )
 
 const (
@@ -83,8 +83,8 @@ func (l *gCurd) generateInputViewColumns(ctx context.Context, in *CurdPreviewInp
 	}
 
 	table := tablewriter.NewTable(buffer, twRenderer, twConfig)
-	table.Bulk(array)
-	table.Render()
+	_ = table.Bulk(array)
+	_ = table.Render()
 	stContent := buffer.String()
 	// Let's do this hack of table writer for indent!
 	stContent = gstr.Replace(stContent, "  #", "")
@@ -143,8 +143,8 @@ func (l *gCurd) generateInputListColumns(ctx context.Context, in *CurdPreviewInp
 	}
 
 	table := tablewriter.NewTable(buffer, twRenderer, twConfig)
-	table.Bulk(array)
-	table.Render()
+	_ = table.Bulk(array)
+	_ = table.Render()
 	stContent := buffer.String()
 	// Let's do this hack of table writer for indent!
 	stContent = gstr.Replace(stContent, "  #", "")
@@ -251,7 +251,7 @@ func (l *gCurd) generateStructFieldDefinition(in *CurdPreviewInput, field *sysin
 		if field.Required && (field.FormRole == FormRoleNone || field.FormRole == "") {
 			field.FormRole = "required"
 		}
-		if err, s := makeValidatorFunc(field); err != nil {
+		if s, err := makeValidatorFunc(field); err != nil {
 			return nil
 		} else {
 			rule += s
@@ -284,40 +284,41 @@ func (l *gCurd) generateStructFieldDefinition(in *CurdPreviewInput, field *sysin
 	return result
 }
 
-func makeValidatorFunc(field *sysin.GenCodesColumnListModel) (err error, rule string) {
-	if field.FormRole == "required" {
+func makeValidatorFunc(field *sysin.GenCodesColumnListModel) (rule string, err error) {
+	switch field.FormRole {
+	case "required":
 		rule = fmt.Sprintf(EditInpValidatorGenerally, "required", field.GoName, field.Dc+"不能为空")
-	} else if field.FormRole == FormRoleIp {
+	case FormRoleIp:
 		rule = fmt.Sprintf(EditInpValidatorGenerally, "ip", field.GoName, field.Dc+"必须为IPV4或IPV6")
-	} else if field.FormRole == FormRolePercentage {
+	case FormRolePercentage:
 		rule = fmt.Sprintf(EditInpValidatorGenerally, "min:0|max:100", field.GoName, field.Dc+"必须0-100之间")
-	} else if field.FormRole == FormRoleTel {
+	case FormRoleTel:
 		rule = fmt.Sprintf(EditInpValidatorGenerally, "telephone", field.GoName, field.Dc+"不是座机号码")
-	} else if field.FormRole == FormRolePhone {
+	case FormRolePhone:
 		rule = fmt.Sprintf(EditInpValidatorGenerally, "phone", field.GoName, field.Dc+"不是手机号码")
-	} else if field.FormRole == FormRoleQq {
+	case FormRoleQq:
 		rule = fmt.Sprintf(EditInpValidatorGenerally, "qq", field.GoName, field.Dc+"不是QQ号码")
-	} else if field.FormRole == FormRoleEmail {
+	case FormRoleEmail:
 		rule = fmt.Sprintf(EditInpValidatorGenerally, "email", field.GoName, field.Dc+"不是邮箱地址")
-	} else if field.FormRole == FormRoleIdCard {
+	case FormRoleIdCard:
 		rule = fmt.Sprintf(EditInpValidatorGenerally, "resident-id", field.GoName, field.Dc+"不是身份证号码")
-	} else if field.FormRole == FormRoleNum {
+	case FormRoleNum:
 		rule = fmt.Sprintf(EditInpValidatorGenerally, "min:1", field.GoName, field.Dc+"必须大于0")
-	} else if field.FormRole == FormRoleBankCard {
+	case FormRoleBankCard:
 		rule = fmt.Sprintf(EditInpValidatorGenerally, "bank-card", field.GoName, field.Dc+"不是银行卡号")
-	} else if field.FormRole == FormRoleWeibo {
+	case FormRoleWeibo:
 		rule = fmt.Sprintf(EditInpValidatorGenerally, "regex:^[0-9a-zA-Z\\u4e00-\\u9fa5_-]*$", field.GoName, field.Dc+"不是微博号")
-	} else if field.FormRole == FormRoleUserName {
+	case FormRoleUserName:
 		rule = fmt.Sprintf(EditInpValidatorGenerally, "regex:^[0-9a-zA-Z]{6,16}$", field.GoName, field.Dc+"必须为6-16位由字母和数字组成")
-	} else if field.FormRole == FormRoleAccount {
+	case FormRoleAccount:
 		rule = fmt.Sprintf(EditInpValidatorGenerally, "regex:^[\\w_\\d]{6,16}$", field.GoName, field.Dc+"必须为6-16位由字母、数字或下划线组成")
-	} else if field.FormRole == FormRolePassword {
+	case FormRolePassword:
 		rule = fmt.Sprintf(EditInpValidatorGenerally, "regex:^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,18}$", field.GoName, field.Dc+"必须包含6-18为字母和数字")
-	} else if field.FormRole == FormRoleAmount {
+	case FormRoleAmount:
 		rule = fmt.Sprintf(EditInpValidatorGenerally, "regex:(^[0-9]{1,10}$)|(^[0-9]{1,10}[\\\\.]{1}[0-9]{1,2}$)", field.GoName, field.Dc+"最多允许输入10位整数及2位小数")
-	} else if field.FormRole == FormRoleYaml {
+	case FormRoleYaml:
 		rule = fmt.Sprintf(EditInpValidatorYaml, field.GoName, field.Dc)
-	} else {
+	default:
 		err = gerror.New("not support")
 	}
 

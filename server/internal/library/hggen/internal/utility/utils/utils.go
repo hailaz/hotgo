@@ -10,12 +10,11 @@ import (
 	"context"
 	"fmt"
 
-	"golang.org/x/tools/imports"
-
 	"github.com/gogf/gf/v2/os/gfile"
 	"github.com/gogf/gf/v2/os/gproc"
 	"github.com/gogf/gf/v2/text/gregex"
 	"github.com/gogf/gf/v2/text/gstr"
+	"golang.org/x/tools/imports"
 
 	"hotgo/internal/library/hggen/internal/consts"
 	"hotgo/internal/library/hggen/internal/utility/mlog"

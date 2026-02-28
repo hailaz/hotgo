@@ -117,7 +117,6 @@ func (c CGenService) parseItemsInSrc(filePath string) (pkgItems []pkgItem, struc
 						continue
 					}
 					structEmbeddedStruct = append(structEmbeddedStruct, embeddedStruct)
-
 				}
 				if len(structEmbeddedStruct) > 0 {
 					structItems[structName] = structEmbeddedStruct

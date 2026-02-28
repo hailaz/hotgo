@@ -66,7 +66,7 @@ var ConfigMaskDemoField = map[string]struct{}{
 }
 
 // ConvType 类型转换
-func ConvType(val interface{}, t string) interface{} {
+func ConvType(val any, t string) any {
 	switch t {
 	case ConfigTypeString:
 		val = gconv.String(val)

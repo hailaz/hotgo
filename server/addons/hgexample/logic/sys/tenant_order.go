@@ -4,6 +4,13 @@ package sys
 import (
 	"context"
 	"fmt"
+
+	"github.com/gogf/gf/v2/database/gdb"
+	"github.com/gogf/gf/v2/errors/gerror"
+	"github.com/gogf/gf/v2/frame/g"
+	"github.com/gogf/gf/v2/os/gctx"
+	"github.com/gogf/gf/v2/util/gconv"
+
 	"hotgo/addons/hgexample/model/input/sysin"
 	"hotgo/addons/hgexample/service"
 	"hotgo/internal/dao"
@@ -12,12 +19,6 @@ import (
 	"hotgo/internal/model/input/form"
 	"hotgo/utility/convert"
 	"hotgo/utility/excel"
-
-	"github.com/gogf/gf/v2/database/gdb"
-	"github.com/gogf/gf/v2/errors/gerror"
-	"github.com/gogf/gf/v2/frame/g"
-	"github.com/gogf/gf/v2/os/gctx"
-	"github.com/gogf/gf/v2/util/gconv"
 )
 
 type sSysTenantOrder struct{}
@@ -135,6 +136,7 @@ func (s *sSysTenantOrder) Edit(ctx context.Context, in *sysin.TenantOrderEditInp
 				WherePri(in.Id).Data(in).
 				Hook(hook.SaveTenant). // 自动维护租户关系更新
 				Update(); err != nil {
+				return
 			}
 			return
 		}
@@ -145,6 +147,7 @@ func (s *sSysTenantOrder) Edit(ctx context.Context, in *sysin.TenantOrderEditInp
 			Hook(hook.SaveTenant). // 自动维护租户关系更新
 			Data(in).
 			Insert(); err != nil {
+			return
 		}
 		return
 	})

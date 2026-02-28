@@ -3,12 +3,13 @@ package storager
 
 import (
 	"context"
+	"net/http"
+	"net/url"
+
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/net/ghttp"
 	"github.com/gogf/gf/v2/os/gfile"
 	"github.com/tencentyun/cos-go-sdk-v5"
-	"net/http"
-	"net/url"
 )
 
 // CosDrive 腾讯云cos驱动

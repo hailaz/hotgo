@@ -3,6 +3,7 @@ package sys
 
 import (
 	"context"
+
 	"hotgo/api/admin/addons"
 	sysLogic "hotgo/internal/logic/sys"
 )
@@ -22,7 +23,7 @@ func (c *cAddons) List(ctx context.Context, req *addons.ListReq) (res *addons.Li
 
 	res = new(addons.ListRes)
 	res.List = list
-	res.PageRes.Pack(req, totalCount)
+	res.Pack(req, totalCount)
 	return
 }
 

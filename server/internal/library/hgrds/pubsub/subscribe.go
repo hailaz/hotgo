@@ -3,12 +3,14 @@ package pubsub
 
 import (
 	"context"
+	"sync"
+
 	"github.com/gogf/gf/v2/database/gredis"
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/gctx"
+
 	"hotgo/utility/simple"
-	"sync"
 )
 
 type SubHandler func(ctx context.Context, message *gredis.Message)
@@ -24,7 +26,7 @@ var subscribes = &subscribeManager{
 
 // SubscribeMap 订阅多个消息
 func SubscribeMap(channels map[string]SubHandler) (err error) {
-	if channels == nil || len(channels) == 0 {
+	if len(channels) == 0 {
 		return
 	}
 
@@ -58,7 +60,7 @@ func doSubscribe(channel string, hr SubHandler) {
 	}
 	defer conn.Close(ctx)
 
-	_, err = conn.Subscribe(ctx, channel)
+	_, _ = conn.Subscribe(ctx, channel)
 	for {
 		msg, err := conn.ReceiveMessage(ctx)
 		if err != nil {

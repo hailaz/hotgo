@@ -129,7 +129,7 @@ func (c CGenService) Service(ctx context.Context, in CGenServiceInput) (out *CGe
 				return
 			}
 		}
-		defer gfile.RemoveFile(flockFilePath)
+		defer func() { _ = gfile.RemoveFile(flockFilePath) }()
 		_ = gfile.PutContents(flockFilePath, gtime.TimestampStr())
 
 		// It works only if given WatchFile is in SrcFolder.
@@ -303,7 +303,6 @@ func (c CGenService) Service(ctx context.Context, in CGenServiceInput) (out *CGe
 			relativeFilePath = gstr.SubStrFromR(file, in.DstFolder)
 			if !generatedDstFilePathSet.Contains(relativeFilePath) &&
 				utils.IsFileDoNotEdit(relativeFilePath) {
-
 				mlog.Printf(`remove no longer used service file: %s`, relativeFilePath)
 				if err = gfile.RemoveFile(file); err != nil {
 					return nil, err

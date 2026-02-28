@@ -4,7 +4,6 @@ package location
 import (
 	"context"
 	"fmt"
-	"hotgo/utility/validate"
 	"io"
 	"net"
 	"net/http"
@@ -18,6 +17,8 @@ import (
 	"github.com/gogf/gf/v2/text/gstr"
 	"github.com/gogf/gf/v2/util/gconv"
 	"github.com/kayon/iploc"
+
+	"hotgo/utility/validate"
 )
 
 const (

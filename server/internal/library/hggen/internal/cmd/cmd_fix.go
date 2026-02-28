@@ -41,7 +41,6 @@ type cFixItem struct {
 }
 
 func (c cFix) Index(ctx context.Context, in cFixInput) (out *cFixOutput, err error) {
-
 	if in.Path == "" {
 		in.Path = gfile.Pwd()
 	}
@@ -67,7 +66,6 @@ func (c cFix) Index(ctx context.Context, in cFixInput) (out *cFixOutput, err err
 }
 
 func (c cFix) doFix(in cFixInput) (err error) {
-
 	var items = []cFixItem{
 		{Version: "v2.3", Func: c.doFixV23},
 		{Version: "v2.5", Func: c.doFixV25},

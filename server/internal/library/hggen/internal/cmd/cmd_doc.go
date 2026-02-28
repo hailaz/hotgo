@@ -110,7 +110,6 @@ func NewDocSetting(ctx context.Context, in cDocInput) *DocSetting {
 		DocURL:     in.Proxy + DocURL,
 		DocZipFile: filepath.FromSlash(path.Join(tempDir, fileName)),
 	}
-
 }
 
 // Clean cleans the temporary directory

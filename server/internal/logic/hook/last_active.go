@@ -3,10 +3,6 @@ package hook
 
 import (
 	"context"
-	"hotgo/internal/consts"
-	"hotgo/internal/dao"
-	"hotgo/internal/library/contexts"
-	"hotgo/utility/simple"
 	"sync"
 	"time"
 
@@ -15,6 +11,11 @@ import (
 	"github.com/gogf/gf/v2/os/gctx"
 	"github.com/gogf/gf/v2/os/gtime"
 	"github.com/gogf/gf/v2/os/gtimer"
+
+	"hotgo/internal/consts"
+	"hotgo/internal/dao"
+	"hotgo/internal/library/contexts"
+	"hotgo/utility/simple"
 )
 
 type visitor struct {

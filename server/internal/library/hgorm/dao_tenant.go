@@ -3,13 +3,14 @@ package hgorm
 
 import (
 	"context"
-	"hotgo/internal/consts"
-	"hotgo/internal/dao"
-	"hotgo/utility/tree"
 
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/text/gstr"
+
+	"hotgo/internal/consts"
+	"hotgo/internal/dao"
+	"hotgo/utility/tree"
 )
 
 // TenantRelation 租户关系
@@ -22,7 +23,6 @@ type TenantRelation struct {
 
 // GetTenantRelation 获取租户关系
 func GetTenantRelation(ctx context.Context, memberId int64) (tr *TenantRelation, err error) {
-
 	data, err := g.Model(gstr.Join([]string{dao.AdminMember.Table(), "u"}, " ")).Ctx(ctx).
 		LeftJoin(gstr.Join([]string{dao.AdminDept.Table(), "d"}, " "), "u.dept_id=d.id").
 		Fields("u.tree,d.type").

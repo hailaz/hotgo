@@ -9,6 +9,7 @@ import (
 
 	"github.com/gogf/gf/v2/database/gredis"
 	"github.com/gogf/gf/v2/net/ghttp"
+
 	"hotgo/internal/model"
 	"hotgo/internal/model/entity"
 	"hotgo/internal/model/input/sysin"
@@ -26,7 +27,7 @@ type ISysConfig interface {
 var localSysConfig ISysConfig
 
 func RegisterSysConfig(i ISysConfig) { localSysConfig = i }
-func SysConfig() ISysConfig           { return localSysConfig }
+func SysConfig() ISysConfig          { return localSysConfig }
 
 // ---- SysBlacklist ----
 
@@ -39,7 +40,7 @@ type ISysBlacklist interface {
 var localSysBlacklist ISysBlacklist
 
 func RegisterSysBlacklist(i ISysBlacklist) { localSysBlacklist = i }
-func SysBlacklist() ISysBlacklist           { return localSysBlacklist }
+func SysBlacklist() ISysBlacklist          { return localSysBlacklist }
 
 // ---- SysDictType ----
 
@@ -50,7 +51,7 @@ type ISysDictType interface {
 var localSysDictType ISysDictType
 
 func RegisterSysDictType(i ISysDictType) { localSysDictType = i }
-func SysDictType() ISysDictType           { return localSysDictType }
+func SysDictType() ISysDictType          { return localSysDictType }
 
 // ---- SysServeLog ----
 
@@ -61,7 +62,7 @@ type ISysServeLog interface {
 var localSysServeLog ISysServeLog
 
 func RegisterSysServeLog(i ISysServeLog) { localSysServeLog = i }
-func SysServeLog() ISysServeLog           { return localSysServeLog }
+func SysServeLog() ISysServeLog          { return localSysServeLog }
 
 // ---- SysLog ----
 
@@ -73,7 +74,7 @@ type ISysLog interface {
 var localSysLog ISysLog
 
 func RegisterSysLog(i ISysLog) { localSysLog = i }
-func SysLog() ISysLog           { return localSysLog }
+func SysLog() ISysLog          { return localSysLog }
 
 // ---- SysLoginLog ----
 
@@ -84,7 +85,7 @@ type ISysLoginLog interface {
 var localSysLoginLog ISysLoginLog
 
 func RegisterSysLoginLog(i ISysLoginLog) { localSysLoginLog = i }
-func SysLoginLog() ISysLoginLog           { return localSysLoginLog }
+func SysLoginLog() ISysLoginLog          { return localSysLoginLog }
 
 // ---- SysAddonsConfig ----
 
@@ -96,4 +97,4 @@ type ISysAddonsConfig interface {
 var localSysAddonsConfig ISysAddonsConfig
 
 func RegisterSysAddonsConfig(i ISysAddonsConfig) { localSysAddonsConfig = i }
-func SysAddonsConfig() ISysAddonsConfig           { return localSysAddonsConfig }
+func SysAddonsConfig() ISysAddonsConfig          { return localSysAddonsConfig }

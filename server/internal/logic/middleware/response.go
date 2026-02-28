@@ -2,16 +2,16 @@
 package middleware
 
 import (
-	"hotgo/internal/consts"
-	"hotgo/internal/library/response"
-	"hotgo/utility/charset"
-	"hotgo/utility/simple"
-
 	"github.com/gogf/gf/v2/errors/gcode"
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/ghttp"
 	"github.com/gogf/gf/v2/util/gmeta"
+
+	"hotgo/internal/consts"
+	"hotgo/internal/library/response"
+	"hotgo/utility/charset"
+	"hotgo/utility/simple"
 )
 
 // ResponseHandler HTTP响应预处理
@@ -72,7 +72,7 @@ func responseJson(r *ghttp.Request) {
 }
 
 // parseResponse 解析响应数据
-func parseResponse(r *ghttp.Request) (code int, message string, resp interface{}) {
+func parseResponse(r *ghttp.Request) (code int, message string, resp any) {
 	ctx := r.Context()
 	err := r.GetError()
 	if err == nil {

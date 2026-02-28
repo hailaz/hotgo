@@ -3,11 +3,12 @@ package consts
 
 import (
 	"fmt"
-	"hotgo/internal/library/dict"
-	"hotgo/internal/model"
 	"net/http"
 
 	"github.com/gogf/gf/v2/errors/gcode"
+
+	"hotgo/internal/library/dict"
+	"hotgo/internal/model"
 )
 
 func init() {

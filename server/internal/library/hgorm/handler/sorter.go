@@ -4,16 +4,16 @@ package handler
 import (
 	"regexp"
 
-	"hotgo/internal/consts"
-	"hotgo/internal/model/input/form"
-	"hotgo/utility/convert"
-	"hotgo/utility/db"
-
 	"github.com/gogf/gf/v2/database/gdb"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/text/gregex"
 	"github.com/gogf/gf/v2/text/gstr"
 	"github.com/gogf/gf/v2/util/gutil"
+
+	"hotgo/internal/consts"
+	"hotgo/internal/model/input/form"
+	"hotgo/utility/convert"
+	"hotgo/utility/db"
 )
 
 // ISorter 排序器接口，实现该接口即可使用Handler匹配排序，支持多字段排序
@@ -169,7 +169,7 @@ func mappingAndFilterToTableFields(fieldsMap map[string]*gdb.TableField, sorters
 		fields = append(fields, v.ColumnKey)
 	}
 
-	fieldsKeyMap := make(map[string]interface{}, len(fieldsMap))
+	fieldsKeyMap := make(map[string]any, len(fieldsMap))
 	for k := range fieldsMap {
 		fieldsKeyMap[k] = nil
 	}

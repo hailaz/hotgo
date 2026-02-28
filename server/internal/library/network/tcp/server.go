@@ -3,6 +3,8 @@ package tcp
 
 import (
 	"context"
+	"sync"
+
 	"github.com/gogf/gf/v2/container/gtype"
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
@@ -10,8 +12,8 @@ import (
 	"github.com/gogf/gf/v2/os/gctx"
 	"github.com/gogf/gf/v2/os/glog"
 	"github.com/gogf/gf/v2/os/grpool"
+
 	"hotgo/utility/simple"
-	"sync"
 )
 
 // Server tcp服务器
@@ -194,7 +196,7 @@ func (server *Server) GetAuthOnline() int {
 }
 
 // RegisterRouter 注册路由
-func (server *Server) RegisterRouter(routers ...interface{}) {
+func (server *Server) RegisterRouter(routers ...any) {
 	err := server.msgParser.RegisterRouter(routers...)
 	if err != nil {
 		server.logger.Fatal(server.ctx, err)
@@ -202,7 +204,7 @@ func (server *Server) RegisterRouter(routers ...interface{}) {
 }
 
 // RegisterRPCRouter 注册RPC路由
-func (server *Server) RegisterRPCRouter(routers ...interface{}) {
+func (server *Server) RegisterRPCRouter(routers ...any) {
 	err := server.msgParser.RegisterRPCRouter(routers...)
 	if err != nil {
 		server.logger.Fatal(server.ctx, err)
@@ -280,11 +282,11 @@ func (server *Server) GetRoutes() (routes []RouteHandler) {
 }
 
 // Request 向指定客户端发送消息并等待响应结果
-func (server *Server) Request(ctx context.Context, client *Conn, data interface{}) (interface{}, error) {
+func (server *Server) Request(ctx context.Context, client *Conn, data any) (any, error) {
 	return client.Request(ctx, data)
 }
 
 // RequestScan 向指定客户端发送消息并等待响应结果，将结果保存在response中
-func (server *Server) RequestScan(ctx context.Context, client *Conn, data, response interface{}) error {
+func (server *Server) RequestScan(ctx context.Context, client *Conn, data, response any) error {
 	return client.RequestScan(ctx, data, response)
 }

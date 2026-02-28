@@ -24,7 +24,7 @@ type CronEditModel struct{}
 
 // CronDeleteInp 删除
 type CronDeleteInp struct {
-	Id interface{}
+	Id any
 }
 type CronDeleteModel struct{}
 

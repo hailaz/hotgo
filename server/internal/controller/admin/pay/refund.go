@@ -4,6 +4,7 @@ package pay
 
 import (
 	"context"
+
 	"hotgo/api/admin/pay"
 	payLogic "hotgo/internal/logic/pay"
 )
@@ -23,7 +24,7 @@ func (c *cRefund) List(ctx context.Context, req *pay.RefundListReq) (res *pay.Re
 
 	res = new(pay.RefundListRes)
 	res.List = list
-	res.PageRes.Pack(req, totalCount)
+	res.Pack(req, totalCount)
 	return
 }
 

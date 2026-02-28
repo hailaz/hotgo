@@ -4,6 +4,7 @@ package location
 import (
 	"context"
 	"fmt"
+
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/util/gconv"
@@ -15,26 +16,26 @@ type AMapGeocodeAddressRes struct {
 	Infocode string `json:"infocode"`
 	Count    string `json:"count"`
 	Geocodes []struct {
-		FormattedAddress string        `json:"formatted_address"`
-		Country          string        `json:"country"`
-		Province         string        `json:"province"`
-		Citycode         string        `json:"citycode"`
-		City             string        `json:"city"`
-		District         string        `json:"district"`
-		Township         []interface{} `json:"township"`
+		FormattedAddress string `json:"formatted_address"`
+		Country          string `json:"country"`
+		Province         string `json:"province"`
+		Citycode         string `json:"citycode"`
+		City             string `json:"city"`
+		District         string `json:"district"`
+		Township         []any  `json:"township"`
 		Neighborhood     struct {
-			Name []interface{} `json:"name"`
-			Type []interface{} `json:"type"`
+			Name []any `json:"name"`
+			Type []any `json:"type"`
 		} `json:"neighborhood"`
 		Building struct {
-			Name []interface{} `json:"name"`
-			Type []interface{} `json:"type"`
+			Name []any `json:"name"`
+			Type []any `json:"type"`
 		} `json:"building"`
-		Adcode   string        `json:"adcode"`
-		Street   []interface{} `json:"street"`
-		Number   []interface{} `json:"number"`
-		Location string        `json:"location"`
-		Level    string        `json:"level"`
+		Adcode   string `json:"adcode"`
+		Street   []any  `json:"street"`
+		Number   []any  `json:"number"`
+		Location string `json:"location"`
+		Level    string `json:"level"`
 	} `json:"geocodes"`
 }
 

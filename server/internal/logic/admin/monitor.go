@@ -3,17 +3,19 @@ package admin
 
 import (
 	"context"
+	"runtime"
+	"sync"
+
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/gcron"
 	"github.com/gogf/gf/v2/os/gtime"
 	"github.com/shirou/gopsutil/v3/load"
 	"github.com/shirou/gopsutil/v3/net"
+
 	"hotgo/internal/library/location"
 	"hotgo/internal/model"
 	"hotgo/utility/format"
 	"hotgo/utility/simple"
-	"runtime"
-	"sync"
 )
 
 type sAdminMonitor struct {

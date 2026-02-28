@@ -3,8 +3,10 @@ package adminin
 
 import (
 	"context"
+
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/os/gtime"
+
 	"hotgo/internal/consts"
 	"hotgo/internal/model/entity"
 	"hotgo/internal/model/input/form"
@@ -75,7 +77,7 @@ type DeptInsertFields struct {
 
 // DeptDeleteInp 删除部门类型
 type DeptDeleteInp struct {
-	Id interface{} `json:"id" v:"required#部门ID不能为空" dc:"部门ID"`
+	Id any `json:"id" v:"required#部门ID不能为空" dc:"部门ID"`
 }
 type DeptDeleteModel struct{}
 

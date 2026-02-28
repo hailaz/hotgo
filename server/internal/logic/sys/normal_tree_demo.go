@@ -3,6 +3,11 @@ package sys
 
 import (
 	"context"
+
+	"github.com/gogf/gf/v2/database/gdb"
+	"github.com/gogf/gf/v2/errors/gerror"
+	"github.com/gogf/gf/v2/frame/g"
+
 	"hotgo/internal/consts"
 	"hotgo/internal/dao"
 	"hotgo/internal/library/contexts"
@@ -11,11 +16,6 @@ import (
 	"hotgo/internal/library/hgorm/hook"
 	"hotgo/internal/model/input/form"
 	"hotgo/internal/model/input/sysin"
-
-	"github.com/gogf/gf/v2/database/gdb"
-	"github.com/gogf/gf/v2/errors/gerror"
-	"github.com/gogf/gf/v2/frame/g"
-
 	"hotgo/utility/tree"
 )
 

@@ -3,7 +3,9 @@ package sys
 
 import (
 	"context"
+
 	"github.com/gogf/gf/v2/errors/gerror"
+
 	"hotgo/api/admin/log"
 	sysLogic "hotgo/internal/logic/sys"
 )
@@ -34,7 +36,7 @@ func (c *sLog) List(ctx context.Context, req *log.ListReq) (res *log.ListRes, er
 
 	res = new(log.ListRes)
 	res.List = list
-	res.PageRes.Pack(req, totalCount)
+	res.Pack(req, totalCount)
 	return
 }
 

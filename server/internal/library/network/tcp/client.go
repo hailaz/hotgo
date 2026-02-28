@@ -3,6 +3,9 @@ package tcp
 
 import (
 	"context"
+	"sync"
+	"time"
+
 	"github.com/gogf/gf/v2/container/gtype"
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
@@ -10,9 +13,8 @@ import (
 	"github.com/gogf/gf/v2/os/gctx"
 	"github.com/gogf/gf/v2/os/glog"
 	"github.com/gogf/gf/v2/os/grpool"
+
 	"hotgo/utility/simple"
-	"sync"
-	"time"
 )
 
 // Client tcp客户端
@@ -115,7 +117,7 @@ func (client *Client) Start() (err error) {
 
 // registerDefaultRouter 注册默认路由
 func (client *Client) registerDefaultRouter() {
-	var routers = []interface{}{
+	var routers = []any{
 		client.onResponseServerLogin,     // 服务登录
 		client.onResponseServerHeartbeat, // 心跳
 	}
@@ -123,7 +125,7 @@ func (client *Client) registerDefaultRouter() {
 }
 
 // RegisterRouter 注册路由
-func (client *Client) RegisterRouter(routers ...interface{}) {
+func (client *Client) RegisterRouter(routers ...any) {
 	err := client.msgParser.RegisterRouter(routers...)
 	if err != nil {
 		client.logger.Fatal(client.ctx, err)
@@ -131,7 +133,7 @@ func (client *Client) RegisterRouter(routers ...interface{}) {
 }
 
 // RegisterRPCRouter 注册RPC路由
-func (client *Client) RegisterRPCRouter(routers ...interface{}) {
+func (client *Client) RegisterRPCRouter(routers ...any) {
 	err := client.msgParser.RegisterRPCRouter(routers...)
 	if err != nil {
 		client.logger.Fatal(client.ctx, err)
@@ -281,7 +283,7 @@ func (client *Client) Conn() *Conn {
 }
 
 // Send 发送消息
-func (client *Client) Send(ctx context.Context, data interface{}) error {
+func (client *Client) Send(ctx context.Context, data any) error {
 	if client.conn == nil {
 		return gerror.New("conn is nil")
 	}
@@ -289,11 +291,11 @@ func (client *Client) Send(ctx context.Context, data interface{}) error {
 }
 
 // Request 发送消息并等待响应结果
-func (client *Client) Request(ctx context.Context, data interface{}) (interface{}, error) {
+func (client *Client) Request(ctx context.Context, data any) (any, error) {
 	return client.conn.Request(ctx, data)
 }
 
 // RequestScan 发送消息并等待响应结果，将结果保存在response中
-func (client *Client) RequestScan(ctx context.Context, data, response interface{}) error {
+func (client *Client) RequestScan(ctx context.Context, data, response any) error {
 	return client.conn.RequestScan(ctx, data, response)
 }

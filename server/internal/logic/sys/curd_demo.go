@@ -4,6 +4,14 @@ package sys
 import (
 	"context"
 	"fmt"
+
+	"github.com/gogf/gf/v2/database/gdb"
+	"github.com/gogf/gf/v2/errors/gerror"
+	"github.com/gogf/gf/v2/frame/g"
+	"github.com/gogf/gf/v2/os/gctx"
+	"github.com/gogf/gf/v2/os/gtime"
+	"github.com/gogf/gf/v2/util/gconv"
+
 	"hotgo/internal/dao"
 	"hotgo/internal/library/contexts"
 	"hotgo/internal/library/hgorm"
@@ -15,13 +23,6 @@ import (
 	"hotgo/utility/convert"
 	"hotgo/utility/excel"
 	"hotgo/utility/validate"
-
-	"github.com/gogf/gf/v2/database/gdb"
-	"github.com/gogf/gf/v2/errors/gerror"
-	"github.com/gogf/gf/v2/frame/g"
-	"github.com/gogf/gf/v2/os/gctx"
-	"github.com/gogf/gf/v2/os/gtime"
-	"github.com/gogf/gf/v2/util/gconv"
 )
 
 type sSysCurdDemo struct{}
@@ -142,7 +143,6 @@ func (s *sSysCurdDemo) Export(ctx context.Context, in *sysin.CurdDemoListInp) (e
 // Edit 修改/新增CURD列表
 func (s *sSysCurdDemo) Edit(ctx context.Context, in *sysin.CurdDemoEditInp) (err error) {
 	return g.DB().Transaction(ctx, func(ctx context.Context, tx gdb.TX) (err error) {
-
 		// 修改
 		if in.Id > 0 {
 			in.UpdatedBy = contexts.GetUserId(ctx)
@@ -167,7 +167,6 @@ func (s *sSysCurdDemo) Edit(ctx context.Context, in *sysin.CurdDemoEditInp) (err
 
 // Delete 删除CURD列表
 func (s *sSysCurdDemo) Delete(ctx context.Context, in *sysin.CurdDemoDeleteInp) (err error) {
-
 	if _, err = s.Model(ctx).WherePri(in.Id).Data(g.Map{
 		dao.SysGenCurdDemo.Columns().DeletedBy: contexts.GetUserId(ctx),
 		dao.SysGenCurdDemo.Columns().DeletedAt: gtime.Now(),

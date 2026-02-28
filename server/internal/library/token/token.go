@@ -4,6 +4,8 @@ package token
 import (
 	"context"
 	"fmt"
+	"time"
+
 	"github.com/gogf/gf/v2/crypto/gmd5"
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
@@ -12,12 +14,12 @@ import (
 	"github.com/gogf/gf/v2/text/gstr"
 	"github.com/gogf/gf/v2/util/gconv"
 	"github.com/golang-jwt/jwt/v5"
+
 	"hotgo/internal/consts"
 	"hotgo/internal/library/cache"
 	"hotgo/internal/library/contexts"
 	"hotgo/internal/model"
 	"hotgo/utility/simple"
-	"time"
 )
 
 type Claims struct {
@@ -253,7 +255,7 @@ func ParseLoginUser(r *ghttp.Request) (user *model.Identity, err error) {
 
 // parseToken 解析jwt令牌
 func parseToken(ctx context.Context, header string) (*Claims, error) {
-	token, err := jwt.ParseWithClaims(header, &Claims{}, func(token *jwt.Token) (interface{}, error) {
+	token, err := jwt.ParseWithClaims(header, &Claims{}, func(token *jwt.Token) (any, error) {
 		return []byte(config.SecretKey), nil
 	})
 

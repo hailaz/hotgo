@@ -53,7 +53,7 @@ clear:
 # https://github.com/ywanbing/golangci
 .PHONY: lint
 lint:
-	golangci-lint run
+	golangci-lint run --fix
 
 .PHONY: killmain
 killmain:

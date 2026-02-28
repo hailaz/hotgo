@@ -3,6 +3,7 @@ package sys
 
 import (
 	"context"
+
 	"hotgo/addons/hgexample/api/admin/treetable"
 	"hotgo/addons/hgexample/service"
 )
@@ -22,7 +23,7 @@ func (c *cTreeTable) List(ctx context.Context, req *treetable.ListReq) (res *tre
 
 	res = new(treetable.ListRes)
 	res.List = list
-	res.PageRes.Pack(req, totalCount)
+	res.Pack(req, totalCount)
 	return
 }
 

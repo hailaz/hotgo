@@ -3,16 +3,17 @@ package handler
 
 import (
 	"context"
+
+	"github.com/gogf/gf/v2/database/gdb"
+	"github.com/gogf/gf/v2/frame/g"
+	"github.com/gogf/gf/v2/text/gstr"
+
 	"hotgo/internal/consts"
 	"hotgo/internal/dao"
 	"hotgo/internal/library/contexts"
 	"hotgo/internal/model/entity"
 	"hotgo/utility/convert"
 	"hotgo/utility/tree"
-
-	"github.com/gogf/gf/v2/database/gdb"
-	"github.com/gogf/gf/v2/frame/g"
-	"github.com/gogf/gf/v2/text/gstr"
 )
 
 // FilterAuth 过滤数据权限
@@ -68,7 +69,7 @@ func FilterAuthWithField(filterField string) func(m *gdb.Model) *gdb.Model {
 			return m
 		}
 
-		getDeptIds := func(in interface{}) []gdb.Value {
+		getDeptIds := func(in any) []gdb.Value {
 			ds, err := dao.AdminMember.Ctx(ctx).Fields(dao.AdminMember.Columns().Id).Where(dao.AdminMember.Columns().DeptId, in).Array()
 			if err != nil {
 				g.Log().Panic(ctx, "failed to get member dept data")

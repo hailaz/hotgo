@@ -3,15 +3,17 @@ package genrouter
 
 import (
 	"context"
+
 	"github.com/gogf/gf/v2/net/ghttp"
+
 	"hotgo/internal/consts"
 	"hotgo/internal/service"
 	"hotgo/utility/simple"
 )
 
 var (
-	NoLoginRouter       []interface{} // 无需登录
-	LoginRequiredRouter []interface{} // 需要登录
+	NoLoginRouter       []any // 无需登录
+	LoginRequiredRouter []any // 需要登录
 )
 
 // Register 注册通过代码生成的后台路由

@@ -3,9 +3,11 @@ package wechat
 
 import (
 	"context"
-	"github.com/gogf/gf/v2/os/gcache"
-	"hotgo/internal/library/cache"
 	"time"
+
+	"github.com/gogf/gf/v2/os/gcache"
+
+	"hotgo/internal/library/cache"
 )
 
 type Cache struct {
@@ -33,7 +35,7 @@ func (r *Cache) SetCtx(ctx context.Context) {
 }
 
 // Get 获取一个值
-func (r *Cache) Get(key string) interface{} {
+func (r *Cache) Get(key string) any {
 	get, err := r.cache.Get(r.ctx, key)
 	if err != nil || get.IsNil() || get.IsEmpty() {
 		return nil
@@ -42,7 +44,7 @@ func (r *Cache) Get(key string) interface{} {
 }
 
 // Set 设置一个值
-func (r *Cache) Set(key string, val interface{}, timeout time.Duration) error {
+func (r *Cache) Set(key string, val any, timeout time.Duration) error {
 	return r.cache.Set(r.ctx, key, val, timeout)
 }
 

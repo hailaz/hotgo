@@ -3,9 +3,10 @@ package websocket
 
 import (
 	"context"
+	"runtime/debug"
+
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/util/gconv"
-	"runtime/debug"
 )
 
 // handlerMsg 处理消息

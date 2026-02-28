@@ -3,8 +3,10 @@ package sysin
 
 import (
 	"context"
+
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/os/gtime"
+
 	"hotgo/internal/library/storager"
 	"hotgo/internal/model/entity"
 	"hotgo/internal/model/input/form"
@@ -13,7 +15,7 @@ import (
 
 // AttachmentDeleteInp 删除附件
 type AttachmentDeleteInp struct {
-	Id interface{} `json:"id" v:"required#附件ID不能为空" dc:"附件ID"`
+	Id any `json:"id" v:"required#附件ID不能为空" dc:"附件ID"`
 }
 
 type AttachmentDeleteModel struct{}

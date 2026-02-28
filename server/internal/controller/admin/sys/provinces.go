@@ -3,6 +3,7 @@ package sys
 
 import (
 	"context"
+
 	"hotgo/api/admin/provinces"
 	"hotgo/internal/library/location"
 	sysLogic "hotgo/internal/logic/sys"
@@ -66,7 +67,7 @@ func (c *cProvinces) List(ctx context.Context, req *provinces.ListReq) (res *pro
 
 	res = new(provinces.ListRes)
 	res.List = list
-	res.PageRes.Pack(req, totalCount)
+	res.Pack(req, totalCount)
 	return
 }
 
@@ -85,7 +86,7 @@ func (c *cProvinces) ChildrenList(ctx context.Context, req *provinces.ChildrenLi
 
 	res = new(provinces.ChildrenListRes)
 	res.List = list
-	res.PageRes.Pack(req, totalCount)
+	res.Pack(req, totalCount)
 	return
 }
 

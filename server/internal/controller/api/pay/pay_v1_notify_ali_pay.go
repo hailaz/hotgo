@@ -3,13 +3,13 @@ package pay
 import (
 	"context"
 
+	"github.com/gogf/gf/v2/frame/g"
+
 	v1 "hotgo/api/api/pay/v1"
 	"hotgo/internal/consts"
 	"hotgo/internal/library/response"
-	"hotgo/internal/model/input/payin"
 	payLogic "hotgo/internal/logic/pay"
-
-	"github.com/gogf/gf/v2/frame/g"
+	"hotgo/internal/model/input/payin"
 )
 
 func (c *ControllerV1) NotifyAliPay(ctx context.Context, req *v1.NotifyAliPayReq) (res *v1.NotifyAliPayRes, err error) {

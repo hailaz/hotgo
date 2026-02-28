@@ -3,8 +3,10 @@ package adminin
 
 import (
 	"context"
+
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/os/gtime"
+
 	"hotgo/internal/consts"
 	"hotgo/internal/model/entity"
 	"hotgo/internal/model/input/form"
@@ -67,7 +69,7 @@ type PostEditModel struct{}
 
 // PostDeleteInp 删除字典类型
 type PostDeleteInp struct {
-	Id interface{} `json:"id" v:"required#岗位ID不能为空" description:"岗位ID"`
+	Id any `json:"id" v:"required#岗位ID不能为空" description:"岗位ID"`
 }
 
 type PostDeleteModel struct{}

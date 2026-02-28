@@ -11,8 +11,6 @@ import (
 	"fmt"
 	"runtime"
 
-	"github.com/gogf/selfupdate"
-
 	"github.com/gogf/gf/v2/container/gset"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/genv"
@@ -20,6 +18,7 @@ import (
 	"github.com/gogf/gf/v2/os/gproc"
 	"github.com/gogf/gf/v2/text/gstr"
 	"github.com/gogf/gf/v2/util/gtag"
+	"github.com/gogf/selfupdate"
 
 	"hotgo/internal/library/hggen/internal/utility/mlog"
 	"hotgo/internal/library/hggen/internal/utility/utils"

@@ -8,14 +8,15 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"os"
+	"path/filepath"
+	"time"
+
 	"github.com/gogf/gf/v2/container/gvar"
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/os/gcache"
 	"github.com/gogf/gf/v2/os/gfile"
 	"github.com/gogf/gf/v2/util/gconv"
-	"os"
-	"path/filepath"
-	"time"
 )
 
 type (
@@ -25,15 +26,15 @@ type (
 	}
 
 	fileContent struct {
-		Duration int64       `json:"duration"`
-		Data     interface{} `json:"data,omitempty"`
+		Duration int64 `json:"duration"`
+		Data     any   `json:"data,omitempty"`
 	}
 )
 
 const perm = 0o666
 
 var (
-	CacheExpiredErr = errors.New("cache expired")
+	ErrCacheExpired = errors.New("cache expired")
 )
 
 // NewAdapterFile creates and returns a new memory cache object.
@@ -43,7 +44,7 @@ func NewAdapterFile(dir string) gcache.Adapter {
 	}
 }
 
-func (c *AdapterFile) Set(ctx context.Context, key interface{}, value interface{}, lifeTime time.Duration) (err error) {
+func (c *AdapterFile) Set(ctx context.Context, key any, value any, lifeTime time.Duration) (err error) {
 	fileKey := gconv.String(key)
 	if value == nil || lifeTime < 0 {
 		return c.Delete(fileKey)
@@ -51,23 +52,23 @@ func (c *AdapterFile) Set(ctx context.Context, key interface{}, value interface{
 	return c.Save(fileKey, gconv.String(value), lifeTime)
 }
 
-func (c *AdapterFile) SetMap(ctx context.Context, data map[interface{}]interface{}, duration time.Duration) (err error) {
+func (c *AdapterFile) SetMap(ctx context.Context, data map[any]any, duration time.Duration) (err error) {
 	return gerror.New("implement me")
 }
 
-func (c *AdapterFile) SetIfNotExist(ctx context.Context, key interface{}, value interface{}, duration time.Duration) (ok bool, err error) {
+func (c *AdapterFile) SetIfNotExist(ctx context.Context, key any, value any, duration time.Duration) (ok bool, err error) {
 	return false, gerror.New("implement me")
 }
 
-func (c *AdapterFile) SetIfNotExistFunc(ctx context.Context, key interface{}, f gcache.Func, duration time.Duration) (ok bool, err error) {
+func (c *AdapterFile) SetIfNotExistFunc(ctx context.Context, key any, f gcache.Func, duration time.Duration) (ok bool, err error) {
 	return false, gerror.New("implement me")
 }
 
-func (c *AdapterFile) SetIfNotExistFuncLock(ctx context.Context, key interface{}, f gcache.Func, duration time.Duration) (ok bool, err error) {
+func (c *AdapterFile) SetIfNotExistFuncLock(ctx context.Context, key any, f gcache.Func, duration time.Duration) (ok bool, err error) {
 	return false, gerror.New("implement me")
 }
 
-func (c *AdapterFile) Get(ctx context.Context, key interface{}) (*gvar.Var, error) {
+func (c *AdapterFile) Get(ctx context.Context, key any) (*gvar.Var, error) {
 	fetch, err := c.Fetch(gconv.String(key))
 	if err != nil {
 		return nil, err
@@ -75,9 +76,9 @@ func (c *AdapterFile) Get(ctx context.Context, key interface{}) (*gvar.Var, erro
 	return gvar.New(fetch), nil
 }
 
-func (c *AdapterFile) GetOrSet(ctx context.Context, key interface{}, value interface{}, duration time.Duration) (result *gvar.Var, err error) {
+func (c *AdapterFile) GetOrSet(ctx context.Context, key any, value any, duration time.Duration) (result *gvar.Var, err error) {
 	result, err = c.Get(ctx, key)
-	if err != nil && !errors.Is(err, CacheExpiredErr) {
+	if err != nil && !errors.Is(err, ErrCacheExpired) {
 		return nil, err
 	}
 	if result.IsNil() {
@@ -86,9 +87,9 @@ func (c *AdapterFile) GetOrSet(ctx context.Context, key interface{}, value inter
 	return
 }
 
-func (c *AdapterFile) GetOrSetFunc(ctx context.Context, key interface{}, f gcache.Func, duration time.Duration) (result *gvar.Var, err error) {
+func (c *AdapterFile) GetOrSetFunc(ctx context.Context, key any, f gcache.Func, duration time.Duration) (result *gvar.Var, err error) {
 	v, err := c.Get(ctx, key)
-	if err != nil && !errors.Is(err, CacheExpiredErr) {
+	if err != nil && !errors.Is(err, ErrCacheExpired) {
 		return nil, err
 	}
 	if v.IsNil() {
@@ -105,11 +106,11 @@ func (c *AdapterFile) GetOrSetFunc(ctx context.Context, key interface{}, f gcach
 	}
 }
 
-func (c *AdapterFile) GetOrSetFuncLock(ctx context.Context, key interface{}, f gcache.Func, duration time.Duration) (result *gvar.Var, err error) {
+func (c *AdapterFile) GetOrSetFuncLock(ctx context.Context, key any, f gcache.Func, duration time.Duration) (result *gvar.Var, err error) {
 	return c.GetOrSetFunc(ctx, key, f, duration)
 }
 
-func (c *AdapterFile) Contains(ctx context.Context, key interface{}) (bool, error) {
+func (c *AdapterFile) Contains(ctx context.Context, key any) (bool, error) {
 	return c.Has(gconv.String(key)), nil
 }
 
@@ -117,23 +118,23 @@ func (c *AdapterFile) Size(ctx context.Context) (size int, err error) {
 	return 0, nil
 }
 
-func (c *AdapterFile) Data(ctx context.Context) (data map[interface{}]interface{}, err error) {
+func (c *AdapterFile) Data(ctx context.Context) (data map[any]any, err error) {
 	return nil, gerror.New("implement me")
 }
 
-func (c *AdapterFile) Keys(ctx context.Context) (keys []interface{}, err error) {
+func (c *AdapterFile) Keys(ctx context.Context) (keys []any, err error) {
 	return nil, gerror.New("implement me")
 }
 
-func (c *AdapterFile) Values(ctx context.Context) (values []interface{}, err error) {
+func (c *AdapterFile) Values(ctx context.Context) (values []any, err error) {
 	return nil, gerror.New("implement me")
 }
 
-func (c *AdapterFile) Update(ctx context.Context, key interface{}, value interface{}) (oldValue *gvar.Var, exist bool, err error) {
+func (c *AdapterFile) Update(ctx context.Context, key any, value any) (oldValue *gvar.Var, exist bool, err error) {
 	return nil, false, gerror.New("implement me")
 }
 
-func (c *AdapterFile) UpdateExpire(ctx context.Context, key interface{}, duration time.Duration) (oldDuration time.Duration, err error) {
+func (c *AdapterFile) UpdateExpire(ctx context.Context, key any, duration time.Duration) (oldDuration time.Duration, err error) {
 	var (
 		v       *gvar.Var
 		oldTTL  int64
@@ -163,7 +164,7 @@ func (c *AdapterFile) UpdateExpire(ctx context.Context, key interface{}, duratio
 	return
 }
 
-func (c *AdapterFile) GetExpire(ctx context.Context, key interface{}) (time.Duration, error) {
+func (c *AdapterFile) GetExpire(ctx context.Context, key any) (time.Duration, error) {
 	content, err := c.read(gconv.String(key))
 	if err != nil {
 		return -1, nil
@@ -175,7 +176,7 @@ func (c *AdapterFile) GetExpire(ctx context.Context, key interface{}) (time.Dura
 	return time.Duration(time.Now().Unix()-content.Duration) * time.Second, nil
 }
 
-func (c *AdapterFile) Remove(ctx context.Context, keys ...interface{}) (lastValue *gvar.Var, err error) {
+func (c *AdapterFile) Remove(ctx context.Context, keys ...any) (lastValue *gvar.Var, err error) {
 	if len(keys) == 0 {
 		return nil, nil
 	}
@@ -225,7 +226,7 @@ func (c *AdapterFile) read(key string) (*fileContent, error) {
 
 	if content.Duration <= time.Now().Unix() {
 		_ = c.Delete(key)
-		return nil, CacheExpiredErr
+		return nil, ErrCacheExpired
 	}
 	return content, nil
 }
@@ -256,7 +257,7 @@ func (c *AdapterFile) DeleteMulti(keys ...string) (err error) {
 }
 
 // Fetch retrieves the cached value from key of the File storage
-func (c *AdapterFile) Fetch(key string) (interface{}, error) {
+func (c *AdapterFile) Fetch(key string) (any, error) {
 	content, err := c.read(key)
 	if err != nil {
 		return nil, err
@@ -269,8 +270,8 @@ func (c *AdapterFile) Fetch(key string) (interface{}, error) {
 }
 
 // FetchMulti retrieve multiple cached values from keys of the File storage
-func (c *AdapterFile) FetchMulti(keys []string) map[string]interface{} {
-	result := make(map[string]interface{})
+func (c *AdapterFile) FetchMulti(keys []string) map[string]any {
+	result := make(map[string]any)
 	for _, key := range keys {
 		if value, err := c.Fetch(key); err == nil {
 			result[key] = value

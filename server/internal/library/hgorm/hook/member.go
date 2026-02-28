@@ -3,11 +3,12 @@ package hook
 
 import (
 	"context"
-	"hotgo/internal/dao"
-	"hotgo/utility/convert"
 
 	"github.com/gogf/gf/v2/container/gvar"
 	"github.com/gogf/gf/v2/database/gdb"
+
+	"hotgo/internal/dao"
+	"hotgo/utility/convert"
 )
 
 // MemberInfo 后台用户信息

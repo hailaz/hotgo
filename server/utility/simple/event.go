@@ -6,7 +6,7 @@ import (
 	"sync"
 )
 
-type EventFunc func(ctx context.Context, args ...interface{})
+type EventFunc func(ctx context.Context, args ...any)
 
 type sEvent struct {
 	sync.Mutex
@@ -33,7 +33,7 @@ func (e *sEvent) Register(group string, callback EventFunc) {
 }
 
 // Call 回调一个分组的事件
-func (e *sEvent) Call(group string, ctx context.Context, args ...interface{}) {
+func (e *sEvent) Call(group string, ctx context.Context, args ...any) {
 	if events, ok := e.list[group]; ok {
 		for _, f := range events {
 			f(ctx, args...)

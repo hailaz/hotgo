@@ -4,10 +4,12 @@ package sysin
 import (
 	"context"
 	"errors"
+
 	"github.com/gogf/gf/v2/encoding/gjson"
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/gtime"
+
 	"hotgo/internal/consts"
 	"hotgo/internal/model/entity"
 	"hotgo/internal/model/input/form"
@@ -54,7 +56,7 @@ func (in *TableEditInp) Filter(ctx context.Context) (err error) {
 
 // TableDeleteInp 删除类型
 type TableDeleteInp struct {
-	Id interface{} `json:"id" v:"required#表格ID不能为空" dc:"表格ID"`
+	Id any `json:"id" v:"required#表格ID不能为空" dc:"表格ID"`
 }
 
 type TableDeleteModel struct{}

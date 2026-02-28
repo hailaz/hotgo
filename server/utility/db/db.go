@@ -12,9 +12,11 @@ import (
 // usage:
 //
 // fields, err := db.GetFieldsWithComment(ctx, in.Table, in.Name)
-// if err != nil {
-// 	return
-// }
+//
+//	if err != nil {
+//		return
+//	}
+//
 // for _, v := range fields {}
 func GetFieldsWithComment(ctx context.Context, tableName, dbTag string) (fields map[string]*gdb.TableField, err error) {
 	db := g.DB(dbTag)

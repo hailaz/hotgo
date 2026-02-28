@@ -3,10 +3,11 @@ package tcp
 
 import (
 	"context"
-	"github.com/gogf/gf/v2/container/gtype"
-	"github.com/gogf/gf/v2/errors/gerror"
 	"sync"
 	"time"
+
+	"github.com/gogf/gf/v2/container/gtype"
+	"github.com/gogf/gf/v2/errors/gerror"
 )
 
 // RPC .
@@ -18,11 +19,11 @@ type RPC struct {
 
 // RPCResponse 响应结构
 type RPCResponse struct {
-	res interface{}
+	res any
 	err error
 }
 
-type RPCResponseFunc func(resp interface{}, err error)
+type RPCResponseFunc func(resp any, err error)
 
 // NewRPC 初始化RPC
 func NewRPC(task RoutineTask) *RPC {
@@ -33,7 +34,7 @@ func NewRPC(task RoutineTask) *RPC {
 }
 
 // Request 发起RPC请求
-func (r *RPC) Request(ctx context.Context, msgId string, send func()) (res interface{}, err error) {
+func (r *RPC) Request(ctx context.Context, msgId string, send func()) (res any, err error) {
 	resCh := make(chan RPCResponse, 1)
 	isClose := gtype.NewBool(false)
 
@@ -44,7 +45,7 @@ func (r *RPC) Request(ctx context.Context, msgId string, send func()) (res inter
 	}()
 
 	r.mutex.Lock()
-	r.callbacks[msgId] = func(res interface{}, err error) {
+	r.callbacks[msgId] = func(res any, err error) {
 		if !isClose.Val() {
 			resCh <- RPCResponse{res: res, err: err}
 		}

@@ -43,7 +43,7 @@ func GetRequestRoute(r *ghttp.Request) *HTTPRouter {
 
 // GenFilterRequestKey 根据请求生成唯一key
 func GenFilterRequestKey(r *ghttp.Request) string {
-	return GenRouteKey(r.Method, r.Request.URL.Path)
+	return GenRouteKey(r.Method, r.URL.Path)
 }
 
 // GenFilterRouteKey 根据路由生成唯一key
@@ -79,12 +79,12 @@ func LoadHTTPRoutes(r *ghttp.Request) map[string]*HTTPRouter {
 }
 
 func setRouterMeta(router *HTTPRouter) *HTTPRouter {
-	if !router.RouterItem.Handler.Info.IsStrictRoute {
+	if !router.Handler.Info.IsStrictRoute {
 		return router
 	}
 
 	var reflectValue = reflect.ValueOf(router.Handler.Info.Value.Interface())
-	for reflectValue.Kind() == reflect.Ptr {
+	for reflectValue.Kind() == reflect.Pointer {
 		reflectValue = reflectValue.Elem()
 	}
 
@@ -98,7 +98,7 @@ func setRouterMeta(router *HTTPRouter) *HTTPRouter {
 	}
 
 	var inputObject reflect.Value
-	if reflectType.In(1).Kind() == reflect.Ptr {
+	if reflectType.In(1).Kind() == reflect.Pointer {
 		inputObject = reflect.New(reflectType.In(1).Elem()).Elem()
 	} else {
 		inputObject = reflect.New(reflectType.In(1)).Elem()

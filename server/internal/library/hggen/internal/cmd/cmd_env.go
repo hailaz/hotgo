@@ -10,14 +10,13 @@ import (
 	"bytes"
 	"context"
 
-	"github.com/olekukonko/tablewriter"
-	"github.com/olekukonko/tablewriter/renderer"
-	"github.com/olekukonko/tablewriter/tw"
-
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/gproc"
 	"github.com/gogf/gf/v2/text/gregex"
 	"github.com/gogf/gf/v2/text/gstr"
+	"github.com/olekukonko/tablewriter"
+	"github.com/olekukonko/tablewriter/renderer"
+	"github.com/olekukonko/tablewriter/tw"
 
 	"hotgo/internal/library/hggen/internal/utility/mlog"
 )
@@ -78,8 +77,8 @@ func (c cEnv) Index(ctx context.Context, in cEnvInput) (out *cEnvOutput, err err
 			},
 		}),
 	)
-	table.Bulk(array)
-	table.Render()
+	_ = table.Bulk(array)
+	_ = table.Render()
 	mlog.Print(buffer.String())
 	return
 }

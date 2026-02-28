@@ -4,16 +4,16 @@ package model
 // GenCodesColumn 生成表字段属性
 type GenCodesColumn struct {
 	// 表属性
-	Id           int64       `json:"id" dc:"序号"`
-	Name         string      `json:"name" dc:"字段列名"`
-	Dc           string      `json:"dc" dc:"字段描述"`
-	DataType     string      `json:"dataType" dc:"字段类型"`
-	SqlType      string      `json:"sqlType" dc:"物理类型"`
-	Length       int64       `json:"length" dc:"字段长度"`
-	IsAllowNull  string      `json:"isAllowNull" dc:"是否允许为空"`
-	DefaultValue interface{} `json:"defaultValue" dc:"默认值"`
-	Index        string      `json:"index" dc:"索引"`
-	Extra        string      `json:"extra" dc:"额外选项"`
+	Id           int64  `json:"id" dc:"序号"`
+	Name         string `json:"name" dc:"字段列名"`
+	Dc           string `json:"dc" dc:"字段描述"`
+	DataType     string `json:"dataType" dc:"字段类型"`
+	SqlType      string `json:"sqlType" dc:"物理类型"`
+	Length       int64  `json:"length" dc:"字段长度"`
+	IsAllowNull  string `json:"isAllowNull" dc:"是否允许为空"`
+	DefaultValue any    `json:"defaultValue" dc:"默认值"`
+	Index        string `json:"index" dc:"索引"`
+	Extra        string `json:"extra" dc:"额外选项"`
 	// 自定义生成属性
 	// Alias      string `json:"alias" dc:"字段别名"`
 	GoName       string `json:"goName" dc:"Go属性"`

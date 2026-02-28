@@ -3,18 +3,19 @@ package sys
 
 import (
 	"context"
-	"hotgo/internal/consts"
-	"hotgo/internal/dao"
-	"hotgo/internal/model/entity"
-	"hotgo/internal/model/input/sysin"
-	"hotgo/internal/service"
-	"hotgo/utility/simple"
 
 	"github.com/gogf/gf/v2/database/gdb"
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/gtime"
 	"github.com/gogf/gf/v2/text/gstr"
+
+	"hotgo/internal/consts"
+	"hotgo/internal/dao"
+	"hotgo/internal/model/entity"
+	"hotgo/internal/model/input/sysin"
+	"hotgo/internal/service"
+	"hotgo/utility/simple"
 )
 
 var AddonsMaskDemoField []string
@@ -79,7 +80,7 @@ func (s *sSysAddonsConfig) GetConfigByGroup(ctx context.Context, in *sysin.GetAd
 }
 
 // ConversionType 转换类型
-func (s *sSysAddonsConfig) ConversionType(ctx context.Context, models *entity.SysAddonsConfig) (value interface{}, err error) {
+func (s *sSysAddonsConfig) ConversionType(ctx context.Context, models *entity.SysAddonsConfig) (value any, err error) {
 	if models == nil {
 		err = gerror.New("数据不存在")
 		return

@@ -2,13 +2,15 @@
 package middleware
 
 import (
+	"reflect"
+
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/net/ghttp"
 	"github.com/gogf/gf/v2/util/gconv"
+
 	"hotgo/internal/global"
 	"hotgo/internal/library/response"
 	"hotgo/utility/validate"
-	"reflect"
 )
 
 // PreFilter 请求输入预处理
@@ -30,7 +32,7 @@ func (s *sMiddleware) PreFilter(r *ghttp.Request) {
 
 	inputType := funcInfo.Type.In(1)
 	var inputObject reflect.Value
-	if inputType.Kind() == reflect.Ptr {
+	if inputType.Kind() == reflect.Pointer {
 		inputObject = reflect.New(inputType.Elem())
 	} else {
 		inputObject = reflect.New(inputType.Elem()).Elem()

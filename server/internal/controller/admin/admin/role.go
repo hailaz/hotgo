@@ -3,6 +3,7 @@ package admin
 
 import (
 	"context"
+
 	"hotgo/api/admin/role"
 	"hotgo/internal/consts"
 	"hotgo/internal/library/contexts"
@@ -24,7 +25,7 @@ func (c *cRole) List(ctx context.Context, req *role.ListReq) (res *role.ListRes,
 
 	res = new(role.ListRes)
 	res.RoleListModel = list
-	res.PageRes.Pack(req, totalCount)
+	res.Pack(req, totalCount)
 	return
 }
 

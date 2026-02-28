@@ -3,16 +3,6 @@ package views
 
 import (
 	"context"
-	"hotgo/internal/consts"
-	"hotgo/internal/dao"
-	"hotgo/internal/library/hggen/internal/cmd/gendao"
-	"hotgo/internal/library/hgorm"
-	"hotgo/internal/model"
-	"hotgo/internal/model/input/sysin"
-	"hotgo/internal/service"
-	"hotgo/utility/convert"
-	"hotgo/utility/file"
-	"hotgo/utility/tree"
 	"runtime"
 	"strings"
 
@@ -24,6 +14,17 @@ import (
 	"github.com/gogf/gf/v2/os/gtime"
 	"github.com/gogf/gf/v2/os/gview"
 	"github.com/gogf/gf/v2/text/gstr"
+
+	"hotgo/internal/consts"
+	"hotgo/internal/dao"
+	"hotgo/internal/library/hggen/internal/cmd/gendao"
+	"hotgo/internal/library/hgorm"
+	"hotgo/internal/model"
+	"hotgo/internal/model/input/sysin"
+	"hotgo/internal/service"
+	"hotgo/utility/convert"
+	"hotgo/utility/file"
+	"hotgo/utility/tree"
 )
 
 var Curd = gCurd{}
@@ -406,9 +407,9 @@ func (l *gCurd) loadView(ctx context.Context, in *CurdPreviewInput) (err error) 
 		"importInput":      importInput,                                                 // 导入input包
 		"importController": importController,                                            // 导入控制器包
 		"importService":    importService,                                               // 导入业务服务
-		"importLogic":      importLogic,                                                // 导入logic包
-		"logicAlias":       logicAlias,                                                 // logic包别名
-		"servCaller":       servCaller,                                                 // 服务调用表达式
+		"importLogic":      importLogic,                                                 // 导入logic包
+		"logicAlias":       logicAlias,                                                  // logic包别名
+		"servCaller":       servCaller,                                                  // 服务调用表达式
 		"importWebApi":     in.options.ImportWebApi,                                     // 导入webApi
 		"apiPrefix":        in.options.ApiPrefix,                                        // api前缀
 		"componentPrefix":  componentPrefix,                                             // vue子组件前缀
@@ -905,7 +906,7 @@ func (l *gCurd) generateSqlContent(ctx context.Context, in *CurdPreviewInput) (e
 			"menuTable":     config.Prefix + "admin_menu",
 			"mainComponent": "LAYOUT",
 		}
-		genFile     = new(sysin.GenFile)
+		genFile      = new(sysin.GenFile)
 		templateName = "source.sql.template"
 	)
 

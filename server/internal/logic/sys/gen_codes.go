@@ -4,13 +4,6 @@ package sys
 import (
 	"context"
 	"fmt"
-	"hotgo/internal/consts"
-	"hotgo/internal/dao"
-	"hotgo/internal/library/hggen"
-	"hotgo/internal/model"
-	"hotgo/internal/model/input/form"
-	"hotgo/internal/model/input/sysin"
-	"hotgo/utility/validate"
 
 	"github.com/gogf/gf/v2/encoding/gjson"
 	"github.com/gogf/gf/v2/errors/gerror"
@@ -18,6 +11,14 @@ import (
 	"github.com/gogf/gf/v2/os/gtime"
 	"github.com/gogf/gf/v2/text/gregex"
 	"github.com/gogf/gf/v2/text/gstr"
+
+	"hotgo/internal/consts"
+	"hotgo/internal/dao"
+	"hotgo/internal/library/hggen"
+	"hotgo/internal/model"
+	"hotgo/internal/model/input/form"
+	"hotgo/internal/model/input/sysin"
+	"hotgo/utility/validate"
 )
 
 type sSysGenCodes struct{}

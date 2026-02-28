@@ -13,13 +13,12 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/olekukonko/tablewriter"
-
 	"github.com/gogf/gf/v2/database/gdb"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/gfile"
 	"github.com/gogf/gf/v2/os/gview"
 	"github.com/gogf/gf/v2/text/gstr"
+	"github.com/olekukonko/tablewriter"
 
 	"hotgo/internal/library/hggen/internal/consts"
 	"hotgo/internal/library/hggen/internal/utility/mlog"
@@ -212,8 +211,8 @@ func generateColumnNamesForDao(fieldMap map[string]*gdb.TableField, removeFieldP
 		}
 	}
 	table := tablewriter.NewTable(buffer, twRenderer, twConfig)
-	table.Bulk(array)
-	table.Render()
+	_ = table.Bulk(array)
+	_ = table.Render()
 	namesContent := buffer.String()
 	// Let's do this hack of table writer for indent!
 	namesContent = gstr.Replace(namesContent, "  #", "")
@@ -249,8 +248,8 @@ func generateColumnDefinitionForDao(fieldMap map[string]*gdb.TableField, removeF
 		}
 	}
 	table := tablewriter.NewTable(buffer, twRenderer, twConfig)
-	table.Bulk(array)
-	table.Render()
+	_ = table.Bulk(array)
+	_ = table.Render()
 	defineContent := buffer.String()
 	// Let's do this hack of table writer for indent!
 	defineContent = gstr.Replace(defineContent, "  #", "")

@@ -3,11 +3,12 @@ package payin
 
 import (
 	"context"
+
 	"github.com/gogf/gf/v2/encoding/gjson"
+	"github.com/gogf/gf/v2/os/gtime"
+
 	"hotgo/internal/model/entity"
 	"hotgo/internal/model/input/form"
-
-	"github.com/gogf/gf/v2/os/gtime"
 )
 
 // PayNotifyInp 异步通知
@@ -59,7 +60,7 @@ type PayEditModel struct{}
 
 // PayDeleteInp 删除支付日志
 type PayDeleteInp struct {
-	Id interface{} `json:"id" v:"required#ID不能为空" dc:"ID"`
+	Id any `json:"id" v:"required#ID不能为空" dc:"ID"`
 }
 
 func (in *PayDeleteInp) Filter(ctx context.Context) (err error) {

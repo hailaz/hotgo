@@ -5,11 +5,12 @@ package lock
 
 import (
 	"context"
+	"sync"
+	"time"
+
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/util/guid"
-	"sync"
-	"time"
 )
 
 // Config 锁配置
@@ -80,7 +81,7 @@ func (l *Lock) Lock(ctx context.Context) error {
 
 // TryLock 尝试加锁，如果失败立即返回错误，而不会阻塞等待锁
 func (l *Lock) TryLock(ctx context.Context) error {
-	var args = []interface{}{l.randomValue, l.ttl.Seconds()}
+	var args = []any{l.randomValue, l.ttl.Seconds()}
 	eval, err := g.Redis().GroupScript().Eval(ctx, lockScript, 1, []string{l.resource}, args)
 	if err != nil {
 		return err
@@ -96,7 +97,7 @@ func (l *Lock) TryLock(ctx context.Context) error {
 
 // Unlock 解锁
 func (l *Lock) Unlock(ctx context.Context) error {
-	var args []interface{}
+	var args []any
 	args = append(args, l.randomValue)
 	eval, err := g.Redis().GroupScript().Eval(ctx, unlockScript, 1, []string{l.resource}, args)
 
@@ -154,7 +155,7 @@ func (l *Lock) startWatchDog() {
 		case <-ticker.C:
 			// 延长锁的过期时间
 			ctx, cancel := context.WithTimeout(context.Background(), resetTTLInterval)
-			var args = []interface{}{l.ttl.Seconds(), l.randomValue}
+			var args = []any{l.ttl.Seconds(), l.randomValue}
 			eval, err := conn.GroupScript().Eval(ctx, renewalScript, 1, []string{l.resource}, args)
 			cancel()
 

@@ -3,10 +3,12 @@ package sysin
 
 import (
 	"context"
+
 	"github.com/gogf/gf/v2/encoding/gjson"
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/gtime"
+
 	"hotgo/internal/consts"
 	"hotgo/internal/model/entity"
 	"hotgo/internal/model/input/form"
@@ -74,7 +76,7 @@ type ServeLicenseEditModel struct{}
 
 // ServeLicenseDeleteInp 删除服务许可证
 type ServeLicenseDeleteInp struct {
-	Id interface{} `json:"id" v:"required#许可ID不能为空" dc:"许可ID"`
+	Id any `json:"id" v:"required#许可ID不能为空" dc:"许可ID"`
 }
 
 func (in *ServeLicenseDeleteInp) Filter(ctx context.Context) (err error) {

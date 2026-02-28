@@ -3,6 +3,7 @@ package index
 
 import (
 	"github.com/gogf/gf/v2/frame/g"
+
 	"hotgo/addons/hgexample/model/input/sysin"
 )
 

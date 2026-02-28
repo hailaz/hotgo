@@ -3,6 +3,7 @@ package admin
 
 import (
 	"context"
+
 	"hotgo/api/admin/notice"
 	"hotgo/internal/consts"
 	adminLogic "hotgo/internal/logic/admin"
@@ -54,7 +55,7 @@ func (c *cNotice) List(ctx context.Context, req *notice.ListReq) (res *notice.Li
 
 	res = new(notice.ListRes)
 	res.List = list
-	res.PageRes.Pack(req, totalCount)
+	res.Pack(req, totalCount)
 	return
 }
 
@@ -118,6 +119,6 @@ func (c *cNotice) MessageList(ctx context.Context, req *notice.MessageListReq) (
 
 	res = new(notice.MessageListRes)
 	res.List = list
-	res.PageRes.Pack(req, totalCount)
+	res.Pack(req, totalCount)
 	return
 }

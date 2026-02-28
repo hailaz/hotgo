@@ -3,6 +3,7 @@ package validate
 
 import (
 	"context"
+
 	"github.com/gogf/gf/v2/frame/g"
 )
 
@@ -16,7 +17,7 @@ type Filter interface {
 }
 
 // PreFilter 预过滤
-func PreFilter(ctx context.Context, in interface{}) error {
+func PreFilter(ctx context.Context, in any) error {
 	return g.Try(ctx, func(ctx context.Context) {
 		if c, ok := in.(Filter); ok {
 			if err := c.Filter(ctx); err != nil {

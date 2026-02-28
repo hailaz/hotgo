@@ -3,11 +3,12 @@ package sys
 
 import (
 	"context"
+
 	"hotgo/api/admin/config"
 	"hotgo/internal/consts"
+	sysLogic "hotgo/internal/logic/sys"
 	"hotgo/internal/model/input/form"
 	"hotgo/internal/model/input/sysin"
-	sysLogic "hotgo/internal/logic/sys"
 )
 
 var (

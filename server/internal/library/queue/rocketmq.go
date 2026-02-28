@@ -3,9 +3,6 @@ package queue
 
 import (
 	"context"
-	"hotgo/internal/consts"
-	"hotgo/utility/simple"
-	"hotgo/utility/validate"
 	"sync"
 	"time"
 
@@ -18,6 +15,10 @@ import (
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/grpool"
+
+	"hotgo/internal/consts"
+	"hotgo/utility/simple"
+	"hotgo/utility/validate"
 )
 
 type RocketMq struct {
@@ -40,7 +41,7 @@ func init() {
 }
 
 func setRocketCloseEvent() {
-	simple.Event().Register(consts.EventServerClose, func(ctx context.Context, args ...interface{}) {
+	simple.Event().Register(consts.EventServerClose, func(ctx context.Context, args ...any) {
 		if rocketManager == nil {
 			return
 		}

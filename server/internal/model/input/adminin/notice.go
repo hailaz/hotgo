@@ -3,7 +3,9 @@ package adminin
 
 import (
 	"context"
+
 	"github.com/gogf/gf/v2/os/gtime"
+
 	"hotgo/internal/model/entity"
 	"hotgo/internal/model/input/form"
 )
@@ -28,7 +30,7 @@ type NoticeEditModel struct{}
 
 // NoticeDeleteInp 删除字典类型
 type NoticeDeleteInp struct {
-	Id interface{} `json:"id" v:"required#公告ID不能为空" dc:"公告ID"`
+	Id any `json:"id" v:"required#公告ID不能为空" dc:"公告ID"`
 }
 
 type NoticeDeleteModel struct{}

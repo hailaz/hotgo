@@ -3,9 +3,10 @@ package sys
 
 import (
 	"context"
+
 	"hotgo/api/admin/testcategory"
-	"hotgo/internal/model/input/sysin"
 	sysLogic "hotgo/internal/logic/sys"
+	"hotgo/internal/model/input/sysin"
 )
 
 var (
@@ -27,7 +28,7 @@ func (c *cTestCategory) List(ctx context.Context, req *testcategory.ListReq) (re
 
 	res = new(testcategory.ListRes)
 	res.List = list
-	res.PageRes.Pack(req, totalCount)
+	res.Pack(req, totalCount)
 	return
 }
 

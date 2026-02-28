@@ -2,11 +2,11 @@
 package normaltreedemo
 
 import (
+	"github.com/gogf/gf/v2/frame/g"
+
 	"hotgo/internal/model/input/form"
 	"hotgo/internal/model/input/sysin"
 	"hotgo/utility/tree"
-
-	"github.com/gogf/gf/v2/frame/g"
 )
 
 // ListReq 查询普通树表列表

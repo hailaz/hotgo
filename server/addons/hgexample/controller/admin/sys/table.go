@@ -3,6 +3,7 @@ package sys
 
 import (
 	"context"
+
 	"hotgo/addons/hgexample/api/admin/table"
 	"hotgo/addons/hgexample/service"
 )
@@ -22,7 +23,7 @@ func (c *cTable) List(ctx context.Context, req *table.ListReq) (res *table.ListR
 
 	res = new(table.ListRes)
 	res.List = list
-	res.PageRes.Pack(req, totalCount)
+	res.Pack(req, totalCount)
 	return
 }
 

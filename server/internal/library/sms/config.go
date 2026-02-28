@@ -3,10 +3,11 @@ package sms
 
 import (
 	"context"
-	"hotgo/internal/dao"
-	"hotgo/internal/model"
 
 	"github.com/gogf/gf/v2/database/gdb"
+
+	"hotgo/internal/dao"
+	"hotgo/internal/model"
 )
 
 var config *model.SmsConfig

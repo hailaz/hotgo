@@ -3,14 +3,15 @@ package dict
 
 import (
 	"hash/fnv"
-	"hotgo/internal/model"
 
 	"github.com/gogf/gf/v2/util/gconv"
+
+	"hotgo/internal/model"
 )
 
 // GenDefaultOption 生成默认表格回显样式
-func GenDefaultOption(key interface{}, label string, extra ...any) *model.Option {
-	e := interface{}(nil)
+func GenDefaultOption(key any, label string, extra ...any) *model.Option {
+	e := any(nil)
 	if len(extra) > 0 {
 		e = extra[0]
 	}
@@ -23,8 +24,8 @@ func GenDefaultOption(key interface{}, label string, extra ...any) *model.Option
 	}
 }
 
-func GenSuccessOption(key interface{}, label string, extra ...any) *model.Option {
-	e := interface{}(nil)
+func GenSuccessOption(key any, label string, extra ...any) *model.Option {
+	e := any(nil)
 	if len(extra) > 0 {
 		e = extra[0]
 	}
@@ -37,8 +38,8 @@ func GenSuccessOption(key interface{}, label string, extra ...any) *model.Option
 	}
 }
 
-func GenWarningOption(key interface{}, label string, extra ...any) *model.Option {
-	e := interface{}(nil)
+func GenWarningOption(key any, label string, extra ...any) *model.Option {
+	e := any(nil)
 	if len(extra) > 0 {
 		e = extra[0]
 	}
@@ -51,8 +52,8 @@ func GenWarningOption(key interface{}, label string, extra ...any) *model.Option
 	}
 }
 
-func GenErrorOption(key interface{}, label string, extra ...any) *model.Option {
-	e := interface{}(nil)
+func GenErrorOption(key any, label string, extra ...any) *model.Option {
+	e := any(nil)
 	if len(extra) > 0 {
 		e = extra[0]
 	}
@@ -65,8 +66,8 @@ func GenErrorOption(key interface{}, label string, extra ...any) *model.Option {
 	}
 }
 
-func GenInfoOption(key interface{}, label string, extra ...any) *model.Option {
-	e := interface{}(nil)
+func GenInfoOption(key any, label string, extra ...any) *model.Option {
+	e := any(nil)
 	if len(extra) > 0 {
 		e = extra[0]
 	}
@@ -79,8 +80,8 @@ func GenInfoOption(key interface{}, label string, extra ...any) *model.Option {
 	}
 }
 
-func GenPrimaryOption(key interface{}, label string, extra ...any) *model.Option {
-	e := interface{}(nil)
+func GenPrimaryOption(key any, label string, extra ...any) *model.Option {
+	e := any(nil)
 	if len(extra) > 0 {
 		e = extra[0]
 	}
@@ -94,8 +95,8 @@ func GenPrimaryOption(key interface{}, label string, extra ...any) *model.Option
 }
 
 // GenCustomOption 生成自定义表格回显样式
-func GenCustomOption(key interface{}, label string, custom string, extra ...any) *model.Option {
-	e := interface{}(nil)
+func GenCustomOption(key any, label string, custom string, extra ...any) *model.Option {
+	e := any(nil)
 	if len(extra) > 0 {
 		e = extra[0]
 	}
@@ -109,8 +110,8 @@ func GenCustomOption(key interface{}, label string, custom string, extra ...any)
 }
 
 // GenHashOption 根据不同label以hash算法生成表格回显样式
-func GenHashOption(key interface{}, label string, extra ...any) *model.Option {
-	e := interface{}(nil)
+func GenHashOption(key any, label string, extra ...any) *model.Option {
+	e := any(nil)
 	if len(extra) > 0 {
 		e = extra[0]
 	}
@@ -134,7 +135,7 @@ func GenHashOption(key interface{}, label string, extra ...any) *model.Option {
 }
 
 // GetOption 通过key找到label
-func GetOption(ses []*model.Option, key interface{}) *model.Option {
+func GetOption(ses []*model.Option, key any) *model.Option {
 	for _, v := range ses {
 		if gconv.String(v.Key) == gconv.String(key) {
 			return v
@@ -144,7 +145,7 @@ func GetOption(ses []*model.Option, key interface{}) *model.Option {
 }
 
 // GetOptionLabel 通过key找到label
-func GetOptionLabel(ses []*model.Option, key interface{}) string {
+func GetOptionLabel(ses []*model.Option, key any) string {
 	for _, v := range ses {
 		if gconv.String(v.Key) == gconv.String(key) {
 			return v.Label
@@ -154,7 +155,7 @@ func GetOptionLabel(ses []*model.Option, key interface{}) string {
 }
 
 // HasOptionKey 是否存在指定key
-func HasOptionKey(ses []*model.Option, key interface{}) bool {
+func HasOptionKey(ses []*model.Option, key any) bool {
 	for _, v := range ses {
 		if gconv.String(v.Key) == gconv.String(key) {
 			return true

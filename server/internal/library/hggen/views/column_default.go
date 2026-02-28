@@ -3,6 +3,7 @@ package views
 
 import (
 	"github.com/gogf/gf/v2/text/gstr"
+
 	"hotgo/internal/consts"
 	"hotgo/internal/model/input/sysin"
 )
@@ -297,7 +298,7 @@ func setDefaultQueryWhere(field *sysin.GenCodesColumnListModel) {
 
 // setDefaultValue 设置默认value
 func setDefaultValue(field *sysin.GenCodesColumnListModel) {
-	var value interface{}
+	var value any
 	if field.DefaultValue == nil {
 		switch field.GoType {
 		case GoTypeString, GoTypeBytes, GoTypeDate, GoTypeDatetime, GoTypeTime, GoTypeGTime:

@@ -4,12 +4,14 @@ package queue
 import (
 	"context"
 	"fmt"
+	"time"
+
 	"github.com/IBM/sarama"
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
+
 	"hotgo/internal/consts"
 	"hotgo/utility/simple"
-	"time"
 )
 
 type KafkaMq struct {
@@ -94,7 +96,7 @@ func (r *KafkaMq) ListenReceiveMsgDo(topic string, receiveDo func(mqMsg MqMsg)) 
 			}
 
 			if consumerCtx.Err() != nil {
-				Logger().Debugf(ctx, fmt.Sprintf("kafka consoumer stop : %v", consumerCtx.Err()))
+				Logger().Debugf(ctx, "%s", fmt.Sprintf("kafka consoumer stop : %v", consumerCtx.Err()))
 				return
 			}
 			consumer.ready = make(chan bool)
@@ -105,7 +107,7 @@ func (r *KafkaMq) ListenReceiveMsgDo(topic string, receiveDo func(mqMsg MqMsg)) 
 	<-consumer.ready
 	Logger().Debug(ctx, "kafka consumer up and running!...")
 
-	simple.Event().Register(consts.EventServerClose, func(ctx context.Context, args ...interface{}) {
+	simple.Event().Register(consts.EventServerClose, func(ctx context.Context, args ...any) {
 		Logger().Debug(ctx, "kafka consumer close...")
 		cancel()
 		if err = r.consumerIns.Close(); err != nil {
@@ -137,7 +139,7 @@ func RegisterKafkaMqConsumer(connOpt KafkaConfig) (client MqConsumer, err error)
 	}
 
 	// 默认按随机方式消费
-	conf.Consumer.Group.Rebalance.Strategy = sarama.BalanceStrategyRange
+	conf.Consumer.Group.Rebalance.Strategy = sarama.NewBalanceStrategyRange()
 	conf.Consumer.Offsets.Initial = sarama.OffsetNewest
 	conf.Consumer.Offsets.AutoCommit.Interval = 10 * time.Millisecond
 	conf.ClientID = connOpt.ClientId
@@ -198,7 +200,7 @@ func doRegisterKafkaProducer(connOpt KafkaConfig, mqIns *KafkaMq) (err error) {
 		return
 	}
 
-	simple.Event().Register(consts.EventServerClose, func(ctx context.Context, args ...interface{}) {
+	simple.Event().Register(consts.EventServerClose, func(ctx context.Context, args ...any) {
 		g.Log().Debug(ctx, "kafka producer AsyncClose...")
 		mqIns.producerIns.AsyncClose()
 	})

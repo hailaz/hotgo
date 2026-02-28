@@ -4,6 +4,12 @@ package admin
 import (
 	"context"
 	"fmt"
+
+	"github.com/gogf/gf/v2/database/gdb"
+	"github.com/gogf/gf/v2/errors/gerror"
+	"github.com/gogf/gf/v2/frame/g"
+	"github.com/gogf/gf/v2/os/gtime"
+
 	"hotgo/internal/consts"
 	"hotgo/internal/dao"
 	"hotgo/internal/library/contexts"
@@ -14,11 +20,6 @@ import (
 	"hotgo/internal/websocket"
 	"hotgo/utility/simple"
 	"hotgo/utility/validate"
-
-	"github.com/gogf/gf/v2/database/gdb"
-	"github.com/gogf/gf/v2/errors/gerror"
-	"github.com/gogf/gf/v2/frame/g"
-	"github.com/gogf/gf/v2/os/gtime"
 )
 
 type sAdminNotice struct{}
@@ -162,7 +163,6 @@ func (s *sAdminNotice) View(ctx context.Context, in *adminin.NoticeViewInp) (res
 
 // api列表 不需要登陆
 func (s *sAdminNotice) ApiList(ctx context.Context, in *adminin.NoticeListInp) (list []*adminin.NoticeViewModel, totalCount int, err error) {
-
 	mod := s.Model(ctx)
 
 	if in.Title != "" {

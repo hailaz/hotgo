@@ -2,28 +2,26 @@
 package hggen
 
 import (
-	_ "hotgo/internal/library/hggen/internal/cmd/gendao"
-	"hotgo/internal/library/hggen/internal/utility/utils"
+	"context"
+	"sort"
 	_ "unsafe"
 
+	"github.com/gogf/gf/v2/errors/gerror"
+	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/gfile"
+	"github.com/gogf/gf/v2/util/gconv"
 
-	"context"
 	"hotgo/internal/consts"
 	"hotgo/internal/library/addons"
 	"hotgo/internal/library/hggen/internal/cmd"
 	"hotgo/internal/library/hggen/internal/cmd/gendao"
 	"hotgo/internal/library/hggen/internal/cmd/genservice"
+	"hotgo/internal/library/hggen/internal/utility/utils"
 	"hotgo/internal/library/hggen/views"
 	"hotgo/internal/model"
 	"hotgo/internal/model/input/form"
 	"hotgo/internal/model/input/sysin"
 	"hotgo/internal/service"
-	"sort"
-
-	"github.com/gogf/gf/v2/errors/gerror"
-	"github.com/gogf/gf/v2/frame/g"
-	"github.com/gogf/gf/v2/util/gconv"
 )
 
 //go:linkname doGenDaoForArray hotgo/internal/library/hggen/internal/cmd/gendao.doGenDaoForArray

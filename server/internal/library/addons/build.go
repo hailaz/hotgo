@@ -4,14 +4,16 @@ package addons
 import (
 	"context"
 	"fmt"
+	"strconv"
+	"strings"
+
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/os/gfile"
 	"github.com/gogf/gf/v2/text/gstr"
+
 	"hotgo/internal/consts"
 	"hotgo/internal/model"
 	"hotgo/utility/validate"
-	"strconv"
-	"strings"
 )
 
 type BuildOption struct {

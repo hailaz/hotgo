@@ -3,6 +3,7 @@ package sysin
 
 import (
 	"github.com/gogf/gf/v2/frame/g"
+
 	"hotgo/internal/model/entity"
 	"hotgo/internal/model/input/form"
 )
@@ -16,7 +17,7 @@ type EmsLogEditModel struct{}
 
 // EmsLogDeleteInp 删除
 type EmsLogDeleteInp struct {
-	Id interface{} `json:"id" v:"required#邮件记录ID不能为空" dc:"邮件记录ID"`
+	Id any `json:"id" v:"required#邮件记录ID不能为空" dc:"邮件记录ID"`
 }
 
 type EmsLogDeleteModel struct{}

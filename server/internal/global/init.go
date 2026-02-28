@@ -4,6 +4,9 @@ package global
 import (
 	"context"
 	"fmt"
+	"runtime"
+	"strings"
+
 	"github.com/gogf/gf/contrib/trace/jaeger/v2"
 	"github.com/gogf/gf/v2"
 	"github.com/gogf/gf/v2/container/gvar"
@@ -15,6 +18,7 @@ import (
 	"github.com/gogf/gf/v2/os/gtime"
 	"github.com/gogf/gf/v2/text/gstr"
 	"github.com/gogf/gf/v2/util/gmode"
+
 	"hotgo/internal/consts"
 	"hotgo/internal/library/cache"
 	"hotgo/internal/library/queue"
@@ -23,8 +27,6 @@ import (
 	"hotgo/utility/charset"
 	"hotgo/utility/simple"
 	"hotgo/utility/validate"
-	"runtime"
-	"strings"
 )
 
 func Init(ctx context.Context) {
@@ -142,7 +144,7 @@ func InitTrace(ctx context.Context) {
 		g.Log().Fatal(ctx, err)
 	}
 
-	simple.Event().Register(consts.EventServerClose, func(ctx context.Context, args ...interface{}) {
+	simple.Event().Register(consts.EventServerClose, func(ctx context.Context, args ...any) {
 		_ = tp.Shutdown(ctx)
 		g.Log().Debug(ctx, "jaeger closed ..")
 	})

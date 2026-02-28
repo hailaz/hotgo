@@ -1,5 +1,4 @@
 // Package encrypt
-//
 package encrypt
 
 import (

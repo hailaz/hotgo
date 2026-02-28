@@ -3,7 +3,9 @@ package router
 
 import (
 	"context"
+
 	"github.com/gogf/gf/v2/net/ghttp"
+
 	"hotgo/internal/consts"
 	"hotgo/internal/controller/home/base"
 	"hotgo/internal/service"

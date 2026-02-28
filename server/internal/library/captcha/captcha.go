@@ -3,12 +3,13 @@ package captcha
 
 import (
 	"context"
-	"hotgo/internal/consts"
 	"image/color"
 
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/text/gstr"
 	"github.com/mojocn/base64Captcha"
+
+	"hotgo/internal/consts"
 )
 
 // store 验证码存储方式

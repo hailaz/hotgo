@@ -3,6 +3,7 @@ package admin
 
 import (
 	"context"
+
 	"hotgo/api/admin/post"
 	adminLogic "hotgo/internal/logic/admin"
 )
@@ -52,7 +53,7 @@ func (c *cPost) List(ctx context.Context, req *post.ListReq) (res *post.ListRes,
 
 	res = new(post.ListRes)
 	res.List = list
-	res.PageRes.Pack(req, totalCount)
+	res.Pack(req, totalCount)
 	return
 }
 

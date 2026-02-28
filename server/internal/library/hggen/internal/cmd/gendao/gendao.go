@@ -11,11 +11,6 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/olekukonko/tablewriter"
-	"github.com/olekukonko/tablewriter/renderer"
-	"github.com/olekukonko/tablewriter/tw"
-	"golang.org/x/mod/modfile"
-
 	"github.com/gogf/gf/v2/container/garray"
 	"github.com/gogf/gf/v2/container/gset"
 	"github.com/gogf/gf/v2/database/gdb"
@@ -26,6 +21,10 @@ import (
 	"github.com/gogf/gf/v2/os/gview"
 	"github.com/gogf/gf/v2/text/gregex"
 	"github.com/gogf/gf/v2/text/gstr"
+	"github.com/olekukonko/tablewriter"
+	"github.com/olekukonko/tablewriter/renderer"
+	"github.com/olekukonko/tablewriter/tw"
+	"golang.org/x/mod/modfile"
 
 	"hotgo/internal/library/hggen/internal/utility/mlog"
 	"hotgo/internal/library/hggen/internal/utility/utils"
@@ -147,7 +146,7 @@ func doGenDaoForArray(ctx context.Context, index int, in CGenDaoInput) {
 	if in.genItems == nil {
 		in.genItems = newCGenDaoInternalGenItems()
 	}
-	
+
 	var (
 		err error
 		db  gdb.DB
@@ -389,10 +388,7 @@ func sortFieldKeyForDao(fieldMap map[string]*gdb.TableField) []string {
 		j      = 0
 		result = make([]string, len(names))
 	)
-	for {
-		if len(names) == 0 {
-			break
-		}
+	for len(names) != 0 {
 		if val, ok := names[i]; ok {
 			result[j] = val
 			j++

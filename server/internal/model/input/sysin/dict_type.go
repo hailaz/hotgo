@@ -3,8 +3,10 @@ package sysin
 
 import (
 	"context"
+
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
+
 	"hotgo/internal/model/entity"
 )
 
@@ -51,7 +53,7 @@ type DictTypeInsertFields struct {
 
 // DictTypeDeleteInp 删除字典类型
 type DictTypeDeleteInp struct {
-	Id interface{} `json:"id" v:"required#字典类型ID不能为空" dc:"字典类型ID"`
+	Id any `json:"id" v:"required#字典类型ID不能为空" dc:"字典类型ID"`
 }
 
 type DictTypeDeleteModel struct{}

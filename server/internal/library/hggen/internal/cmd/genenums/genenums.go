@@ -9,12 +9,11 @@ package genenums
 import (
 	"context"
 
-	"golang.org/x/tools/go/packages"
-
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/gfile"
 	"github.com/gogf/gf/v2/text/gstr"
 	"github.com/gogf/gf/v2/util/gtag"
+	"golang.org/x/tools/go/packages"
 
 	"hotgo/internal/library/hggen/internal/consts"
 	"hotgo/internal/library/hggen/internal/utility/mlog"

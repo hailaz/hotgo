@@ -3,7 +3,9 @@ package sys
 
 import (
 	"context"
+
 	"github.com/gogf/gf/v2/util/gconv"
+
 	"hotgo/addons/hgexample/global"
 	"hotgo/addons/hgexample/model"
 	"hotgo/addons/hgexample/model/input/sysin"
@@ -24,8 +26,8 @@ func init() {
 // GetBasic 获取基础配置
 func (s *sSysConfig) GetBasic(ctx context.Context) (conf *model.BasicConfig, err error) {
 	var in sysin.GetConfigInp
-	in.GetAddonsConfigInp.AddonName = global.GetSkeleton().Name
-	in.GetAddonsConfigInp.Group = "basic"
+	in.AddonName = global.GetSkeleton().Name
+	in.Group = "basic"
 	models, err := isc.SysAddonsConfig().GetConfigByGroup(ctx, &in.GetAddonsConfigInp)
 	if err != nil {
 		return
@@ -37,7 +39,7 @@ func (s *sSysConfig) GetBasic(ctx context.Context) (conf *model.BasicConfig, err
 
 // GetConfigByGroup 获取指定分组配置
 func (s *sSysConfig) GetConfigByGroup(ctx context.Context, in *sysin.GetConfigInp) (res *sysin.GetConfigModel, err error) {
-	in.GetAddonsConfigInp.AddonName = global.GetSkeleton().Name
+	in.AddonName = global.GetSkeleton().Name
 	models, err := isc.SysAddonsConfig().GetConfigByGroup(ctx, &in.GetAddonsConfigInp)
 	if err != nil {
 		return
@@ -50,6 +52,6 @@ func (s *sSysConfig) GetConfigByGroup(ctx context.Context, in *sysin.GetConfigIn
 
 // UpdateConfigByGroup 更新指定分组的配置
 func (s *sSysConfig) UpdateConfigByGroup(ctx context.Context, in *sysin.UpdateConfigInp) error {
-	in.UpdateAddonsConfigInp.AddonName = global.GetSkeleton().Name
+	in.AddonName = global.GetSkeleton().Name
 	return isc.SysAddonsConfig().UpdateConfigByGroup(ctx, &in.UpdateAddonsConfigInp)
 }

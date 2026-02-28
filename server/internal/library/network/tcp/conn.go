@@ -3,6 +3,9 @@ package tcp
 
 import (
 	"context"
+	"net"
+	"sync/atomic"
+
 	"github.com/gogf/gf/v2/container/gtype"
 	"github.com/gogf/gf/v2/container/gvar"
 	"github.com/gogf/gf/v2/errors/gcode"
@@ -13,8 +16,6 @@ import (
 	"github.com/gogf/gf/v2/os/glog"
 	"github.com/gogf/gf/v2/os/gtime"
 	"github.com/gogf/gf/v2/util/grand"
-	"net"
-	"sync/atomic"
 )
 
 // AuthMeta 认证元数据
@@ -120,7 +121,7 @@ func (c *Conn) Write(b []byte) {
 }
 
 // Send 发送消息
-func (c *Conn) Send(ctx context.Context, data interface{}) error {
+func (c *Conn) Send(ctx context.Context, data any) error {
 	if c.closeFlag.Val() {
 		return gerror.New("conn is closed")
 	}
@@ -142,7 +143,7 @@ func (c *Conn) Close() {
 }
 
 // Request 发送消息并等待响应结果
-func (c *Conn) Request(ctx context.Context, data interface{}) (interface{}, error) {
+func (c *Conn) Request(ctx context.Context, data any) (any, error) {
 	if c.closeFlag.Val() {
 		return nil, gerror.New("conn is closed")
 	}
@@ -157,7 +158,7 @@ func (c *Conn) Request(ctx context.Context, data interface{}) (interface{}, erro
 }
 
 // RequestScan 发送消息并等待响应结果，将结果保存在response中
-func (c *Conn) RequestScan(ctx context.Context, data, response interface{}) error {
+func (c *Conn) RequestScan(ctx context.Context, data, response any) error {
 	body, err := c.Request(ctx, data)
 	if err != nil {
 		return err

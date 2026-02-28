@@ -3,6 +3,7 @@ package sys
 
 import (
 	"context"
+
 	"hotgo/api/admin/gentables"
 	sysLogic "hotgo/internal/logic/sys"
 )

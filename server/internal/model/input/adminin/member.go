@@ -4,9 +4,11 @@ package adminin
 import (
 	"context"
 	"fmt"
+
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/gtime"
+
 	"hotgo/internal/consts"
 	"hotgo/internal/library/contexts"
 	"hotgo/internal/model/entity"
@@ -164,7 +166,7 @@ type VerifyUniqueInp struct {
 
 // MemberDeleteInp 删除用户
 type MemberDeleteInp struct {
-	Id interface{} `json:"id" v:"required#用户ID不能为空" dc:"用户ID"`
+	Id any `json:"id" v:"required#用户ID不能为空" dc:"用户ID"`
 }
 
 type MemberDeleteModel struct{}

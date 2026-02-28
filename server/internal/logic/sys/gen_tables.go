@@ -4,15 +4,16 @@ package sys
 import (
 	"context"
 	"fmt"
-	"hotgo/internal/consts"
-	"hotgo/internal/library/hggen"
-	"hotgo/internal/model/input/sysin"
 	"strconv"
 	"strings"
 
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/text/gstr"
+
+	"hotgo/internal/consts"
+	"hotgo/internal/library/hggen"
+	"hotgo/internal/model/input/sysin"
 )
 
 type sSysGenTables struct{}
@@ -185,17 +186,17 @@ func (s *sSysGenTables) TableView(ctx context.Context, in *sysin.GenTableViewInp
 // getMysqlColumns 获取MySQL表字段信息
 func (s *sSysGenTables) getMysqlColumns(ctx context.Context, dbName, schemaName, tableName string) (res []*sysin.GenTableViewColumnModel, err error) {
 	type columnInfo struct {
-		ColumnName    string `json:"COLUMN_NAME"`
-		DataType      string `json:"DATA_TYPE"`
-		CharMaxLength *int   `json:"CHARACTER_MAXIMUM_LENGTH"`
-		NumPrecision  *int   `json:"NUMERIC_PRECISION"`
-		NumScale      *int   `json:"NUMERIC_SCALE"`
-		IsNullable    string `json:"IS_NULLABLE"`
+		ColumnName    string  `json:"COLUMN_NAME"`
+		DataType      string  `json:"DATA_TYPE"`
+		CharMaxLength *int    `json:"CHARACTER_MAXIMUM_LENGTH"`
+		NumPrecision  *int    `json:"NUMERIC_PRECISION"`
+		NumScale      *int    `json:"NUMERIC_SCALE"`
+		IsNullable    string  `json:"IS_NULLABLE"`
 		ColumnDefault *string `json:"COLUMN_DEFAULT"`
-		ColumnComment string `json:"COLUMN_COMMENT"`
-		ColumnKey     string `json:"COLUMN_KEY"`
-		Extra         string `json:"EXTRA"`
-		ColumnType    string `json:"COLUMN_TYPE"`
+		ColumnComment string  `json:"COLUMN_COMMENT"`
+		ColumnKey     string  `json:"COLUMN_KEY"`
+		Extra         string  `json:"EXTRA"`
+		ColumnType    string  `json:"COLUMN_TYPE"`
 	}
 
 	var columns []*columnInfo
@@ -365,8 +366,8 @@ func (s *sSysGenTables) getMysqlIndexes(ctx context.Context, dbName, tableName s
 // getPgsqlIndexes 获取PostgreSQL表索引
 func (s *sSysGenTables) getPgsqlIndexes(ctx context.Context, dbName, tableName string) (res []*sysin.GenTableViewIndexModel, err error) {
 	type indexInfo struct {
-		IndexName  string `json:"indexname"`
-		IndexDef   string `json:"indexdef"`
+		IndexName string `json:"indexname"`
+		IndexDef  string `json:"indexdef"`
 	}
 
 	var indexes []*indexInfo
@@ -749,7 +750,7 @@ func (s *sSysGenTables) buildMysqlCreateDDL(tableName, comment, engine string, c
 	}
 
 	var buf strings.Builder
-	buf.WriteString(fmt.Sprintf("CREATE TABLE `%s` (\n", tableName))
+	fmt.Fprintf(&buf, "CREATE TABLE `%s` (\n", tableName)
 
 	// 字段定义
 	colDefs := make([]string, 0, len(columns))
@@ -778,10 +779,10 @@ func (s *sSysGenTables) buildMysqlCreateDDL(tableName, comment, engine string, c
 	}
 
 	buf.WriteString(strings.Join(colDefs, ",\n"))
-	buf.WriteString(fmt.Sprintf("\n) ENGINE=%s DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci", engine))
+	fmt.Fprintf(&buf, "\n) ENGINE=%s DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci", engine)
 
 	if comment != "" {
-		buf.WriteString(fmt.Sprintf(" COMMENT='%s'", escapeString(comment)))
+		fmt.Fprintf(&buf, " COMMENT='%s'", escapeString(comment))
 	}
 	buf.WriteString(";")
 	return buf.String()
@@ -790,7 +791,7 @@ func (s *sSysGenTables) buildMysqlCreateDDL(tableName, comment, engine string, c
 // buildPgsqlCreateDDL 构建PostgreSQL CREATE TABLE DDL
 func (s *sSysGenTables) buildPgsqlCreateDDL(tableName, comment string, columns []sysin.GenTableColumnInp, indexes []sysin.GenTableIndexInp) string {
 	var buf strings.Builder
-	buf.WriteString(fmt.Sprintf("CREATE TABLE \"%s\" (\n", tableName))
+	fmt.Fprintf(&buf, "CREATE TABLE \"%s\" (\n", tableName)
 
 	colDefs := make([]string, 0, len(columns))
 	for _, col := range columns {
@@ -813,13 +814,13 @@ func (s *sSysGenTables) buildPgsqlCreateDDL(tableName, comment string, columns [
 
 	// 表注释
 	if comment != "" {
-		buf.WriteString(fmt.Sprintf("COMMENT ON TABLE \"%s\" IS '%s';\n", tableName, escapeString(comment)))
+		fmt.Fprintf(&buf, "COMMENT ON TABLE \"%s\" IS '%s';\n", tableName, escapeString(comment))
 	}
 
 	// 字段注释
 	for _, col := range columns {
 		if col.Comment != "" {
-			buf.WriteString(fmt.Sprintf("COMMENT ON COLUMN \"%s\".\"%s\" IS '%s';\n", tableName, col.Name, escapeString(col.Comment)))
+			fmt.Fprintf(&buf, "COMMENT ON COLUMN \"%s\".\"%s\" IS '%s';\n", tableName, col.Name, escapeString(col.Comment))
 		}
 	}
 
@@ -837,7 +838,7 @@ func (s *sSysGenTables) buildPgsqlCreateDDL(tableName, comment string, columns [
 // buildMysqlColumnDef 构建MySQL字段定义
 func (s *sSysGenTables) buildMysqlColumnDef(col *sysin.GenTableColumnInp) string {
 	var buf strings.Builder
-	buf.WriteString(fmt.Sprintf("`%s` ", col.Name))
+	fmt.Fprintf(&buf, "`%s` ", col.Name)
 
 	// 数据类型
 	dataType := strings.ToLower(col.DataType)
@@ -847,20 +848,20 @@ func (s *sSysGenTables) buildMysqlColumnDef(col *sysin.GenTableColumnInp) string
 		if length <= 0 {
 			length = 255
 		}
-		buf.WriteString(fmt.Sprintf("%s(%d)", dataType, length))
+		fmt.Fprintf(&buf, "%s(%d)", dataType, length)
 	case "decimal", "numeric", "float", "double":
 		if col.Length > 0 {
 			if col.Decimal > 0 {
-				buf.WriteString(fmt.Sprintf("%s(%d,%d)", dataType, col.Length, col.Decimal))
+				fmt.Fprintf(&buf, "%s(%d,%d)", dataType, col.Length, col.Decimal)
 			} else {
-				buf.WriteString(fmt.Sprintf("%s(%d)", dataType, col.Length))
+				fmt.Fprintf(&buf, "%s(%d)", dataType, col.Length)
 			}
 		} else {
 			buf.WriteString(dataType)
 		}
 	case "int", "integer", "tinyint", "smallint", "mediumint", "bigint":
 		if col.Length > 0 {
-			buf.WriteString(fmt.Sprintf("%s(%d)", dataType, col.Length))
+			fmt.Fprintf(&buf, "%s(%d)", dataType, col.Length)
 		} else {
 			buf.WriteString(dataType)
 		}
@@ -894,15 +895,15 @@ func (s *sSysGenTables) buildMysqlColumnDef(col *sysin.GenTableColumnInp) string
 	// 默认值
 	if col.DefaultValue != "" && !col.IsAutoInc {
 		if isNumericDefault(col.DefaultValue) || col.DefaultValue == "CURRENT_TIMESTAMP" {
-			buf.WriteString(fmt.Sprintf(" DEFAULT %s", col.DefaultValue))
+			fmt.Fprintf(&buf, " DEFAULT %s", col.DefaultValue)
 		} else {
-			buf.WriteString(fmt.Sprintf(" DEFAULT '%s'", escapeString(col.DefaultValue)))
+			fmt.Fprintf(&buf, " DEFAULT '%s'", escapeString(col.DefaultValue))
 		}
 	}
 
 	// 注释
 	if col.Comment != "" {
-		buf.WriteString(fmt.Sprintf(" COMMENT '%s'", escapeString(col.Comment)))
+		fmt.Fprintf(&buf, " COMMENT '%s'", escapeString(col.Comment))
 	}
 
 	return buf.String()
@@ -911,7 +912,7 @@ func (s *sSysGenTables) buildMysqlColumnDef(col *sysin.GenTableColumnInp) string
 // buildPgsqlColumnDef 构建PostgreSQL字段定义
 func (s *sSysGenTables) buildPgsqlColumnDef(col *sysin.GenTableColumnInp) string {
 	var buf strings.Builder
-	buf.WriteString(fmt.Sprintf("\"%s\" ", col.Name))
+	fmt.Fprintf(&buf, "\"%s\" ", col.Name)
 
 	if col.IsAutoInc {
 		if strings.ToLower(col.DataType) == "bigint" {
@@ -930,9 +931,9 @@ func (s *sSysGenTables) buildPgsqlColumnDef(col *sysin.GenTableColumnInp) string
 
 	if col.DefaultValue != "" && !col.IsAutoInc {
 		if isNumericDefault(col.DefaultValue) || col.DefaultValue == "CURRENT_TIMESTAMP" || col.DefaultValue == "NOW()" {
-			buf.WriteString(fmt.Sprintf(" DEFAULT %s", col.DefaultValue))
+			fmt.Fprintf(&buf, " DEFAULT %s", col.DefaultValue)
 		} else {
-			buf.WriteString(fmt.Sprintf(" DEFAULT '%s'", escapeString(col.DefaultValue)))
+			fmt.Fprintf(&buf, " DEFAULT '%s'", escapeString(col.DefaultValue))
 		}
 	}
 

@@ -170,7 +170,6 @@ func (c *controllerGenerator) doGenerateCtrlItem(dstModuleFolderPath string, ite
 
 // use -merge
 func (c *controllerGenerator) doGenerateCtrlMergeItem(dstModuleFolderPath string, apiItems []apiItem, doneApiSet *gset.StrSet) (err error) {
-
 	type controllerFileItem struct {
 		module     string
 		version    string

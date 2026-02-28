@@ -2,13 +2,13 @@
 package view
 
 import (
-	"hotgo/internal/consts"
-
 	"github.com/gogf/gf/v2/net/ghttp"
 	"github.com/gogf/gf/v2/os/gtime"
 	"github.com/gogf/gf/v2/text/gstr"
 	"github.com/gogf/gf/v2/util/gconv"
 	"github.com/gogf/gf/v2/util/gmode"
+
+	"hotgo/internal/consts"
 )
 
 // 视图自定义方法管理对象
@@ -18,7 +18,7 @@ type viewBuildIn struct {
 
 // Page 创建分页HTML内容
 func (s *viewBuildIn) Page(total, size int) string {
-	page := s.httpRequest.GetPage(total, size)
+	page := s.httpRequest.GetPage(total, size) //nolint:staticcheck // TODO: wrap pagination in business layer
 	page.LinkStyle = "page-link"
 	page.SpanStyle = "page-link"
 	page.PrevPageTag = "«"

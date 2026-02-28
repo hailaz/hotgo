@@ -2,9 +2,9 @@
 package v1
 
 import (
-	"hotgo/internal/model/input/payin"
-
 	"github.com/gogf/gf/v2/frame/g"
+
+	"hotgo/internal/model/input/payin"
 )
 
 // NotifyAliPayReq 支付宝回调

@@ -13,7 +13,7 @@ func IsValidYAML(yamlStr string) bool {
 		return true // 空字符串被认为是有效的
 	}
 
-	var temp interface{}
+	var temp any
 	err := yaml.Unmarshal([]byte(yamlStr), &temp)
 	return err == nil
 }
@@ -24,20 +24,20 @@ func ValidateYAML(yamlStr string) error {
 		return nil // 空字符串被认为是有效的
 	}
 
-	var temp interface{}
+	var temp any
 	err := yaml.Unmarshal([]byte(yamlStr), &temp)
 	return err
 }
 
 // ParseYAML 解析YAML字符串为interface{}
-func ParseYAML(yamlStr string) (interface{}, error) {
-	var result interface{}
+func ParseYAML(yamlStr string) (any, error) {
+	var result any
 	err := yaml.Unmarshal([]byte(yamlStr), &result)
 	return result, err
 }
 
 // ToYAML 将interface{}转换为YAML字符串
-func ToYAML(data interface{}) (string, error) {
+func ToYAML(data any) (string, error) {
 	bytes, err := yaml.Marshal(data)
 	if err != nil {
 		return "", err

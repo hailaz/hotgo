@@ -12,12 +12,11 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/olekukonko/tablewriter"
-
 	"github.com/gogf/gf/v2/database/gdb"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/text/gregex"
 	"github.com/gogf/gf/v2/text/gstr"
+	"github.com/olekukonko/tablewriter"
 )
 
 type generateStructDefinitionInput struct {
@@ -42,8 +41,8 @@ func generateStructDefinition(ctx context.Context, in generateStructDefinitionIn
 		}
 	}
 	table := tablewriter.NewTable(buffer, twRenderer, twConfig)
-	table.Bulk(array)
-	table.Render()
+	_ = table.Bulk(array)
+	_ = table.Render()
 	stContent := buffer.String()
 	// Let's do this hack of table writer for indent!
 	stContent = gstr.Replace(stContent, "  #", "")
@@ -101,7 +100,7 @@ func generateStructFieldDefinition(
 		jsonTag          = gstr.CaseConvert(field.Name, gstr.CaseTypeMatch(in.JsonCase))
 	)
 
-	if in.TypeMapping != nil && len(in.TypeMapping) > 0 {
+	if len(in.TypeMapping) > 0 {
 		localTypeNameStr, appendImport = getTypeMappingInfo(ctx, field.Type, in.TypeMapping)
 	}
 
@@ -145,7 +144,7 @@ func generateStructFieldDefinition(
 		newFiledName = gstr.TrimLeftStr(newFiledName, v, 1)
 	}
 
-	if in.FieldMapping != nil && len(in.FieldMapping) > 0 {
+	if len(in.FieldMapping) > 0 {
 		if typeMapping, ok := in.FieldMapping[fmt.Sprintf("%s.%s", in.TableName, newFiledName)]; ok {
 			localTypeNameStr = typeMapping.Type
 			appendImport = typeMapping.Import

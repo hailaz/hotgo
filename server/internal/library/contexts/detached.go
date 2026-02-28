@@ -22,7 +22,7 @@ func (detached) Err() error {
 	return nil
 }
 
-func (d detached) Value(key interface{}) interface{} {
+func (d detached) Value(key any) any {
 	return d.ctx.Value(key)
 }
 

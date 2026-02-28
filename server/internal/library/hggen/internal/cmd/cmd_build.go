@@ -168,12 +168,12 @@ func (c cBuild) Index(ctx context.Context, in cBuildInput) (out *cBuildOutput, e
 
 	var (
 		parser = gcmd.ParserFromCtx(ctx)
-		file   = in.File
 	)
+	file := in.File
 	if file == "" {
-		file = parser.GetArg(2).String()
-		// Check and use the main.go file.
-		if gfile.Exists(cBuildDefaultFile) {
+		if argFile := parser.GetArg(2).String(); argFile != "" {
+			file = argFile
+		} else if gfile.Exists(cBuildDefaultFile) {
 			file = cBuildDefaultFile
 		} else {
 			mlog.Fatal("build file path is empty or main.go not found in current working directory")

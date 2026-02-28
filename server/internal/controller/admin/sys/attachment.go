@@ -3,6 +3,7 @@ package sys
 
 import (
 	"context"
+
 	"hotgo/api/admin/attachment"
 	sysLogic "hotgo/internal/logic/sys"
 )
@@ -40,7 +41,7 @@ func (c *cAttachment) List(ctx context.Context, req *attachment.ListReq) (res *a
 
 	res = new(attachment.ListRes)
 	res.List = list
-	res.PageRes.Pack(req, totalCount)
+	res.Pack(req, totalCount)
 	return
 }
 

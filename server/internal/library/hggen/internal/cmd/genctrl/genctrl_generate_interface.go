@@ -88,7 +88,7 @@ func (c *apiInterfaceGenerator) doGenerate(apiModuleFolderPath string, module st
 		interfaceDefinition += "\n"
 		interfaceDefinition += gstr.Join(methods, "\n")
 		interfaceDefinition += "\n"
-		interfaceDefinition += fmt.Sprintf("}")
+		interfaceDefinition += "}"
 		interfaceDefinition += "\n\n"
 	}
 	interfaceContent = gstr.TrimLeft(gstr.ReplaceByMap(interfaceContent, g.MapStrStr{

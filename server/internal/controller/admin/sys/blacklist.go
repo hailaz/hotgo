@@ -3,6 +3,7 @@ package sys
 
 import (
 	"context"
+
 	"hotgo/api/admin/blacklist"
 	sysLogic "hotgo/internal/logic/sys"
 )
@@ -46,7 +47,7 @@ func (c *cBlacklist) List(ctx context.Context, req *blacklist.ListReq) (res *bla
 
 	res = new(blacklist.ListRes)
 	res.List = list
-	res.PageRes.Pack(req, totalCount)
+	res.Pack(req, totalCount)
 	return
 }
 

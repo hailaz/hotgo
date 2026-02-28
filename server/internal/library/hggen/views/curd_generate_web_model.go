@@ -6,20 +6,21 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"hotgo/internal/dao"
-	"hotgo/internal/library/dict"
-	"hotgo/internal/model/input/sysin"
-	"hotgo/utility/convert"
 	"strings"
 
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/util/gconv"
+
+	"hotgo/internal/dao"
+	"hotgo/internal/library/dict"
+	"hotgo/internal/model/input/sysin"
+	"hotgo/utility/convert"
 )
 
 type StateItem struct {
 	Name         string
-	DefaultValue interface{}
+	DefaultValue any
 	Dc           string
 	DataType     string // 新增字段：存储字段类型信息
 }
@@ -213,7 +214,7 @@ func (l *gCurd) generateWebModelDictOptions(ctx context.Context, in *CurdPreview
 	if len(builtinDictTypeIds) > 0 {
 		for _, id := range builtinDictTypeIds {
 			typ, err := dict.GetTypeById(ctx, id)
-			if err != nil && !errors.Is(err, dict.NotExistKeyError) {
+			if err != nil && !errors.Is(err, dict.ErrNotExistKey) {
 				return err
 			}
 			if len(typ) > 0 {
@@ -261,10 +262,10 @@ func (l *gCurd) generateWebModelRules(ctx context.Context, in *CurdPreviewInput)
 
 		in.options.Step.HasRules = true
 		if field.FormRole == "" || field.FormRole == FormRoleNone || field.FormRole == "required" {
-			buffer.WriteString(fmt.Sprintf("  %s: {\n    required: %v,\n    trigger: ['blur', 'input'],\n    type: '%s',\n    message: '请输入%s',\n  },\n", field.TsName, field.Required, field.TsType, field.Dc))
+			fmt.Fprintf(buffer, "  %s: {\n    required: %v,\n    trigger: ['blur', 'input'],\n    type: '%s',\n    message: '请输入%s',\n  },\n", field.TsName, field.Required, field.TsType, field.Dc)
 		} else {
 			in.options.Step.HasRulesValidator = true
-			buffer.WriteString(fmt.Sprintf("  %s: {\n    required: %v,\n    trigger: ['blur', 'input'],\n    type: '%s',\n    validator: validate.%v,\n  },\n", field.TsName, field.Required, field.TsType, field.FormRole))
+			fmt.Fprintf(buffer, "  %s: {\n    required: %v,\n    trigger: ['blur', 'input'],\n    type: '%s',\n    validator: validate.%v,\n  },\n", field.TsName, field.Required, field.TsType, field.FormRole)
 		}
 	}
 	buffer.WriteString("};\n")
@@ -306,7 +307,7 @@ func (l *gCurd) generateWebModelFormSchemaEach(buffer *bytes.Buffer, fields []*s
 
 		// 查询用户摘要
 		if field.IsQuery && in.options.Step.HasQueryMemberSummary && IsMemberSummaryField(field.Name) {
-			buffer.WriteString(fmt.Sprintf("  {\n    field: '%s',\n    component: '%s',\n    label: '%s',\n    componentProps: {\n      placeholder: '请输入ID|用户名|姓名|手机号',\n      onUpdateValue: (e: any) => {\n        console.log(e);\n      },\n    },\n  },\n", field.TsName, "NInput", field.Dc))
+			fmt.Fprintf(buffer, "  {\n    field: '%s',\n    component: '%s',\n    label: '%s',\n    componentProps: {\n      placeholder: '请输入ID|用户名|姓名|手机号',\n      onUpdateValue: (e: any) => {\n        console.log(e);\n      },\n    },\n  },\n", field.TsName, "NInput", field.Dc)
 			continue
 		}
 
@@ -398,7 +399,7 @@ func (l *gCurd) generateWebModelColumnsEach(buffer *bytes.Buffer, in *CurdPrevie
 
 		// 查询用户摘要
 		if in.options.Step.HasHookMemberSummary && IsMemberSummaryField(field.Name) {
-			buffer.WriteString(fmt.Sprintf("  {\n    title: '%v',\n    key: '%v',\n    align: '%v',\n    width: %v,\n    render(row: State) {\n      return renderPopoverMemberSumma(row.%vSumma);\n    },\n  },\n", field.Dc, field.TsName, field.Align, field.Width, field.TsName))
+			fmt.Fprintf(buffer, "  {\n    title: '%v',\n    key: '%v',\n    align: '%v',\n    width: %v,\n    render(row: State) {\n      return renderPopoverMemberSumma(row.%vSumma);\n    },\n  },\n", field.Dc, field.TsName, field.Align, field.Width, field.TsName)
 			in.options.Step.ImportModel.UtilsIndex = append(in.options.Step.ImportModel.UtilsIndex, []string{"renderPopoverMemberSumma", "MemberSumma"}...)
 			continue
 		}

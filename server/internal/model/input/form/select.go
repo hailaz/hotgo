@@ -7,10 +7,10 @@ import "github.com/gogf/gf/v2/util/gconv"
 type Selects []*Select
 
 type Select struct {
-	Value    interface{} `json:"value"`
-	Label    string      `json:"label"`
-	Name     string      `json:"name"`
-	Disabled bool        `json:"disabled"`
+	Value    any    `json:"value"`
+	Label    string `json:"label"`
+	Name     string `json:"name"`
+	Disabled bool   `json:"disabled"`
 }
 
 func (p Selects) Len() int {

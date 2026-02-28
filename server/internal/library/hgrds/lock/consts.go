@@ -2,8 +2,9 @@
 package lock
 
 import (
-	"github.com/gogf/gf/v2/errors/gerror"
 	"time"
+
+	"github.com/gogf/gf/v2/errors/gerror"
 )
 
 const (

@@ -4,6 +4,7 @@ package monitor
 import (
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/gtime"
+
 	"hotgo/internal/library/network/tcp"
 	"hotgo/internal/model/input/form"
 )
@@ -87,10 +88,10 @@ type NetOptionRes struct {
 }
 
 type RouteSelect struct {
-	Value    interface{} `json:"value"`
-	Label    string      `json:"label"`
-	Disabled bool        `json:"disabled"`
-	IsRPC    bool        `json:"isRPC"`
+	Value    any    `json:"value"`
+	Label    string `json:"label"`
+	Disabled bool   `json:"disabled"`
+	IsRPC    bool   `json:"isRPC"`
 }
 
 // NetOfflineReq 下线服务

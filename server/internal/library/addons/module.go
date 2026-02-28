@@ -3,14 +3,16 @@ package addons
 
 import (
 	"context"
+	"sort"
+	"sync"
+	"time"
+
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/ghttp"
 	"github.com/gogf/gf/v2/os/gfile"
 	"github.com/gogf/gf/v2/os/gres"
+
 	"hotgo/internal/model/input/form"
-	"sort"
-	"sync"
-	"time"
 )
 
 // Option 模块启动选项
@@ -74,7 +76,6 @@ func StopModules(ctx context.Context) {
 			time.Sleep(time.Second)
 		}
 	}
-	return
 }
 
 // RegisterModule 注册模块

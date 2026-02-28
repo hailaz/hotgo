@@ -3,7 +3,9 @@ package home
 
 import (
 	"context"
+
 	"github.com/gogf/gf/v2/frame/g"
+
 	"hotgo/addons/hgexample/api/home/index"
 	"hotgo/addons/hgexample/service"
 	"hotgo/internal/model"

@@ -4,12 +4,13 @@ package storager
 import (
 	"crypto/md5"
 	"fmt"
+	"io"
+	"path"
+
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/ghttp"
 	"github.com/gogf/gf/v2/text/gstr"
-	"io"
-	"path"
 )
 
 // 文件归属分类

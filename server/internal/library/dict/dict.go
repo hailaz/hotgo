@@ -5,10 +5,12 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/gogf/gf/v2/frame/g"
 	"hash/fnv"
-	"hotgo/internal/model"
 	"strconv"
+
+	"github.com/gogf/gf/v2/frame/g"
+
+	"hotgo/internal/model"
 )
 
 const (
@@ -17,7 +19,7 @@ const (
 	FuncId    int64 = -3 // 方法字典ID
 )
 
-var NotExistKeyError = errors.New("not exist key")
+var ErrNotExistKey = errors.New("not exist key")
 
 // GetOptions 获取内置选项
 func GetOptions(ctx context.Context, key string) (opts []*model.Option, err error) {
@@ -43,7 +45,7 @@ func GetOptionsById(ctx context.Context, id int64) (opts []*model.Option, err er
 		}
 	}
 
-	err = NotExistKeyError
+	err = ErrNotExistKey
 	return
 }
 
@@ -61,7 +63,7 @@ func GetTypeById(ctx context.Context, id int64) (typ string, err error) {
 		}
 	}
 
-	err = NotExistKeyError
+	err = ErrNotExistKey
 	return
 }
 

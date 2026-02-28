@@ -14,7 +14,7 @@ func UniqueSlice[K comparable](languages []K) []K {
 	return result
 }
 
-func Remove(sl []interface{}, f func(v1 interface{}) bool) []interface{} {
+func Remove(sl []any, f func(v1 any) bool) []any {
 	for k, v := range sl {
 		if f(v) {
 			sl[k] = sl[len(sl)-1]

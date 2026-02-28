@@ -4,6 +4,7 @@ package sys
 import (
 	"context"
 	"fmt"
+
 	"github.com/gogf/gf/v2/database/gdb"
 	"github.com/gogf/gf/v2/encoding/gjson"
 	"github.com/gogf/gf/v2/errors/gerror"
@@ -12,6 +13,7 @@ import (
 	"github.com/gogf/gf/v2/os/gctx"
 	"github.com/gogf/gf/v2/os/gtime"
 	"github.com/gogf/gf/v2/util/gconv"
+
 	"hotgo/internal/consts"
 	"hotgo/internal/dao"
 	"hotgo/internal/library/hgorm/handler"
@@ -85,7 +87,7 @@ func (s *sSysLoginLog) List(ctx context.Context, in *sysin.LoginLogListInp) (lis
 
 	for _, v := range list {
 		if v.Response.Contains("token") {
-			v.Response.Set("token", "******")
+			_ = v.Response.Set("token", "******")
 		}
 		v.Os = useragent.GetOs(v.UserAgent)
 		v.Browser = useragent.GetBrowser(v.UserAgent)

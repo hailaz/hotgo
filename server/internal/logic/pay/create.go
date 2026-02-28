@@ -6,16 +6,6 @@ package pay
 import (
 	"context"
 	"fmt"
-	v1 "hotgo/api/api/pay/v1"
-	"hotgo/internal/consts"
-	"hotgo/internal/library/contexts"
-	"hotgo/internal/library/location"
-	"hotgo/internal/library/payment"
-	"hotgo/internal/model/entity"
-	"hotgo/internal/model/input/payin"
-	commonLogic "hotgo/internal/logic/common"
-	sysLogic "hotgo/internal/logic/sys"
-	"hotgo/utility/validate"
 
 	"github.com/gogf/gf/v2/encoding/gjson"
 	"github.com/gogf/gf/v2/errors/gerror"
@@ -23,6 +13,17 @@ import (
 	"github.com/gogf/gf/v2/net/ghttp"
 	"github.com/gogf/gf/v2/os/gctx"
 	"github.com/gogf/gf/v2/util/gmeta"
+
+	v1 "hotgo/api/api/pay/v1"
+	"hotgo/internal/consts"
+	"hotgo/internal/library/contexts"
+	"hotgo/internal/library/location"
+	"hotgo/internal/library/payment"
+	commonLogic "hotgo/internal/logic/common"
+	sysLogic "hotgo/internal/logic/sys"
+	"hotgo/internal/model/entity"
+	"hotgo/internal/model/input/payin"
+	"hotgo/utility/validate"
 )
 
 // Create 创建支付订单和日志
@@ -122,7 +123,7 @@ func (s *sPay) GenNotifyURL(ctx context.Context, in payin.PayCreateInp) (notifyU
 		return
 	}
 
-	var object interface{}
+	var object any
 	switch in.PayType {
 	case consts.PayTypeAliPay:
 		object = v1.NotifyAliPayReq{}

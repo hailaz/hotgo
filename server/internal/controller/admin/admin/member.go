@@ -3,11 +3,13 @@ package admin
 
 import (
 	"context"
+
 	"github.com/gogf/gf/v2/errors/gerror"
+
 	"hotgo/api/admin/member"
 	"hotgo/internal/library/contexts"
-	"hotgo/internal/model/input/adminin"
 	adminLogic "hotgo/internal/logic/admin"
+	"hotgo/internal/model/input/adminin"
 )
 
 var (
@@ -107,7 +109,7 @@ func (c *cMember) List(ctx context.Context, req *member.ListReq) (res *member.Li
 
 	res = new(member.ListRes)
 	res.List = list
-	res.PageRes.Pack(req, totalCount)
+	res.Pack(req, totalCount)
 	return
 }
 

@@ -48,7 +48,7 @@ type LogViewModel struct {
 
 // LogDeleteInp 删除
 type LogDeleteInp struct {
-	Id interface{} `json:"id" v:"required#日志ID不能为空" description:"日志ID"`
+	Id any `json:"id" v:"required#日志ID不能为空" description:"日志ID"`
 }
 
 type LogDeleteModel struct{}

@@ -6,15 +6,15 @@ import (
 	"fmt"
 	"strings"
 
-	"hotgo/internal/consts"
-	"hotgo/internal/library/hggen/internal/cmd/gendao"
-	"hotgo/internal/model/input/sysin"
-
 	"github.com/gogf/gf/v2/database/gdb"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/text/gregex"
 	"github.com/gogf/gf/v2/text/gstr"
 	"github.com/gogf/gf/v2/util/gconv"
+
+	"hotgo/internal/consts"
+	"hotgo/internal/library/hggen/internal/cmd/gendao"
+	"hotgo/internal/model/input/sysin"
 )
 
 // DoTableColumns 获取指定表生成字段列表
@@ -66,7 +66,14 @@ func DoTableColumns(ctx context.Context, in *sysin.GenCodesColumnListInp, config
 			ORDER BY a.attnum`
 	} else {
 		// MySQL: 使用information_schema.COLUMNS
-		sql = fmt.Sprintf("SELECT ORDINAL_POSITION as id, COLUMN_NAME as name, COLUMN_COMMENT as dc, DATA_TYPE as dataType, COLUMN_TYPE as sqlType, CHARACTER_MAXIMUM_LENGTH as length, IS_NULLABLE as isAllowNull, COLUMN_DEFAULT as defaultValue, COLUMN_KEY as `index`, EXTRA as extra FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = '%s' AND TABLE_NAME = '%s' ORDER BY id ASC", conf.Name, in.Table)
+		sql = fmt.Sprintf(
+			"SELECT ORDINAL_POSITION as id, COLUMN_NAME as name, COLUMN_COMMENT as dc, "+
+				"DATA_TYPE as dataType, COLUMN_TYPE as sqlType, CHARACTER_MAXIMUM_LENGTH as length, "+
+				"IS_NULLABLE as isAllowNull, COLUMN_DEFAULT as defaultValue, COLUMN_KEY as `index`, "+
+				"EXTRA as extra FROM information_schema.COLUMNS "+
+				"WHERE TABLE_SCHEMA = '%s' AND TABLE_NAME = '%s' ORDER BY id ASC",
+			conf.Name, in.Table,
+		)
 	}
 
 	err = g.DB(in.Name).Ctx(ctx).Raw(sql).Scan(&fields)
@@ -144,7 +151,7 @@ func GenGotype(ctx context.Context, field *sysin.GenCodesColumnListModel, in gen
 }
 
 // CheckLocalTypeForField checks and returns corresponding type for given db type.
-func CheckLocalTypeForField(ctx context.Context, fieldType string, fieldValue interface{}) (string, error) {
+func CheckLocalTypeForField(ctx context.Context, fieldType string, fieldValue any) (string, error) {
 	var (
 		typeName    string
 		typePattern string

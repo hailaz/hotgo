@@ -7,19 +7,20 @@ import (
 	"github.com/gogf/gf/v2/os/gctx"
 	"github.com/gogf/gf/v2/os/gtime"
 	"github.com/gogf/gf/v2/util/gconv"
+
 	"hotgo/internal/library/contexts"
 	"hotgo/internal/model"
 )
 
 // JsonExit 返回JSON数据并退出当前HTTP执行函数
-func JsonExit(r *ghttp.Request, code int, message string, data ...interface{}) {
+func JsonExit(r *ghttp.Request, code int, message string, data ...any) {
 	RJson(r, code, message, data...)
 	r.Exit()
 }
 
 // RXml xml
-func RXml(r *ghttp.Request, code int, message string, data ...interface{}) {
-	responseData := interface{}(nil)
+func RXml(r *ghttp.Request, code int, message string, data ...any) {
+	responseData := any(nil)
 	if len(data) > 0 {
 		responseData = data[0]
 	}
@@ -48,8 +49,8 @@ func RXml(r *ghttp.Request, code int, message string, data ...interface{}) {
 }
 
 // RJson 标准返回结果数据结构封装
-func RJson(r *ghttp.Request, code int, message string, data ...interface{}) {
-	responseData := interface{}(nil)
+func RJson(r *ghttp.Request, code int, message string, data ...any) {
+	responseData := any(nil)
 	if len(data) > 0 {
 		responseData = data[0]
 	}
@@ -78,7 +79,7 @@ func RJson(r *ghttp.Request, code int, message string, data ...interface{}) {
 }
 
 // CustomJson 自定义JSON
-func CustomJson(r *ghttp.Request, content interface{}) {
+func CustomJson(r *ghttp.Request, content any) {
 	// 清空响应
 	r.Response.ClearBuffer()
 

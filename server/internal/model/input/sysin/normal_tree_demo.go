@@ -3,13 +3,14 @@ package sysin
 
 import (
 	"context"
+
+	"github.com/gogf/gf/v2/frame/g"
+	"github.com/gogf/gf/v2/os/gtime"
+
 	"hotgo/internal/library/hgorm/hook"
 	"hotgo/internal/model/entity"
 	"hotgo/internal/model/input/form"
 	"hotgo/utility/tree"
-
-	"github.com/gogf/gf/v2/frame/g"
-	"github.com/gogf/gf/v2/os/gtime"
 )
 
 // NormalTreeDemoUpdateFields 修改普通树表字段过滤
@@ -56,7 +57,7 @@ type NormalTreeDemoEditModel struct{}
 
 // NormalTreeDemoDeleteInp 删除普通树表
 type NormalTreeDemoDeleteInp struct {
-	Id interface{} `json:"id" v:"required#ID不能为空" dc:"ID"`
+	Id any `json:"id" v:"required#ID不能为空" dc:"ID"`
 }
 
 func (in *NormalTreeDemoDeleteInp) Filter(ctx context.Context) (err error) {

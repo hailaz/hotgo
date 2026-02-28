@@ -4,11 +4,13 @@ package url
 import (
 	"context"
 	"fmt"
+	"strings"
+
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/ghttp"
 	"github.com/gogf/gf/v2/text/gstr"
+
 	"hotgo/utility/validate"
-	"strings"
 )
 
 // UriToMap 将URL参数转为map

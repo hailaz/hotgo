@@ -3,7 +3,9 @@ package router
 
 import (
 	"context"
+
 	"github.com/gogf/gf/v2/net/ghttp"
+
 	"hotgo/addons/hgexample/controller/websocket"
 	"hotgo/addons/hgexample/controller/websocket/handler"
 	"hotgo/addons/hgexample/global"

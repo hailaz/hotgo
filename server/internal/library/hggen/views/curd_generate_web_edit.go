@@ -144,7 +144,7 @@ func (l *gCurd) generateWebEditFormItem(ctx context.Context, in *CurdPreviewInpu
 			component = defaultComponent
 		}
 
-		buffer.WriteString(fmt.Sprintf("<n-gi span=\"%v\">\n%v\n              </n-gi>\n\n", field.FormGridSpan, component))
+		fmt.Fprintf(buffer, "<n-gi span=\"%v\">\n%v\n              </n-gi>\n\n", field.FormGridSpan, component)
 	}
 	return buffer.String()
 }
@@ -207,7 +207,7 @@ func (l *gCurd) generateWebEditScript(ctx context.Context, in *CurdPreviewInput)
 				importBuffer.WriteString("  import UploadFile from '@/components/Upload/uploadFile.vue';\n")
 			}
 		case FormModeRate:
-			setupBuffer.WriteString(fmt.Sprintf("  function update%s(num) {\n    formValue.value.%s = num;\n  }\n", field.GoName, field.TsName))
+			fmt.Fprintf(setupBuffer, "  function update%s(num) {\n    formValue.value.%s = num;\n  }\n", field.GoName, field.TsName)
 		case FormModeCitySelector:
 			if !gstr.Contains(importBuffer.String(), `import CitySelector`) {
 				importBuffer.WriteString("  import CitySelector from '@/components/CitySelector/citySelector.vue';\n")

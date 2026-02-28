@@ -2,13 +2,15 @@
 package convert
 
 import (
-	"github.com/gogf/gf/v2/database/gdb"
-	"github.com/gogf/gf/v2/errors/gerror"
-	"github.com/gogf/gf/v2/text/gstr"
-	"hotgo/utility/validate"
 	"reflect"
 	"unicode"
 	"unsafe"
+
+	"github.com/gogf/gf/v2/database/gdb"
+	"github.com/gogf/gf/v2/errors/gerror"
+	"github.com/gogf/gf/v2/text/gstr"
+
+	"hotgo/utility/validate"
 )
 
 var (
@@ -77,7 +79,7 @@ func CamelCaseToUnderline(s string) string {
 }
 
 // GetEntityFieldTags 获取实体中的字段名称
-func GetEntityFieldTags(entity interface{}) (tags []string, err error) {
+func GetEntityFieldTags(entity any) (tags []string, err error) {
 	var formRef = reflect.TypeOf(entity)
 	for i := 0; i < formRef.NumField(); i++ {
 		field := formRef.Field(i)
@@ -95,7 +97,7 @@ func GetEntityFieldTags(entity interface{}) (tags []string, err error) {
 }
 
 // GetEntityDescTags 获取实体中的描述标签
-func GetEntityDescTags(entity interface{}) (tags []string, err error) {
+func GetEntityDescTags(entity any) (tags []string, err error) {
 	var formRef = reflect.TypeOf(entity)
 	for i := 0; i < formRef.NumField(); i++ {
 		field := formRef.Field(i)
@@ -114,7 +116,7 @@ func GetEntityDescTags(entity interface{}) (tags []string, err error) {
 
 // reflectTag 层级递增解析tag
 func reflectTag(reflectType reflect.Type, filterTags []string, tags []string) ([]string, error) {
-	if reflectType.Kind() == reflect.Ptr {
+	if reflectType.Kind() == reflect.Pointer {
 		return nil, gerror.Newf("reflect type do not support reflect.Ptr yet, reflectType:%+v", reflectType)
 	}
 	if reflectType.Kind() != reflect.Struct {

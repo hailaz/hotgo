@@ -3,6 +3,7 @@ package sys
 
 import (
 	"context"
+
 	"hotgo/api/admin/curddemo"
 	sysLogic "hotgo/internal/logic/sys"
 	"hotgo/internal/model/input/sysin"
@@ -27,7 +28,7 @@ func (c *cCurdDemo) List(ctx context.Context, req *curddemo.ListReq) (res *curdd
 
 	res = new(curddemo.ListRes)
 	res.List = list
-	res.PageRes.Pack(req, totalCount)
+	res.Pack(req, totalCount)
 	return
 }
 

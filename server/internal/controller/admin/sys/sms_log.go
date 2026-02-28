@@ -3,6 +3,7 @@ package sys
 
 import (
 	"context"
+
 	"hotgo/api/admin/smslog"
 	sysLogic "hotgo/internal/logic/sys"
 )
@@ -40,6 +41,6 @@ func (c *cSmsLog) List(ctx context.Context, req *smslog.ListReq) (res *smslog.Li
 
 	res = new(smslog.ListRes)
 	res.List = list
-	res.PageRes.Pack(req, totalCount)
+	res.Pack(req, totalCount)
 	return
 }

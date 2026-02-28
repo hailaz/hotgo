@@ -3,7 +3,9 @@ package sysin
 
 import (
 	"context"
+
 	"github.com/gogf/gf/v2/errors/gerror"
+
 	"hotgo/internal/consts"
 	"hotgo/internal/model/entity"
 	"hotgo/internal/model/input/form"
@@ -62,7 +64,7 @@ type CronGroupInsertFields struct {
 
 // CronGroupDeleteInp 删除字典类型
 type CronGroupDeleteInp struct {
-	Id interface{}
+	Id any
 }
 type CronGroupDeleteModel struct{}
 

@@ -4,8 +4,6 @@ package casbin
 import (
 	"context"
 	"fmt"
-	"hotgo/internal/consts"
-	"hotgo/internal/dao"
 	"net/http"
 	"strings"
 
@@ -17,6 +15,9 @@ import (
 	"github.com/gogf/gf/v2/os/gfile"
 	"github.com/gogf/gf/v2/os/gres"
 	"github.com/gogf/gf/v2/text/gstr"
+
+	"hotgo/internal/consts"
+	"hotgo/internal/dao"
 )
 
 const (
@@ -69,22 +70,20 @@ func InitEnforcer(ctx context.Context) {
 
 // GetDbLink 获取数据库链接
 func getDbLink(ctx context.Context) *gvar.Var {
-
 	link := g.Cfg().MustGet(ctx, "database.default")
-	//读写分离
+	// 读写分离
 	if !link.IsSlice() {
 		return g.Cfg().MustGet(ctx, "database.default.link")
 	}
 
 	for _, v := range link.Array() {
 		// 只获取主库
-		val := v.(map[string]interface{})
+		val := v.(map[string]any)
 		if val["role"] == "master" {
 			return gvar.New(val["link"])
 		}
 	}
 	return gvar.New("database.default.0.link")
-
 }
 
 func loadPermissions(ctx context.Context) {
@@ -97,7 +96,7 @@ func loadPermissions(ctx context.Context) {
 		polices []*Policy
 		err     error
 	)
-	//别名拼接 r.key m.permissions
+	// 别名拼接 r.key m.permissions
 	q := func(alias string, column string) string {
 		return fmt.Sprintf("%s.%s", alias, column)
 	}

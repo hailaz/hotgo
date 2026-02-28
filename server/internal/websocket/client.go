@@ -3,6 +3,8 @@ package websocket
 
 import (
 	"context"
+	"runtime/debug"
+
 	"github.com/gogf/gf/v2/container/garray"
 	"github.com/gogf/gf/v2/errors/gcode"
 	"github.com/gogf/gf/v2/frame/g"
@@ -11,10 +13,10 @@ import (
 	"github.com/gogf/gf/v2/os/gtime"
 	"github.com/gogf/gf/v2/util/guid"
 	"github.com/gorilla/websocket"
+
 	"hotgo/internal/library/contexts"
 	"hotgo/internal/library/location"
 	"hotgo/internal/model"
-	"runtime/debug"
 )
 
 const (
@@ -164,8 +166,8 @@ func Close(client *Client) {
 }
 
 // SendSuccess 发送成功消息
-func SendSuccess(client *Client, event string, data ...interface{}) {
-	d := interface{}(nil)
+func SendSuccess(client *Client, event string, data ...any) {
+	d := any(nil)
 	if len(data) > 0 {
 		d = data[0]
 	}

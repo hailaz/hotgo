@@ -3,7 +3,9 @@ package sysin
 
 import (
 	"context"
+
 	"github.com/gogf/gf/v2/errors/gerror"
+
 	"hotgo/internal/consts"
 	"hotgo/internal/model/entity"
 	"hotgo/internal/model/input/form"
@@ -19,7 +21,7 @@ type BlacklistEditModel struct{}
 
 // BlacklistDeleteInp 删除黑名单类型
 type BlacklistDeleteInp struct {
-	Id interface{} `json:"id" v:"required#黑名单ID不能为空" dc:"黑名单ID"`
+	Id any `json:"id" v:"required#黑名单ID不能为空" dc:"黑名单ID"`
 }
 
 type BlacklistDeleteModel struct{}

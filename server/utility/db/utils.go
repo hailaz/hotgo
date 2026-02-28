@@ -1,12 +1,13 @@
 package db
 
 import (
-	"hotgo/internal/consts"
 	"strings"
 	"unicode"
 
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/text/gstr"
+
+	"hotgo/internal/consts"
 )
 
 // 判断字符是否为字母、数字或下划线

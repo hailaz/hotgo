@@ -4,11 +4,13 @@ package queue
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/gogf/gf/v2/errors/gerror"
-	"github.com/gogf/gf/v2/os/gfile"
-	"hotgo/internal/library/queue/disk"
 	"sync"
 	"time"
+
+	"github.com/gogf/gf/v2/errors/gerror"
+	"github.com/gogf/gf/v2/os/gfile"
+
+	"hotgo/internal/library/queue/disk"
 )
 
 // Disk 磁盘队列
@@ -121,7 +123,7 @@ func (d *DiskProducerMq) getProducer(topic string) *disk.Queue {
 
 func NewDiskQueue(topic string, config *disk.Config) *disk.Queue {
 	conf := &disk.Config{
-		Path:         fmt.Sprintf(config.Path + "/" + config.GroupName + "/" + topic),
+		Path:         config.Path + "/" + config.GroupName + "/" + topic,
 		BatchSize:    config.BatchSize,
 		BatchTime:    config.BatchTime * time.Second,
 		SegmentSize:  config.SegmentSize,

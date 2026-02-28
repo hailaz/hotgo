@@ -1,9 +1,9 @@
 // Package sysin
-//
 package sysin
 
 import (
 	"context"
+
 	"github.com/gogf/gf/v2/os/gtime"
 )
 

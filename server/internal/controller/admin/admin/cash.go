@@ -3,10 +3,11 @@ package admin
 
 import (
 	"context"
+
 	"hotgo/api/admin/cash"
 	"hotgo/internal/library/contexts"
-	"hotgo/internal/model/input/adminin"
 	adminLogic "hotgo/internal/logic/admin"
+	"hotgo/internal/model/input/adminin"
 )
 
 var (
@@ -36,7 +37,7 @@ func (c *cCash) List(ctx context.Context, req *cash.ListReq) (res *cash.ListRes,
 
 	res = new(cash.ListRes)
 	res.List = list
-	res.PageRes.Pack(req, totalCount)
+	res.Pack(req, totalCount)
 	return
 }
 

@@ -3,9 +3,12 @@ package admin
 
 import (
 	"context"
+	"sort"
+
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/os/gtime"
 	"github.com/gogf/gf/v2/text/gstr"
+
 	"hotgo/api/admin/monitor"
 	"hotgo/internal/consts"
 	"hotgo/internal/dao"
@@ -15,7 +18,6 @@ import (
 	"hotgo/internal/websocket"
 	"hotgo/utility/simple"
 	"hotgo/utility/useragent"
-	"sort"
 )
 
 // Monitor 监控
@@ -89,7 +91,7 @@ func (c *cMonitor) UserOnlineList(ctx context.Context, req *monitor.UserOnlineLi
 	}
 
 	res = new(monitor.UserOnlineListRes)
-	res.PageRes.Pack(req, len(clients))
+	res.Pack(req, len(clients))
 
 	sort.Slice(clients, func(i, j int) bool {
 		if clients[i].FirstTime == clients[j].FirstTime {
@@ -124,7 +126,7 @@ func (c *cMonitor) NetOnlineList(ctx context.Context, req *monitor.NetOnlineList
 	conns := serv.GetClients()
 	if len(conns) == 0 {
 		res = new(monitor.NetOnlineListRes)
-		res.PageRes.Pack(req, 0)
+		res.Pack(req, 0)
 		return
 	}
 
@@ -180,7 +182,7 @@ func (c *cMonitor) NetOnlineList(ctx context.Context, req *monitor.NetOnlineList
 	}
 
 	res = new(monitor.NetOnlineListRes)
-	res.PageRes.Pack(req, len(clients))
+	res.Pack(req, len(clients))
 
 	sort.Slice(clients, func(i, j int) bool {
 		return clients[i].Id > clients[j].Id

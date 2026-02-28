@@ -3,10 +3,7 @@ package common
 
 import (
 	"context"
-	"hotgo/internal/library/storager"
-	"hotgo/internal/model/input/sysin"
-	"hotgo/utility/file"
-	"hotgo/utility/format"
+	"net/http"
 	"time"
 
 	"github.com/gogf/gf/v2/errors/gerror"
@@ -14,6 +11,11 @@ import (
 	"github.com/gogf/gf/v2/net/ghttp"
 	"github.com/gogf/gf/v2/text/gstr"
 	"github.com/gogf/gf/v2/util/grand"
+
+	"hotgo/internal/library/storager"
+	"hotgo/internal/model/input/sysin"
+	"hotgo/utility/file"
+	"hotgo/utility/format"
 )
 
 type sCommonUpload struct{}
@@ -77,7 +79,7 @@ func (s *sCommonUpload) ImageTransferStorage(ctx context.Context, in *sysin.Imag
 	}
 	defer resp.Close()
 
-	if resp.StatusCode != 200 {
+	if resp.StatusCode != http.StatusOK {
 		return nil, gerror.Newf("请求图片资源失败, StatusCode:%v", resp.StatusCode)
 	}
 

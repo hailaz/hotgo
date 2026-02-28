@@ -1,5 +1,4 @@
 // Package sysin
-//
 package sysin
 
 import (

@@ -3,6 +3,7 @@ package sys
 
 import (
 	"context"
+
 	"hotgo/api/admin/servelog"
 	sysLogic "hotgo/internal/logic/sys"
 )
@@ -22,7 +23,7 @@ func (c *cServeLog) List(ctx context.Context, req *servelog.ListReq) (res *serve
 
 	res = new(servelog.ListRes)
 	res.List = list
-	res.PageRes.Pack(req, totalCount)
+	res.Pack(req, totalCount)
 	return
 }
 

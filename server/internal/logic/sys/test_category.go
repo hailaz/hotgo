@@ -3,19 +3,19 @@ package sys
 
 import (
 	"context"
-	"hotgo/internal/dao"
-	"hotgo/internal/library/hgorm/handler"
-	"hotgo/internal/model/entity"
-	"hotgo/internal/model/input/form"
-	"hotgo/internal/model/input/sysin"
 
 	"github.com/gogf/gf/v2/database/gdb"
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/util/gconv"
 
+	"hotgo/internal/dao"
 	"hotgo/internal/library/dict"
+	"hotgo/internal/library/hgorm/handler"
 	"hotgo/internal/model"
+	"hotgo/internal/model/entity"
+	"hotgo/internal/model/input/form"
+	"hotgo/internal/model/input/sysin"
 )
 
 type sSysTestCategory struct{}
@@ -83,7 +83,6 @@ func (s *sSysTestCategory) List(ctx context.Context, in *sysin.TestCategoryListI
 // Edit 修改/新增测试分类
 func (s *sSysTestCategory) Edit(ctx context.Context, in *sysin.TestCategoryEditInp) (err error) {
 	return g.DB().Transaction(ctx, func(ctx context.Context, tx gdb.TX) (err error) {
-
 		// 修改
 		if in.Id > 0 {
 			if _, err = s.Model(ctx).
@@ -106,7 +105,6 @@ func (s *sSysTestCategory) Edit(ctx context.Context, in *sysin.TestCategoryEditI
 
 // Delete 删除测试分类
 func (s *sSysTestCategory) Delete(ctx context.Context, in *sysin.TestCategoryDeleteInp) (err error) {
-
 	if _, err = s.Model(ctx).WherePri(in.Id).Unscoped().Delete(); err != nil {
 		err = gerror.Wrap(err, "删除测试分类失败，请稍后重试！")
 		return

@@ -5,8 +5,10 @@ import (
 	"bytes"
 	"context"
 	"fmt"
+
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/text/gstr"
+
 	"hotgo/internal/consts"
 	"hotgo/internal/model/input/sysin"
 )
@@ -112,12 +114,12 @@ func (l *gCurd) generateLogicEdit(ctx context.Context, in *CurdPreviewInput) g.M
 		}
 
 		if field.Unique {
-			uniqueBuffer.WriteString(fmt.Sprintf(LogicEditUnique, field.GoName, in.In.DaoName, in.In.DaoName, field.GoName, field.GoName, field.Dc, in.pk.GoName))
+			fmt.Fprintf(uniqueBuffer, LogicEditUnique, field.GoName, in.In.DaoName, in.In.DaoName, field.GoName, field.GoName, field.Dc, in.pk.GoName)
 		}
 
 		// 添加 YAML 格式验证
 		if field.IsEdit && field.FormRole == FormRoleYaml {
-			validationBuffer.WriteString(fmt.Sprintf(EditInpValidatorYaml, field.GoName, field.Dc))
+			fmt.Fprintf(validationBuffer, EditInpValidatorYaml, field.GoName, field.Dc)
 		}
 	}
 
@@ -126,8 +128,8 @@ func (l *gCurd) generateLogicEdit(ctx context.Context, in *CurdPreviewInput) g.M
 		notFilterAuth = ", &handler.Option{FilterAuth: false}"
 	}
 
-	updateBuffer.WriteString(fmt.Sprintf(LogicEditUpdate, notFilterAuth, in.options.TemplateGroup, in.In.VarName, in.pk.GoName, in.In.TableComment))
-	insertBuffer.WriteString(fmt.Sprintf(LogicEditInsert, in.options.TemplateGroup, in.In.VarName, in.In.TableComment))
+	fmt.Fprintf(updateBuffer, LogicEditUpdate, notFilterAuth, in.options.TemplateGroup, in.In.VarName, in.pk.GoName, in.In.TableComment)
+	fmt.Fprintf(insertBuffer, LogicEditInsert, in.options.TemplateGroup, in.In.VarName, in.In.TableComment)
 
 	data["update"] = updateBuffer.String()
 	data["insert"] = insertBuffer.String()
@@ -197,11 +199,7 @@ func (l *gCurd) generateLogicListWhere(ctx context.Context, in *CurdPreviewInput
 }
 
 func (l *gCurd) generateLogicListWhereEach(buffer *bytes.Buffer, in *CurdPreviewInput, fields []*sysin.GenCodesColumnListModel, daoName string, alias string) {
-	isLink := false
-	if alias != "" {
-		alias = `"` + alias + `."+`
-		isLink = true
-	}
+	isLink := alias != ""
 
 	tablePrefix := ""
 	wherePrefix := "Where"
@@ -222,7 +220,7 @@ func (l *gCurd) generateLogicListWhereEach(buffer *bytes.Buffer, in *CurdPreview
 			continue
 		}
 
-		buffer.WriteString(fmt.Sprintf(LogicWhereComments, field.Dc))
+		fmt.Fprintf(buffer, LogicWhereComments, field.Dc)
 
 		var (
 			linkMode   string
@@ -236,7 +234,7 @@ func (l *gCurd) generateLogicListWhereEach(buffer *bytes.Buffer, in *CurdPreview
 			if in.options.Step.IsAddon {
 				servicePackName = "isc"
 			}
-			buffer.WriteString(fmt.Sprintf("if in.%v != \"\" {\n\t\t\t\tids, err := %v.AdminMember().GetIdsByKeyword(ctx, in.%v)\n\t\t\t\tif err != nil {\n\t\t\t\t\treturn nil, 0, err\n\t\t\t\t}\n\t\t\t\tmod = mod.WhereIn(dao.%v.Columns().%v, ids)\n\t\t\t}\n", field.GoName, servicePackName, field.GoName, in.In.DaoName, field.GoName))
+			fmt.Fprintf(buffer, "if in.%v != \"\" {\n\t\t\t\tids, err := %v.AdminMember().GetIdsByKeyword(ctx, in.%v)\n\t\t\t\tif err != nil {\n\t\t\t\t\treturn nil, 0, err\n\t\t\t\t}\n\t\t\t\tmod = mod.WhereIn(dao.%v.Columns().%v, ids)\n\t\t\t}\n", field.GoName, servicePackName, field.GoName, in.In.DaoName, field.GoName)
 			continue
 		}
 
@@ -306,7 +304,7 @@ func (l *gCurd) generateLogicListWhereEach(buffer *bytes.Buffer, in *CurdPreview
 			whereTag = "\tif " + linkMode + " {\n\t\tmod = mod." + wherePrefix + "(" + val + ")\n\t}"
 
 		default:
-			buffer.WriteString(fmt.Sprintf(LogicWhereNoSupport, field.QueryWhere))
+			fmt.Fprintf(buffer, LogicWhereNoSupport, field.QueryWhere)
 		}
 
 		buffer.WriteString(whereTag + "\n")
