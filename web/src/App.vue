@@ -86,5 +86,5 @@
 </script>
 
 <style lang="less">
-  @import url('styles/index.less');
+  @import 'styles/index.less';
 </style>
