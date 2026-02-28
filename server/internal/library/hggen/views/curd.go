@@ -1,8 +1,4 @@
 // Package views
-// @Link  https://github.com/bufanyun/hotgo
-// @Copyright  Copyright (c) 2023 HotGo CLI
-// @Author  Ms <133814250@qq.com>
-// @License  https://github.com/bufanyun/hotgo/blob/master/LICENSE
 package views
 
 import (
@@ -349,7 +345,6 @@ func (l *gCurd) loadView(ctx context.Context, in *CurdPreviewInput) (err error) 
 
 	now := gtime.Now()
 	view.BindFuncMap(g.Map{
-		"NowYear":   now.Year,        // 当前年
 		"ToLower":   strings.ToLower, // 全部小写
 		"LcFirst":   gstr.LcFirst,    // 首字母小写
 		"UcFirst":   gstr.UcFirst,    // 首字母大写

@@ -1,9 +1,4 @@
 // Package admin
-// @Link  https://github.com/bufanyun/hotgo
-// @Copyright  Copyright (c) 2023 HotGo CLI
-// @Author  Ms <133814250@qq.com>
-// @License  https://github.com/bufanyun/hotgo/blob/master/LICENSE
-// @AutoGenerate Version 2.5.3
 // @AutoGenerate Date 2023-04-15 15:59:58
 package admin
 
