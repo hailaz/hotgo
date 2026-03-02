@@ -60,6 +60,44 @@ func (s *sAdminMenu) Delete(ctx context.Context, in *adminin.MenuDeleteInp) (err
 	return
 }
 
+// BatchDelete 批量删除菜单（含子菜单），在事务中递归删除
+func (s *sAdminMenu) BatchDelete(ctx context.Context, in *adminin.MenuBatchDeleteInp) (err error) {
+	return g.DB().Transaction(ctx, func(ctx context.Context, tx gdb.TX) error {
+		for _, id := range in.Ids {
+			if err := s.deleteMenuRecursive(ctx, id); err != nil {
+				return err
+			}
+		}
+		return casbin.Refresh(ctx)
+	})
+}
+
+// deleteMenuRecursive 递归删除菜单及其所有子菜单
+func (s *sAdminMenu) deleteMenuRecursive(ctx context.Context, id int64) (err error) {
+	// 查找所有子菜单
+	childIds, err := dao.AdminMenu.Ctx(ctx).
+		Fields(dao.AdminMenu.Columns().Id).
+		Where(dao.AdminMenu.Columns().Pid, id).
+		Array()
+	if err != nil {
+		return gerror.Wrap(err, consts.ErrorORM)
+	}
+
+	// 先递归删除子菜单
+	for _, childId := range childIds {
+		if err = s.deleteMenuRecursive(ctx, gconv.Int64(childId)); err != nil {
+			return
+		}
+	}
+
+	// 删除当前菜单
+	_, err = dao.AdminMenu.Ctx(ctx).Where(dao.AdminMenu.Columns().Id, id).Delete()
+	if err != nil {
+		return gerror.Wrap(err, "删除菜单失败")
+	}
+	return
+}
+
 // VerifyUnique 验证菜单唯一属性
 func (s *sAdminMenu) VerifyUnique(ctx context.Context, in *adminin.VerifyUniqueInp) (err error) {
 	if in.Where == nil {

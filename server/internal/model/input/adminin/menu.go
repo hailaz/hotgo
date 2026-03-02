@@ -45,6 +45,20 @@ func (in *MenuDeleteInp) Filter(ctx context.Context) (err error) {
 
 type MenuDeleteModel struct{}
 
+// MenuBatchDeleteInp 批量删除菜单（含子菜单）
+type MenuBatchDeleteInp struct {
+	Ids []int64 `json:"ids" v:"required#菜单ID不能为空" dc:"菜单ID列表"`
+}
+
+func (in *MenuBatchDeleteInp) Filter(ctx context.Context) (err error) {
+	if len(in.Ids) == 0 {
+		err = gerror.New("请选择要删除的菜单")
+	}
+	return
+}
+
+type MenuBatchDeleteModel struct{}
+
 // MenuListInp 获取菜单列表
 type MenuListInp struct {
 	form.PageReq

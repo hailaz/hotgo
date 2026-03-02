@@ -21,6 +21,12 @@ func (c *cMenu) Delete(ctx context.Context, req *menu.DeleteReq) (res *menu.Dele
 	return
 }
 
+// BatchDelete 批量删除（含子菜单）
+func (c *cMenu) BatchDelete(ctx context.Context, req *menu.BatchDeleteReq) (res *menu.BatchDeleteRes, err error) {
+	err = adminLogic.AdminMenu().BatchDelete(ctx, &req.MenuBatchDeleteInp)
+	return
+}
+
 // Edit 更新
 func (c *cMenu) Edit(ctx context.Context, req *menu.EditReq) (res *menu.EditRes, err error) {
 	err = adminLogic.AdminMenu().Edit(ctx, &req.MenuEditInp)

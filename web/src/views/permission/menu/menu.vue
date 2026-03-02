@@ -45,6 +45,21 @@
                   </div>
                 </template>
               </n-button>
+              <n-button
+                type="error"
+                icon-placement="left"
+                @click="handleBatchDelete"
+                :disabled="checkedKeys.length === 0"
+              >
+                <template #icon>
+                  <div class="flex items-center">
+                    <n-icon size="14">
+                      <DeleteOutlined />
+                    </n-icon>
+                  </div>
+                </template>
+                删除
+              </n-button>
             </n-space>
           </template>
           <div class="w-full menu">
@@ -71,9 +86,11 @@
                   :filter="filterTreeNode"
                   :data="treeOption"
                   :expandedKeys="expandedKeys"
+                  :checkedKeys="checkedKeys"
                   style="max-height: 650px; overflow: hidden"
                   @update:selected-keys="selectedTree"
                   @update:expanded-keys="onExpandedKeys"
+                  @update:checked-keys="onCheckedKeys"
                 />
               </template>
             </div>
@@ -111,17 +128,28 @@
 </template>
 <script lang="ts" setup>
   import { computed, onMounted, ref, unref } from 'vue';
-  import { AlignLeftOutlined, FormOutlined, PlusOutlined, SearchOutlined } from '@vicons/antd';
-  import { getMenuList } from '@/api/system/menu';
+  import { useDialog, useMessage } from 'naive-ui';
+  import {
+    AlignLeftOutlined,
+    DeleteOutlined,
+    FormOutlined,
+    PlusOutlined,
+    SearchOutlined,
+  } from '@vicons/antd';
+  import { getMenuList, BatchDeleteMenu } from '@/api/system/menu';
   import { newState, State, loadOptions } from '@/views/permission/menu/model';
   import EditForm from '@/views/permission/menu/editForm.vue';
   import AddModal from '@/views/permission/menu/addModal.vue';
+
+  const dialog = useDialog();
+  const message = useMessage();
 
   const addModalRef = ref();
   const loading = ref(false);
   const treeOption = ref([]);
   const pattern = ref('');
   const expandedKeys = ref([]);
+  const checkedKeys = ref<number[]>([]);
   const formParams = ref<State>(newState(null));
   const treeItemTitle = computed(() => {
     if (formParams.value.id > 0) {
@@ -160,6 +188,50 @@
 
   function onExpandedKeys(keys) {
     expandedKeys.value = keys;
+  }
+
+  function onCheckedKeys(keys: number[]) {
+    checkedKeys.value = keys;
+  }
+
+  // 从勾选的节点中提取顶级父节点ID（过滤掉那些父节点也被勾选的子节点）
+  function getTopLevelCheckedIds(nodes: any[], checkedSet: Set<number>): number[] {
+    const result: number[] = [];
+    for (const node of nodes) {
+      if (checkedSet.has(node.key)) {
+        // 当前节点被勾选，加入结果，不再遍历其子节点（后端会递归删除）
+        result.push(node.key);
+      } else if (node.children && node.children.length > 0) {
+        // 当前节点未被勾选，继续在子节点中查找
+        result.push(...getTopLevelCheckedIds(node.children, checkedSet));
+      }
+    }
+    return result;
+  }
+
+  // 批量删除勾选的菜单
+  function handleBatchDelete() {
+    if (checkedKeys.value.length === 0) {
+      message.warning('请先勾选要删除的菜单');
+      return;
+    }
+
+    dialog.warning({
+      title: '提示',
+      content: `您确定要删除选中的 ${checkedKeys.value.length} 个菜单吗？勾选父菜单将同步删除其所有子菜单。`,
+      positiveText: '确定',
+      negativeText: '取消',
+      onPositiveClick: () => {
+        const checkedSet = new Set(checkedKeys.value);
+        const ids = getTopLevelCheckedIds(unref(treeOption), checkedSet);
+        BatchDeleteMenu({ ids }).then(() => {
+          message.success('删除成功');
+          checkedKeys.value = [];
+          formParams.value = newState(null);
+          loadTreeOption();
+        });
+      },
+    });
   }
 
   // 按名称和权限搜索

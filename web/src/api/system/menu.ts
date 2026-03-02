@@ -38,3 +38,11 @@ export function DeleteMenu(params?) {
     params,
   });
 }
+
+export function BatchDeleteMenu(params: { ids: number[] }) {
+  return http.request({
+    url: '/menu/batchDelete',
+    method: 'POST',
+    params,
+  });
+}
