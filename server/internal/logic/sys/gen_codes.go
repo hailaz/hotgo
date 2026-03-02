@@ -4,10 +4,13 @@ package sys
 import (
 	"context"
 	"fmt"
+	"path/filepath"
+	"strings"
 
 	"github.com/gogf/gf/v2/encoding/gjson"
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
+	"github.com/gogf/gf/v2/os/gfile"
 	"github.com/gogf/gf/v2/os/gtime"
 	"github.com/gogf/gf/v2/text/gregex"
 	"github.com/gogf/gf/v2/text/gstr"
@@ -324,7 +327,13 @@ func (s *sSysGenCodes) ColumnList(ctx context.Context, in *sysin.GenCodesColumnL
 
 // Preview 生成预览
 func (s *sSysGenCodes) Preview(ctx context.Context, in *sysin.GenCodesPreviewInp) (res *sysin.GenCodesPreviewModel, err error) {
-	return hggen.Preview(ctx, in)
+	res, err = hggen.Preview(ctx, in)
+	if err != nil {
+		return
+	}
+	// 追加DAO相关文件
+	hggen.AppendDaoFiles(res, in.DbName, in.DaoName)
+	return
 }
 
 // Build 提交生成
@@ -345,5 +354,58 @@ func (s *sSysGenCodes) Build(ctx context.Context, in *sysin.GenCodesBuildInp) (e
 		_ = s.Status(ctx, &sysin.GenCodesStatusInp{Id: in.Id, Status: consts.GenCodesStatusFail})
 		return err
 	}
+	return
+}
+
+// Clean 清除生成的代码文件
+func (s *sSysGenCodes) Clean(ctx context.Context, in *sysin.GenCodesCleanInp) (res *sysin.GenCodesCleanModel, err error) {
+	res = new(sysin.GenCodesCleanModel)
+
+	if len(in.Files) == 0 {
+		err = gerror.New("请选择需要删除的文件")
+		return
+	}
+
+	// 使用项目根目录（server的上级目录）作为安全校验基准，因为web前端文件在../web/下
+	projectRoot := filepath.Dir(gfile.Pwd())
+
+	for _, filePath := range in.Files {
+		// 路径安全校验：必须是绝对路径
+		if !filepath.IsAbs(filePath) {
+			res.Failed = append(res.Failed, filePath)
+			continue
+		}
+
+		// 路径安全校验：解析后必须在项目根目录下
+		absPath := filepath.Clean(filePath)
+		if !strings.HasPrefix(absPath, projectRoot) {
+			res.Failed = append(res.Failed, filePath)
+			continue
+		}
+
+		// 不允许路径中包含..
+		if strings.Contains(filePath, "..") {
+			res.Failed = append(res.Failed, filePath)
+			continue
+		}
+
+		if !gfile.Exists(filePath) {
+			continue
+		}
+
+		if gfile.IsDir(filePath) {
+			res.Failed = append(res.Failed, filePath)
+			continue
+		}
+
+		if err2 := gfile.Remove(filePath); err2 != nil {
+			g.Log().Warningf(ctx, "clean generated file failed, path:%s, err:%v", filePath, err2)
+			res.Failed = append(res.Failed, filePath)
+			continue
+		}
+
+		res.Count++
+	}
+
 	return
 }

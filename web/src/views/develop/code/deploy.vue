@@ -48,6 +48,9 @@
                 >提交生成</n-button
               >
               <n-button type="info" dashed @click="submitSave">仅保存配置</n-button>
+              <n-button type="error" ghost :loading="cleanBtnLoading" @click="handleClean"
+                >清除代码</n-button
+              >
             </n-space>
           </template>
         </n-tabs>
@@ -71,19 +74,54 @@
             </n-space>
           </template>
         </n-modal>
+
+        <n-modal
+          v-model:show="showCleanModal"
+          :block-scroll="false"
+          :mask-closable="false"
+          :show-icon="false"
+          preset="card"
+          title="清除生成的代码文件"
+          style="width: 720px"
+        >
+          <n-alert type="warning" style="margin-bottom: 12px">
+            请勾选需要删除的文件，确认后将从磁盘上删除这些文件，此操作不可恢复！
+          </n-alert>
+          <n-data-table
+            :columns="cleanColumns"
+            :data="cleanFileList"
+            :row-key="(row) => row.path"
+            v-model:checked-row-keys="cleanCheckedKeys"
+            size="small"
+            :max-height="400"
+          />
+          <template #action>
+            <n-space justify="end">
+              <n-button @click="() => (showCleanModal = false)">取消</n-button>
+              <n-button
+                type="error"
+                :loading="cleanSubmitLoading"
+                :disabled="cleanCheckedKeys.length === 0"
+                @click="submitClean"
+              >
+                确认删除 ({{ cleanCheckedKeys.length }})
+              </n-button>
+            </n-space>
+          </template>
+        </n-modal>
       </n-card>
     </n-spin>
   </div>
 </template>
 
 <script lang="ts" setup>
-  import { onMounted, ref, watch } from 'vue';
+  import { onMounted, ref, h, watch } from 'vue';
   import { useRouter } from 'vue-router';
-  import { useDialog, useMessage, useNotification } from 'naive-ui';
+  import { useDialog, useMessage, useNotification, NTag, DataTableColumns } from 'naive-ui';
   import BaseInfo from './components/BaseInfo.vue';
   import EditMasterCell from './components/EditMasterCell.vue';
   import EditSlaveCell from './components/EditSlaveCell.vue';
-  import { Selects, View, Preview, Build, Edit } from '@/api/develop/code';
+  import { Selects, View, Preview, Build, Edit, Clean } from '@/api/develop/code';
   import { selectListObj, newState, formatColumns } from '@/views/develop/code/components/model';
   import PreviewTab from '@/views/develop/code/components/PreviewTab.vue';
   import { isJsonString } from '@/utils/is';
@@ -109,6 +147,29 @@
   const previewModel = ref<any>();
   const dialog = useDialog();
   const notification = useNotification();
+
+  // 清除代码相关
+  const showCleanModal = ref(false);
+  const cleanBtnLoading = ref(false);
+  const cleanSubmitLoading = ref(false);
+  const cleanFileList = ref<any[]>([]);
+  const cleanCheckedKeys = ref<string[]>([]);
+
+  const cleanColumns: DataTableColumns<any> = [
+    { type: 'selection' },
+    { title: '文件类型', key: 'key', width: 140 },
+    { title: '文件路径', key: 'path', ellipsis: { tooltip: true } },
+    {
+      title: '状态',
+      key: 'exists',
+      width: 100,
+      render(row) {
+        return row.exists
+          ? h(NTag, { type: 'success', size: 'small' }, { default: () => '已存在' })
+          : h(NTag, { type: 'default', size: 'small' }, { default: () => '不存在' });
+      },
+    },
+  ];
 
   onMounted(async () => {
     if (genId < 1 && props.genId < 1) {
@@ -269,6 +330,87 @@
       },
       onAfterLeave: () => {
         location.reload();
+      },
+    });
+  }
+
+  function handleClean() {
+    cleanBtnLoading.value = true;
+    Preview(genInfo.value)
+      .then((res) => {
+        if (!res || !res.views) {
+          message.warning('没有获取到生成文件信息');
+          return;
+        }
+
+        const fileKeyNameMap: Record<string, string> = {
+          'api.go': 'Go API 定义',
+          'input.go': 'Go 输入模型',
+          'controller.go': 'Go 控制器',
+          'logic.go': 'Go 业务逻辑',
+          'router.go': 'Go 路由',
+          'web.api.ts': '前端 API',
+          'web.model.ts': '前端数据模型',
+          'web.index.vue': '前端列表页',
+          'web.edit.vue': '前端编辑页',
+          'web.view.vue': '前端详情页',
+          'source.sql': '菜单SQL',
+          'dao.go': 'DAO 模型',
+          'dao.internal.go': 'DAO Internal',
+          'do.go': 'DO 模型',
+          'entity.go': 'Entity 模型',
+        };
+
+        const files: any[] = [];
+        const existPaths: string[] = [];
+        for (const [key, file] of Object.entries(res.views) as [string, any][]) {
+          if (!file.path) continue;
+          // meth=3(skip) 表示文件已存在, meth=1(create) 表示不存在
+          const exists = file.meth === 3 || file.meth === 2;
+          files.push({
+            key: fileKeyNameMap[key] || key,
+            path: file.path,
+            exists,
+          });
+          if (exists) {
+            existPaths.push(file.path);
+          }
+        }
+
+        cleanFileList.value = files;
+        cleanCheckedKeys.value = existPaths;
+        showCleanModal.value = true;
+      })
+      .finally(() => {
+        cleanBtnLoading.value = false;
+      });
+  }
+
+  function submitClean() {
+    if (cleanCheckedKeys.value.length === 0) {
+      message.warning('请至少选择一个文件');
+      return;
+    }
+
+    dialog.warning({
+      title: '确认删除',
+      content: `即将删除 ${cleanCheckedKeys.value.length} 个文件，此操作不可恢复，确定继续吗？`,
+      positiveText: '确定删除',
+      negativeText: '取消',
+      onPositiveClick: () => {
+        cleanSubmitLoading.value = true;
+        Clean({ id: genId, files: cleanCheckedKeys.value })
+          .then((res) => {
+            showCleanModal.value = false;
+            if (res.failed && res.failed.length > 0) {
+              message.warning(`成功删除 ${res.count} 个文件，${res.failed.length} 个文件删除失败`);
+            } else {
+              message.success(`成功删除 ${res.count} 个文件`);
+            }
+          })
+          .finally(() => {
+            cleanSubmitLoading.value = false;
+          });
       },
     });
   }

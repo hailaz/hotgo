@@ -132,3 +132,15 @@ func (c *cGenCodes) Build(ctx context.Context, req *gencodes.BuildReq) (res *gen
 	err = sysLogic.SysGenCodes().Build(ctx, &req.GenCodesBuildInp)
 	return
 }
+
+// Clean 清除生成的代码文件
+func (c *cGenCodes) Clean(ctx context.Context, req *gencodes.CleanReq) (res *gencodes.CleanRes, err error) {
+	data, err := sysLogic.SysGenCodes().Clean(ctx, &req.GenCodesCleanInp)
+	if err != nil {
+		return
+	}
+
+	res = new(gencodes.CleanRes)
+	res.GenCodesCleanModel = data
+	return
+}

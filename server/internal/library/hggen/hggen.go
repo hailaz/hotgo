@@ -5,11 +5,13 @@ import (
 	"context"
 	"os/exec"
 	"sort"
+	"strings"
 	_ "unsafe"
 
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/gfile"
+	"github.com/gogf/gf/v2/text/gstr"
 	"github.com/gogf/gf/v2/util/gconv"
 
 	"hotgo/internal/consts"
@@ -23,6 +25,7 @@ import (
 	"hotgo/internal/model/input/form"
 	"hotgo/internal/model/input/sysin"
 	"hotgo/internal/service"
+	"hotgo/utility/file"
 )
 
 //go:linkname doGenDaoForArray hotgo/internal/library/hggen/internal/cmd/gendao.doGenDaoForArray
@@ -291,5 +294,40 @@ func Build(ctx context.Context, in *sysin.GenCodesBuildInp) (err error) {
 	default:
 		err = gerror.Newf("生成类型暂不支持！")
 		return
+	}
+}
+
+// AppendDaoFiles 追加DAO相关文件到预览结果
+func AppendDaoFiles(res *sysin.GenCodesPreviewModel, dbName string, daoName string) {
+	if res == nil || res.Views == nil {
+		return
+	}
+
+	daoCfg := GetDaoConfig(dbName)
+	// daoName 是 CamelCase 形式 (如 Testv)，DAO 文件名用 snake_case 小写
+	fileName := strings.ToLower(gstr.CaseSnake(daoName))
+
+	type daoFileInfo struct {
+		key  string
+		path string
+	}
+
+	daoFiles := []daoFileInfo{
+		{"dao.go", file.MergeAbs(daoCfg.Path, daoCfg.DaoPath, fileName+".go")},
+		{"dao.internal.go", file.MergeAbs(daoCfg.Path, daoCfg.DaoPath, "internal", fileName+".go")},
+		{"do.go", file.MergeAbs(daoCfg.Path, daoCfg.DoPath, fileName+".go")},
+		{"entity.go", file.MergeAbs(daoCfg.Path, daoCfg.EntityPath, fileName+".go")},
+	}
+
+	for _, df := range daoFiles {
+		genFile := &sysin.GenFile{
+			Path:     df.path,
+			Meth:     consts.GenCodesBuildMethCreate,
+			Required: false,
+		}
+		if gfile.Exists(df.path) {
+			genFile.Meth = consts.GenCodesBuildMethSkip
+		}
+		res.Views[df.key] = genFile
 	}
 }

@@ -113,3 +113,13 @@ type BuildReq struct {
 
 type BuildRes struct {
 }
+
+// CleanReq 清除生成代码
+type CleanReq struct {
+	g.Meta `path:"/genCodes/clean" method:"post" tags:"生成代码" summary:"清除生成的代码文件"`
+	sysin.GenCodesCleanInp
+}
+
+type CleanRes struct {
+	*sysin.GenCodesCleanModel
+}

@@ -204,6 +204,17 @@ func (in *GenCodesBuildInp) Filter(ctx context.Context) (err error) {
 	return genFilter(ctx, in.SysGenCodes)
 }
 
+// GenCodesCleanInp 清除生成代码
+type GenCodesCleanInp struct {
+	Id    int64    `json:"id" v:"required#生成代码ID不能为空" dc:"生成代码ID"`
+	Files []string `json:"files" v:"required#文件列表不能为空" dc:"待删除文件路径列表"`
+}
+
+type GenCodesCleanModel struct {
+	Count  int      `json:"count" dc:"成功删除文件数"`
+	Failed []string `json:"failed" dc:"删除失败的文件"`
+}
+
 func genFilter(ctx context.Context, in entity.SysGenCodes) (err error) {
 	if in.VarName == "" {
 		err = gerror.New("实体命名不能为空")

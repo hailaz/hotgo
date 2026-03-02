@@ -85,3 +85,11 @@ export function Build(params) {
     params,
   });
 }
+
+export function Clean(params) {
+  return http.request({
+    url: '/genCodes/clean',
+    method: 'post',
+    params,
+  });
+}
