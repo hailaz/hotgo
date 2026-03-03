@@ -58,9 +58,11 @@ golangci-lint run --fix
 
 1. 进入代码生成配置页面
 2. 在「高级设置」区域勾选 **「生成后运行 [golangci-lint]」**
-3. 提交生成时会在所有文件写入和 `gf gen service` 执行完毕后，自动运行 `golangci-lint run --fix`
+3. 提交生成时会在所有文件写入完毕后，自动运行 `golangci-lint run --fix`
 
 该选项默认勾选，可按需取消。
+
+> **注意**：v3.0 起 DAO/DO/Entity 生成已重构为基于 tpl 模板的方式，不再调用 `gf gen service`，lint 检查在所有文件（包括模板生成的 DAO 文件）写入完成后统一执行。
 
 ---
 

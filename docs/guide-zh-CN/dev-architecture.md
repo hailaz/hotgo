@@ -714,4 +714,4 @@ type Identity struct {
 
 ---
 
-*本文档基于 HotGo v2.18.6 代码库分析生成。*
+*本文档基于 HotGo v3.0.0 代码库分析生成。*
