@@ -1670,12 +1670,12 @@ INSERT INTO hg_admin_menu (
 
       (2099, 2120, 2, 'tr_2120 ', 'API文档', 'apidocs', 'apidocs', '', 2, '',
        '', '', 'IFRAME', 2, '',
-       2, 1, 'https://hotgo.facms.cn/swagger', 2, 2, 2, 1000,
+       2, 1, 'http://localhost:8000/swagger', 2, 2, 2, 1000,
        '', 1, '2024-04-16 12:44:58', '2022-09-18 21:34:09'),
 
-      (2100, 2120, 2, 'tr_2120 ', '使用文档', 'https://github.com/bufanyun/hotgo/tree/v2.0/docs/guide-zh-CN', '/hotgo', '', 1, '',
-       '', '', 'LAYOUT', 0, '',
-       2, 2, '', 2, 2, 2, 1100,
+      (2100, 2120, 2, 'tr_2120 ', '使用文档', 'usedocs', 'usedocs', '', 2, '',
+       '', '', 'IFRAME', 2, '',
+       2, 1, 'http://localhost:8000/docs#/', 2, 2, 2, 1100,
        '', 1, '2024-04-16 12:45:11', '2022-09-18 21:35:17'),
 
       (2102, 0, 1, '', '关于', 'about', '/about', 'ProjectOutlined', 1, '/about/index',
