@@ -4,7 +4,7 @@ package sys
 import (
 	"context"
 
-	"hotgo/api/admin/testcategory"
+	"hotgo/api/admingen/testcategory"
 	sysLogic "hotgo/internal/logic/sys"
 	"hotgo/internal/model/input/sysin"
 )

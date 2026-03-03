@@ -4,7 +4,7 @@ package sys
 import (
 	"context"
 
-	"hotgo/api/admin/normaltreedemo"
+	"hotgo/api/admingen/normaltreedemo"
 	sysLogic "hotgo/internal/logic/sys"
 	"hotgo/internal/model/input/sysin"
 )

@@ -1,5 +1,4 @@
 // Package pay
-// @AutoGenerate Date 2023-04-15 15:59:58
 package pay
 
 import (

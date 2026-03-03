@@ -4,7 +4,7 @@ package sys
 import (
 	"context"
 
-	"hotgo/api/admin/curddemo"
+	"hotgo/api/admingen/curddemo"
 	sysLogic "hotgo/internal/logic/sys"
 	"hotgo/internal/model/input/sysin"
 )

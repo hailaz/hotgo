@@ -5,7 +5,7 @@ package pay
 import (
 	"context"
 
-	"hotgo/api/admin/pay"
+	"hotgo/api/admingen/pay"
 	payLogic "hotgo/internal/logic/pay"
 )
 

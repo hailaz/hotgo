@@ -5,7 +5,7 @@ package admin
 import (
 	"context"
 
-	"hotgo/api/admin/creditslog"
+	"hotgo/api/admingen/creditslog"
 	adminLogic "hotgo/internal/logic/admin"
 )
 

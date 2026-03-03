@@ -4,7 +4,7 @@ package sys
 import (
 	"context"
 
-	"hotgo/api/admin/optiontreedemo"
+	"hotgo/api/admingen/optiontreedemo"
 	sysLogic "hotgo/internal/logic/sys"
 	"hotgo/internal/model/input/sysin"
 )
