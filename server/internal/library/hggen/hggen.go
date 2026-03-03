@@ -313,10 +313,10 @@ func AppendDaoFiles(res *sysin.GenCodesPreviewModel, dbName string, daoName stri
 	}
 
 	daoFiles := []daoFileInfo{
-		{"dao.go", file.MergeAbs(daoCfg.Path, daoCfg.DaoPath, fileName+".go")},
-		{"dao.internal.go", file.MergeAbs(daoCfg.Path, daoCfg.DaoPath, "internal", fileName+".go")},
-		{"do.go", file.MergeAbs(daoCfg.Path, daoCfg.DoPath, fileName+".go")},
-		{"entity.go", file.MergeAbs(daoCfg.Path, daoCfg.EntityPath, fileName+".go")},
+		{"dao.go", file.MergeAbs(daoCfg.Path, daoCfg.DaoPath, fileName+".gen.go")},
+		{"dao.internal.go", file.MergeAbs(daoCfg.Path, daoCfg.DaoPath, "internal", fileName+".gen.go")},
+		{"do.go", file.MergeAbs(daoCfg.Path, daoCfg.DoPath, fileName+".gen.go")},
+		{"entity.go", file.MergeAbs(daoCfg.Path, daoCfg.EntityPath, fileName+".gen.go")},
 	}
 
 	for _, df := range daoFiles {

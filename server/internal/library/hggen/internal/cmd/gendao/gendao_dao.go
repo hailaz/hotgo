@@ -113,7 +113,7 @@ type generateDaoIndexInput struct {
 }
 
 func generateDaoIndex(in generateDaoIndexInput) {
-	path := filepath.FromSlash(gfile.Join(in.DirPathDao, in.FileName+".go"))
+	path := filepath.FromSlash(gfile.Join(in.DirPathDao, in.FileName+".gen.go"))
 	// It should add path to result slice whenever it would generate the path file or not.
 	in.genItems.AppendGeneratedFilePath(path)
 	if in.OverwriteDao || !gfile.Exists(path) {
@@ -178,7 +178,7 @@ func generateDaoInternal(in generateDaoInternalInput) {
 	if err != nil {
 		mlog.Fatalf("parsing template content failed: %v", err)
 	}
-	path := filepath.FromSlash(gfile.Join(in.DirPathDaoInternal, in.FileName+".go"))
+	path := filepath.FromSlash(gfile.Join(in.DirPathDaoInternal, in.FileName+".gen.go"))
 	in.genItems.AppendGeneratedFilePath(path)
 	if err := gfile.PutContents(path, strings.TrimSpace(modelContent)); err != nil {
 		mlog.Fatalf("writing content to '%s' failed: %v", path, err)

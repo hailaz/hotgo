@@ -32,7 +32,7 @@ func generateEntity(ctx context.Context, in CGenDaoInternalInput) {
 
 		var (
 			newTableName                    = in.NewTableNames[i]
-			entityFilePath                  = filepath.FromSlash(gfile.Join(dirPathEntity, gstr.CaseSnake(newTableName)+".go"))
+			entityFilePath                  = filepath.FromSlash(gfile.Join(dirPathEntity, gstr.CaseSnake(newTableName)+".gen.go"))
 			structDefinition, appendImports = generateStructDefinition(ctx, generateStructDefinitionInput{
 				CGenDaoInternalInput: in,
 				TableName:            tableName,
