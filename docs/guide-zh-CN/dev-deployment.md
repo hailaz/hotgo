@@ -161,10 +161,10 @@ CMD ./entrypoint.sh
 cd server
 
 # 方式一：使用 Makefile
-make image tag=v2.18.6
+make image tag=v3.0.0
 
 # 方式二：使用 GoFrame CLI
-gf docker main.go -p -tn hotgo:v2.18.6
+gf docker main.go -p -tn hotgo:v3.0.0
 ```
 
 ### 4.3 运行容器
@@ -175,7 +175,7 @@ docker run -d \
   -p 8000:8000 \
   -v /path/to/config.yaml:/app/manifest/config/config.yaml \
   -v /path/to/storage:/app/storage \
-  hotgo:v2.18.6
+  hotgo:v3.0.0
 ```
 
 ## 5. Kubernetes 部署
@@ -201,7 +201,7 @@ server/manifest/deploy/kustomize/
 cd server
 
 # 方式一：使用 Makefile
-make image tag=v2.18.6
+make image tag=v3.0.0
 make deploy
 
 # 方式二：手动
@@ -368,4 +368,3 @@ go run main.go up
 
 ---
 
-*本文档基于 HotGo v2.18.6 代码库分析生成。*
