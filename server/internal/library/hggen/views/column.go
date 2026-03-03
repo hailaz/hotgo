@@ -13,12 +13,12 @@ import (
 	"github.com/gogf/gf/v2/util/gconv"
 
 	"hotgo/internal/consts"
-	"hotgo/internal/library/hggen/internal/cmd/gendao"
+	"hotgo/internal/library/hggen/internal/cmd/gentpl"
 	"hotgo/internal/model/input/sysin"
 )
 
 // DoTableColumns 获取指定表生成字段列表
-func DoTableColumns(ctx context.Context, in *sysin.GenCodesColumnListInp, config gendao.CGenDaoInput) (fields []*sysin.GenCodesColumnListModel, err error) {
+func DoTableColumns(ctx context.Context, in *sysin.GenCodesColumnListInp, config gentpl.CGenTplInput) (fields []*sysin.GenCodesColumnListModel, err error) {
 	var (
 		sql  string
 		conf = g.DB(in.Name).GetConfig()
@@ -96,7 +96,7 @@ func DoTableColumns(ctx context.Context, in *sysin.GenCodesColumnListInp, config
 }
 
 // CustomLinkAttributes 可自定义关联表的字段属性
-func CustomLinkAttributes(ctx context.Context, alias string, field *sysin.GenCodesColumnListModel, in gendao.CGenDaoInput) {
+func CustomLinkAttributes(ctx context.Context, alias string, field *sysin.GenCodesColumnListModel, in gentpl.CGenTplInput) {
 	field.GoName, field.GoType, field.TsName, field.TsType = GenGotype(ctx, field, in)
 
 	field.GoName = gstr.UcFirst(alias + field.GoName)
@@ -107,13 +107,13 @@ func CustomLinkAttributes(ctx context.Context, alias string, field *sysin.GenCod
 }
 
 // CustomAttributes 可自定义的字段属性
-func CustomAttributes(ctx context.Context, field *sysin.GenCodesColumnListModel, in gendao.CGenDaoInput) {
+func CustomAttributes(ctx context.Context, field *sysin.GenCodesColumnListModel, in gentpl.CGenTplInput) {
 	field.GoName, field.GoType, field.TsName, field.TsType = GenGotype(ctx, field, in)
 	setDefault(field)
 }
 
 // GenGotype 生成字段的go类型
-func GenGotype(ctx context.Context, field *sysin.GenCodesColumnListModel, in gendao.CGenDaoInput) (goName, typeName, tsName string, tsType string) {
+func GenGotype(ctx context.Context, field *sysin.GenCodesColumnListModel, in gentpl.CGenTplInput) (goName, typeName, tsName string, tsType string) {
 	var err error
 	tsName = getJsonTagFromCase(field.Name, in.JsonCase)
 	goName = gstr.CaseCamel(field.Name)

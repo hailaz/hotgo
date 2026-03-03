@@ -21,7 +21,7 @@ gfcli:
 
 
   gen:
-    dao:
+    tpl:
       - link: "mysql:hotgo:hg123456.@tcp(127.0.0.1:3306)/hotgo?loc=Local&parseTime=true&charset=utf8mb4"
 #      - link: "pgsql:postgres:hg123456@tcp(127.0.0.1:5432)/hotgo"
         group: "default"                                                # 分组 使用hotgo代码生成功能时必须填
@@ -33,6 +33,8 @@ gfcli:
         jsonCase: "CamelLower"
         gJsonSupport: true
         clear: false
+        tplPath: "hack/tpl"                                             # 模板文件目录路径
+        withOrmTag: true                                                # 是否生成 orm 标签
 
 
 #    service: # 生成业务配置

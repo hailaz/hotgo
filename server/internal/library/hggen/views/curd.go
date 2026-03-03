@@ -17,7 +17,7 @@ import (
 
 	"hotgo/internal/consts"
 	"hotgo/internal/dao"
-	"hotgo/internal/library/hggen/internal/cmd/gendao"
+	"hotgo/internal/library/hggen/internal/cmd/gentpl"
 	"hotgo/internal/library/hgorm"
 	"hotgo/internal/model"
 	"hotgo/internal/model/input/sysin"
@@ -134,7 +134,7 @@ type OptionsSchemasField struct {
 
 type CurdPreviewInput struct {
 	In           *sysin.GenCodesPreviewInp        // 提交参数
-	DaoConfig    gendao.CGenDaoInput              // 生成dao配置
+	DaoConfig    gentpl.CGenTplInput              // 生成dao配置
 	Config       *model.GenerateConfig            // 生成配置
 	view         *gview.View                      // 视图模板
 	content      *sysin.GenCodesPreviewModel      // 页面代码

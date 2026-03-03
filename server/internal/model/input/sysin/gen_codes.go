@@ -206,13 +206,15 @@ func (in *GenCodesBuildInp) Filter(ctx context.Context) (err error) {
 
 // GenCodesCleanInp 清除生成代码
 type GenCodesCleanInp struct {
-	Id    int64    `json:"id" v:"required#生成代码ID不能为空" dc:"生成代码ID"`
-	Files []string `json:"files" v:"required#文件列表不能为空" dc:"待删除文件路径列表"`
+	Id        int64    `json:"id" v:"required#生成代码ID不能为空" dc:"生成代码ID"`
+	Files     []string `json:"files" v:"required#文件列表不能为空" dc:"待删除文件路径列表"`
+	CleanMenu bool     `json:"cleanMenu" dc:"是否同时清除对应菜单权限"`
 }
 
 type GenCodesCleanModel struct {
-	Count  int      `json:"count" dc:"成功删除文件数"`
-	Failed []string `json:"failed" dc:"删除失败的文件"`
+	Count     int      `json:"count" dc:"成功删除文件数"`
+	Failed    []string `json:"failed" dc:"删除失败的文件"`
+	MenuCount int      `json:"menuCount" dc:"成功删除菜单数"`
 }
 
 func genFilter(ctx context.Context, in entity.SysGenCodes) (err error) {

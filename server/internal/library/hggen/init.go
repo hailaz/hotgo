@@ -9,8 +9,8 @@ import (
 	"github.com/gogf/gf/v2/util/gconv"
 	"gopkg.in/yaml.v3"
 
-	"hotgo/internal/library/hggen/internal/cmd/gendao"
 	"hotgo/internal/library/hggen/internal/cmd/genservice"
+	"hotgo/internal/library/hggen/internal/cmd/gentpl"
 )
 
 const (
@@ -32,11 +32,12 @@ var (
 		Clear:           false,
 	}
 
-	// 生成dao默认参数，请不要直接修改以下配置，如需调整请到/hack/config.yaml，可参考：https://goframe.org/pages/viewpage.action?pageId=3673173
-	defaultGenDaoInput = gendao.CGenDaoInput{
+	// 生成dao默认参数（使用 gen tpl），请不要直接修改以下配置，如需调整请到/hack/config.yaml
+	defaultGenTplInput = gentpl.CGenTplInput{
 		Path:           "internal",
 		Group:          "default",
 		JsonCase:       "CamelLower",
+		TplPath:        "hack/tpl",
 		DaoPath:        "dao",
 		DoPath:         "model/do",
 		EntityPath:     "model/entity",
@@ -48,6 +49,7 @@ var (
 		NoJsonTag:      false,
 		NoModelComment: false,
 		Clear:          false,
+		WithOrmTag:     true,
 	}
 )
 
@@ -57,7 +59,8 @@ func GetServiceConfig() genservice.CGenServiceInput {
 	return inp
 }
 
-func GetDaoConfig(group string) gendao.CGenDaoInput {
+// GetDaoConfig returns the gen tpl configuration for the specified database group.
+func GetDaoConfig(group string) gentpl.CGenTplInput {
 	find := func(group string) g.Map {
 		for _, v := range daoConfig {
 			if v.(g.Map)["group"].(string) == group {
@@ -68,7 +71,7 @@ func GetDaoConfig(group string) gendao.CGenDaoInput {
 	}
 
 	v := find(group)
-	inp := defaultGenDaoInput
+	inp := defaultGenTplInput
 	if v != nil {
 		if err := gconv.Scan(v, &inp); err != nil {
 			panic(err)
@@ -104,22 +107,33 @@ func loadConfig(ctx context.Context) {
 		g.Log().Fatalf(ctx, RequiredErrorTag, "gfcli.gen")
 	}
 
-	dao, ok := config["gfcli"].(g.Map)["gen"].(map[string]any)["dao"]
-	if !ok {
-		g.Log().Fatalf(ctx, RequiredErrorTag, "gfcli.gen.dao")
+	genConf := config["gfcli"].(g.Map)["gen"].(map[string]any)
+
+	// 优先读取 gfcli.gen.tpl，回退到 gfcli.gen.dao
+	var daoRaw any
+	var configKey string
+	if tpl, ok := genConf["tpl"]; ok {
+		daoRaw = tpl
+		configKey = "gfcli.gen.tpl"
+	} else if dao, ok := genConf["dao"]; ok {
+		daoRaw = dao
+		configKey = "gfcli.gen.dao"
+	} else {
+		g.Log().Fatalf(ctx, RequiredErrorTag, "gfcli.gen.tpl or gfcli.gen.dao")
 	}
-	daoConf, ok := dao.([]any)
+
+	daoConf, ok := daoRaw.([]any)
 	if !ok {
-		g.Log().Fatalf(ctx, RequiredErrorTag, "gfcli.gen.dao format error")
+		g.Log().Fatalf(ctx, RequiredErrorTag, configKey+" format error (must be array)")
 	}
 	daoConfig = daoConf
 	for _, v := range daoConfig {
 		if _, ok := v.(g.Map)["group"].(string); !ok {
-			g.Log().Fatalf(ctx, "group must be configured in %s: `gfcli.gen.dao` and must be the same as the database group", cliFolderName)
+			g.Log().Fatalf(ctx, "group must be configured in %s: `%s` and must be the same as the database group", cliFolderName, configKey)
 		}
 	}
 
-	if serviceConf, ok := config["gfcli"].(g.Map)["gen"].(map[string]any)["service"]; ok {
+	if serviceConf, ok := genConf["service"]; ok {
 		if serviceConfig == nil {
 			serviceConfig = make(g.Map)
 		}

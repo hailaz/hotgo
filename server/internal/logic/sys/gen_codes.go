@@ -407,5 +407,82 @@ func (s *sSysGenCodes) Clean(ctx context.Context, in *sysin.GenCodesCleanInp) (r
 		res.Count++
 	}
 
+	// 清除对应菜单权限
+	if in.CleanMenu {
+		menuCount, menuErr := s.cleanGeneratedMenus(ctx, in.Id)
+		if menuErr != nil {
+			g.Log().Warningf(ctx, "clean generated menus failed, id:%d, err:%v", in.Id, menuErr)
+		} else {
+			res.MenuCount = menuCount
+		}
+	}
+
+	return
+}
+
+// cleanGeneratedMenus 根据生成代码ID清除对应的菜单权限
+func (s *sSysGenCodes) cleanGeneratedMenus(ctx context.Context, id int64) (count int, err error) {
+	// 获取生成代码配置
+	var genCode *sysin.GenCodesViewModel
+	if err = dao.SysGenCodes.Ctx(ctx).Where("id", id).Scan(&genCode); err != nil {
+		return 0, gerror.Wrap(err, "获取生成代码配置失败")
+	}
+	if genCode == nil {
+		return 0, gerror.New("生成代码配置不存在")
+	}
+
+	varName := genCode.VarName
+	if varName == "" {
+		return 0, gerror.New("实体名称为空，无法定位菜单")
+	}
+
+	// 根据VarName推导菜单目录的name（与生成时一致：首字母小写的VarName）
+	menuDirName := gstr.LcFirst(varName)
+
+	// 查找目录菜单
+	dirMenu, err := dao.AdminMenu.Ctx(ctx).
+		Fields(dao.AdminMenu.Columns().Id).
+		Where(dao.AdminMenu.Columns().Name, menuDirName).
+		One()
+	if err != nil {
+		return 0, gerror.Wrap(err, "查询菜单目录失败")
+	}
+	if dirMenu.IsEmpty() {
+		return 0, nil
+	}
+
+	dirId := dirMenu["id"].Int64()
+
+	// 递归查找并删除该目录下的所有子菜单
+	count, err = s.deleteMenuAndChildren(ctx, dirId)
+	return
+}
+
+// deleteMenuAndChildren 递归删除菜单及其所有子菜单，返回删除数量
+func (s *sSysGenCodes) deleteMenuAndChildren(ctx context.Context, id int64) (count int, err error) {
+	// 查找所有子菜单
+	childIds, err := dao.AdminMenu.Ctx(ctx).
+		Fields(dao.AdminMenu.Columns().Id).
+		Where(dao.AdminMenu.Columns().Pid, id).
+		Array()
+	if err != nil {
+		return 0, gerror.Wrap(err, "查询子菜单失败")
+	}
+
+	// 先递归删除子菜单
+	for _, childId := range childIds {
+		childCount, err2 := s.deleteMenuAndChildren(ctx, childId.Int64())
+		if err2 != nil {
+			return count, err2
+		}
+		count += childCount
+	}
+
+	// 删除当前菜单
+	_, err = dao.AdminMenu.Ctx(ctx).Where(dao.AdminMenu.Columns().Id, id).Delete()
+	if err != nil {
+		return count, gerror.Wrap(err, "删除菜单失败")
+	}
+	count++
 	return
 }

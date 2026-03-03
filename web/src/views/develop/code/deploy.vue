@@ -95,6 +95,9 @@
             size="small"
             :max-height="400"
           />
+          <n-checkbox v-model:checked="cleanMenu" style="margin-top: 12px">
+            同时清除数据库中对应的菜单权限
+          </n-checkbox>
           <template #action>
             <n-space justify="end">
               <n-button @click="() => (showCleanModal = false)">取消</n-button>
@@ -154,6 +157,7 @@
   const cleanSubmitLoading = ref(false);
   const cleanFileList = ref<any[]>([]);
   const cleanCheckedKeys = ref<string[]>([]);
+  const cleanMenu = ref(false);
 
   const cleanColumns: DataTableColumns<any> = [
     { type: 'selection' },
@@ -379,6 +383,7 @@
 
         cleanFileList.value = files;
         cleanCheckedKeys.value = existPaths;
+        cleanMenu.value = false;
         showCleanModal.value = true;
       })
       .finally(() => {
@@ -392,20 +397,32 @@
       return;
     }
 
+    const confirmMsg = cleanMenu.value
+      ? `即将删除 ${cleanCheckedKeys.value.length} 个文件并清除对应菜单权限，此操作不可恢复，确定继续吗？`
+      : `即将删除 ${cleanCheckedKeys.value.length} 个文件，此操作不可恢复，确定继续吗？`;
+
     dialog.warning({
       title: '确认删除',
-      content: `即将删除 ${cleanCheckedKeys.value.length} 个文件，此操作不可恢复，确定继续吗？`,
+      content: confirmMsg,
       positiveText: '确定删除',
       negativeText: '取消',
       onPositiveClick: () => {
         cleanSubmitLoading.value = true;
-        Clean({ id: genId, files: cleanCheckedKeys.value })
+        Clean({ id: genId, files: cleanCheckedKeys.value, cleanMenu: cleanMenu.value })
           .then((res) => {
             showCleanModal.value = false;
+            const msgs: string[] = [];
+            if (res.count > 0) {
+              msgs.push(`成功删除 ${res.count} 个文件`);
+            }
+            if (res.menuCount > 0) {
+              msgs.push(`清除 ${res.menuCount} 个菜单`);
+            }
             if (res.failed && res.failed.length > 0) {
-              message.warning(`成功删除 ${res.count} 个文件，${res.failed.length} 个文件删除失败`);
+              msgs.push(`${res.failed.length} 个文件删除失败`);
+              message.warning(msgs.join('，'));
             } else {
-              message.success(`成功删除 ${res.count} 个文件`);
+              message.success(msgs.join('，') || '操作完成');
             }
           })
           .finally(() => {
