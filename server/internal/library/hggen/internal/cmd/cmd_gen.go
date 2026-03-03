@@ -17,20 +17,13 @@ var (
 
 type cGen struct {
 	g.Meta `name:"gen" brief:"{cGenBrief}" dc:"{cGenDc}"`
-	cGenDao
-	cGenEnums
-	cGenCtrl
-	cGenPb
-	cGenPbEntity
 	cGenService
 }
 
 const (
-	cGenBrief = `automatically generate go files for dao/do/entity/pb/pbentity`
+	cGenBrief = `automatically generate go files for service`
 	cGenDc    = `
-The "gen" command is designed for multiple generating purposes. 
-It's currently supporting generating go files for ORM models, protobuf and protobuf entity files.
-Please use "gf gen dao -h" for specified type help.
+The "gen" command is designed for generating service interface files.
 `
 )
 
