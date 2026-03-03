@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
-    <meta name="keywords" content="@{.Keywords}"/>
-    <meta name="description" content="@{.Description}"/>
+    <meta name="keywords" content="@{.Keywords}" />
+    <meta name="description" content="@{.Description}" />
     <title>@{.Title}</title>
     <script type="text/javascript" src="/resource/home/js/jquery-3.6.0.min.js"></script>
     <style>
-        html, body {
+        html,
+        body {
             width: 100%;
             height: 100%;
             margin: 0;
@@ -18,12 +20,29 @@
         }
     </style>
 </head>
+
 <body>
-<div style="padding-top: 100px;text-align:center;">
-    <h1><p>Hello，@{.Data.name}!!</p></h1>
-    <h2><p>当前版本：@{.Data.version}</p></h2>
-</div>
+    <div style="padding-top: 100px;text-align:center;">
+        <h1>
+            <p>Hello，@{.Data.name}!!</p>
+        </h1>
+        <h2>
+            <p>当前版本：@{.Data.version}</p>
+        </h2>
+        <p style="margin-top: 30px;">
+            <a href="/docs/" target="_blank"
+                style="display:inline-block;padding:10px 28px;background-color:#409eff;color:#fff;border-radius:6px;text-decoration:none;font-size:16px;">📖
+                查看开发文档</a>
+            <a href="/swagger" target="_blank"
+                style="display:inline-block;padding:10px 28px;background-color:#e6a23c;color:#fff;border-radius:6px;text-decoration:none;font-size:16px;margin-left:12px;">📋
+                Swagger 文档</a>
+            <a href="http://localhost:8001" target="_blank"
+                style="display:inline-block;padding:10px 28px;background-color:#67c23a;color:#fff;border-radius:6px;text-decoration:none;font-size:16px;margin-left:12px;">🔧
+                后台管理</a>
+        </p>
+    </div>
 </body>
 <script>
 </script>
+
 </html>

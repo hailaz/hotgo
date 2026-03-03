@@ -72,6 +72,11 @@ var (
 				hggen.InIt(ctx)
 			}
 
+			// 非生产模式下注册开发文档静态路径，启动后访问 /docs/ 即可查看
+			if !gmode.IsProduct() {
+				s.AddStaticPath("/docs/guide-zh-CN", "../docs/guide-zh-CN")
+			}
+
 			// 启动tcp服务
 			service.TCPServer().Start(ctx)
 

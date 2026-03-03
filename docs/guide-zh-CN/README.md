@@ -29,6 +29,16 @@
 - [SaaS多租户](sys-tenant.md)
 - [国际化](sys-i18n.md)
 - [单元测试](sys-test.md)
+- [关键接口定义](dev-api-interfaces.md)
+- [技术架构解析](dev-architecture.md)
+- [配置参数参考手册](dev-config-reference.md)
+- [部署指南](dev-deployment.md)
+- [前端核心模块详解](dev-frontend-modules.md)
+- [HotGo V2 开发文档](dev-guide.md)
+- [代码质量与格式化规范](dev-lint.md)
+- [插件系统完整指南](dev-plugin-system.md)
+- [服务端核心模块详解](dev-server-modules.md)
+- [代码生成](sys-code.md)
 
 
 #### 插件模块开发
@@ -39,6 +49,7 @@
 
 
 #### 生成代码
+
 - [使用前提](code-start.md)
 - [数据库](sys-db.md)
 - [生成配置](code-config.md)
@@ -51,10 +62,12 @@
 
 
 ### 前端开发
+
 - [表单组件](web-form.md)
 - [WebSocket客户端](sys-websocket-client.md)
 - [独立部署](web-deploy.md)
 
 
 #### 附录
+
 - [网址收录](append-website.md)

@@ -5,6 +5,11 @@
       "source": "gogf/skills",
       "sourceType": "github",
       "computedHash": "8a003fed9b7706ff9a0dd791688d36a12619e142c4e907a8228963cff66d3a0a"
+    },
+    "skill-creator": {
+      "source": "anthropics/skills",
+      "sourceType": "github",
+      "computedHash": "9b03bb78ec5c81c4e0546dbb78cfc970368c72dcae5482e8c59690175abbc8e7"
     }
   }
 }
