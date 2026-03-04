@@ -30,6 +30,18 @@
     - [单元测试](/docs/guide-zh-CN/sys-test.md)
 
 
+- 深度开发
+
+    - [开发总览](/docs/guide-zh-CN/dev-guide.md)
+    - [技术架构解析](/docs/guide-zh-CN/dev-architecture.md)
+    - [服务端核心模块](/docs/guide-zh-CN/dev-server-modules.md)
+    - [前端核心模块](/docs/guide-zh-CN/dev-frontend-modules.md)
+    - [关键接口定义](/docs/guide-zh-CN/dev-api-interfaces.md)
+    - [插件系统指南](/docs/guide-zh-CN/dev-plugin-system.md)
+    - [配置参数参考](/docs/guide-zh-CN/dev-config-reference.md)
+    - [部署指南](/docs/guide-zh-CN/dev-deployment.md)
+
+
 - 插件模块开发
 
     - [模块介绍及目录](/docs/guide-zh-CN/addon-introduce-catalog.md)
